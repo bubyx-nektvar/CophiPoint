@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:model="clr-namespace:CophiPoint.Models"
+             xmlns:local="clr-namespace:CophiPoint"
+             x:Class="CophiPoint.MainPage">
+    <ContentPage.Resources>
+        <Style TargetType="CarouselPage">
+          <Setter Property="BackgroundColor" Value="Aqua"/>
+        </Style>
+    </ContentPage.Resources>
+    <StackLayout Orientation="Vertical">
+        <!-- Place new controls here -->
+        <!--<CarouselView HorizontalOptions="Center"
+                      VerticalOptions="Center"
+                      ItemsSource="{Binding Products}">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <ContentPage>
+                        <RelativeLayout>
+                          <Label Text="asdfl sad fdsa "/>
+                          <Label Text="{Binding Name}"></Label>
+                            <Image>
+                                <Image.Source>
+                                    <UriImageSource Uri="{Binding ImageUrl}"></UriImageSource>
+                                </Image.Source>
+                            </Image>
+                            <Label Text="{Binding Price}"></Label>
+                        </RelativeLayout>
+                    </ContentPage>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>-->
+        <ListView>
+            <ListView.ItemsSource>
+                <x:Array Type="{x:Type model:Product}">
+                    <model:Product Name="Coffee" Price="120" ImageUrl="https://png.pngtree.com/svg/20160714/d51538fd9c.svg"/>
+                    <model:Product Name="tea" Price="112"  ImageUrl="https://png.pngtree.com/svg/20160714/d51538fd9c.svg"/>
+                </x:Array>
+            </ListView.ItemsSource>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                  <StackLayout>
+                    <Label Text="{Binding Name}"/>
+                    <Image>
+                      <!--<Image.Source>
+                        <UriImageSource Uri="{Binding ImageUrl}"></UriImageSource>
+                      </Image.Source>-->
+                    </Image>
+                    <Label Text="{Binding Price}"/>
+                  </StackLayout>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>
