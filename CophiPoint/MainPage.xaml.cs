@@ -2,6 +2,7 @@
 using CophiPoint.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -15,12 +16,16 @@ namespace CophiPoint
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
-        public IList<Product> Products { get; private set; }
         public MainPage()
         {
             InitializeComponent();
-            Products = new RestService().GetProducts();
-            BindingContext = this;
+
+            BindingContext = new BindingModel()
+            {
+                Products = new ObservableCollection<Product>(new RestService().GetProducts()),
+                Balance = -123123.21m,
+                User = "filip.havel@mojeaplikace.com"
+            };
         }
     }
 }
