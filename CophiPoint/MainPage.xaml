@@ -4,26 +4,26 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             xmlns:model="clr-namespace:CophiPoint.Models"
+             xmlns:converters="clr-namespace:CophiPoint.Converters"
              xmlns:local="clr-namespace:CophiPoint"
              xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-             xmlns:DK="clr-namespace:DK.SlidingPanel.Interface;assembly=DK.SlidingPanel.Interface"
-             x:Class="CophiPoint.MainPage">
+             x:Class="CophiPoint.MainPage"
+             >
     <ContentPage.Resources>
+        <converters:InverseBoolConverter x:Key="inverter"/>
         <Style TargetType="CarouselPage">
             <Setter Property="BackgroundColor" Value="Aqua"/>
         </Style>
     </ContentPage.Resources>
-  
-    <DK:SlidingUpPanel x:Name="slidingPanel">
-        <DK:SlidingUpPanel.MainView>
+    <AbsoluteLayout VerticalOptions="FillAndExpand" x:Name="Page">
+
+        <StackLayout  AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" BackgroundColor="White">
             <ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                <controls:CarouselViewControl ShowArrows="True" Position="0" ItemsSource="{Binding Products}" Orientation="Horizontal" InterPageSpacing="10">
+                <controls:CarouselViewControl ShowArrows="True" ItemsSource="{Binding Products}" Orientation="Horizontal" InterPageSpacing="10">
                     <controls:CarouselViewControl.ItemTemplate>
                         <DataTemplate>
                             <StackLayout>
-                                <Label HorizontalOptions="Center" Text="asdfl sad fdsa "/>
                                 <Label HorizontalOptions="Center" Text="{Binding Name}"></Label>
                                 <ffsvg:SvgCachedImage WidthRequest="200" HeightRequest="200" Source="{Binding ImageUrl}"/>
                                 <Label HorizontalOptions="Center" Text="{Binding Price}"></Label>
@@ -32,49 +32,37 @@
                     </controls:CarouselViewControl.ItemTemplate>
                 </controls:CarouselViewControl>
             </ContentView>
-        </DK:SlidingUpPanel.MainView>
+        </StackLayout>
 
-    <DK:SlidingUpPanel.PanelRatio>0.6</DK:SlidingUpPanel.PanelRatio>
-    <DK:SlidingUpPanel.HideNavBar>True</DK:SlidingUpPanel.HideNavBar>
-
-    <!--<DK:SlidingUpPanel.HeaderLeftButton>
-      <Image HeightRequest="48" WidthRequest="48" Source="{Binding BackButtonImage}">
-        <Image.GestureRecognizers>
-          <TapGestureRecognizer Tapped="BackButtonTapGesture_Tapped"></TapGestureRecognizer>
-        </Image.GestureRecognizers>
-      </Image>
-    </DK:SlidingUpPanel.HeaderLeftButton>-->
-    <!--<DK:SlidingUpPanel.PictureView>
-      <Image BackgroundColor="White" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Aspect="AspectFill" Source="{Binding HondaImage}"></Image>
-    </DK:SlidingUpPanel.PictureView>-->
-
-    <DK:SlidingUpPanel.TitleView>
-      <StackLayout Orientation="Vertical" HeightRequest="80" BackgroundColor="Green">
-        <Label Text="{Binding User}"></Label>
-        <Label Text="{Binding Balance}"></Label>
-      </StackLayout>
-    </DK:SlidingUpPanel.TitleView>
-        <DK:SlidingUpPanel.BodyView>
-            <ListView ItemsSource="{Binding History}">
+        <StackLayout x:Name="HistoryPage" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+                     Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+            <StackLayout VerticalOptions="Start" BackgroundColor="#006df0" Padding="10,5">
+                <ffsvg:SvgCachedImage WidthRequest="30" HeightRequest="30" IsVisible="{Binding HistoryShown, Converter={StaticResource inverter}}" Source="ExpandLess.svg" HorizontalOptions="Center" VerticalOptions="Start" >
+                    <ffsvg:SvgCachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ShowHistory"/>
+                        <PanGestureRecognizer PanUpdated="ShowHistory" />
+                    </ffsvg:SvgCachedImage.GestureRecognizers>
+                </ffsvg:SvgCachedImage>
+                <ffsvg:SvgCachedImage WidthRequest="30" HeightRequest="30" IsVisible="{Binding HistoryShown}"  Source="Close.svg" HorizontalOptions="Start" VerticalOptions="Start">
+                    <ffsvg:SvgCachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="HideHistory"/>
+                        <PanGestureRecognizer PanUpdated="HideHistory" />
+                    </ffsvg:SvgCachedImage.GestureRecognizers>
+                </ffsvg:SvgCachedImage>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Label Text="{Binding User}" HorizontalOptions="Start" FontSize="Medium"></Label>
+                    <Label Text="{Binding Balance}" HorizontalOptions="End" FontSize="Large"></Label>
+                </StackLayout>
+            </StackLayout>
+            <ListView ItemsSource="{Binding History}" HasUnevenRows="true" HorizontalOptions="FillAndExpand">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                      <Label Text="{Binding ProductName}" />
+                        <ViewCell>
+                            <Label Text="{Binding ProductName}" />
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </DK:SlidingUpPanel.BodyView>
-  </DK:SlidingUpPanel>
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*"/>
-          <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
-        
-        <Label Grid.Row="1" Grid.Column="0" Text="{Binding User}"/>
-        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Balance}"/>
-    </Grid>-->
+        </StackLayout>
+    </AbsoluteLayout>
 </ContentPage>

@@ -1,4 +1,5 @@
 ﻿using CophiPoint.Models;
+using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,5 +15,8 @@ namespace CophiPoint.ViewModels
         public string User { get; set; }
 
         public decimal Balance { get; set; }
+
+        [Reactive]
+        public bool HistoryShown { get; set; }
     }
 }
