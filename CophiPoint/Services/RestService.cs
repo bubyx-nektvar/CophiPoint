@@ -1,6 +1,7 @@
 ﻿using CophiPoint.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CophiPoint.Services
@@ -33,17 +34,24 @@ namespace CophiPoint.Services
         }
         public List<PurchasedItem> GetPurchases()
         {
-            return new List<PurchasedItem>()
+            var l = new List<PurchasedItem>();
+
+            l.AddRange(Enumerable.Range(1, 5).Select(x => new PurchasedItem
             {
-                new PurchasedItem
-                {
-                    ProductName = "Coffee"
-                },
-                new PurchasedItem
-                {
-                    ProductName = "Tea"
-                },
-            };
+                ProductName = "Coffee",
+                Date = DateTime.Now.AddDays(-x),
+                Price = 25.22m
+            }));
+
+            l.AddRange(Enumerable.Range(1, 7).Select(x => new PurchasedItem
+            {
+                ProductName = "Tea",
+                Date = DateTime.Now.AddDays(-x),
+                Price = 25.22m
+            }));
+
+            l.Sort((a, b) => a.Date.CompareTo(b.Date));
+            return l;
         }
     }
 }

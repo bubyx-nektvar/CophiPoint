@@ -41,7 +41,7 @@ namespace CophiPoint
             base.OnBindingContextChanged();
 
         }
-        private double TranslationYMinimized => Page.Height * 0.8;
+        private double TranslationYMinimized => Page.Height * 0.75;
 
         public MainViewModel ViewModel { get; }
 
@@ -53,12 +53,14 @@ namespace CophiPoint
 
         async void ShowHistory(object sender, System.EventArgs e)
         {
+            ViewModel.HistoryShown = null;
             await HistoryPage.TranslateTo(0, 0, 500, Easing.SinIn);
             ViewModel.HistoryShown = true;
         }
 
         async void HideHistory(object sender, System.EventArgs e)
         {
+            ViewModel.HistoryShown = null;
             await HistoryPage.TranslateTo(0, TranslationYMinimized, 500, Easing.SinIn);
             ViewModel.HistoryShown = false;
         }

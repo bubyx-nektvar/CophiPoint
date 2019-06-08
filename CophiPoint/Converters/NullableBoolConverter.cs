@@ -5,12 +5,12 @@ using Xamarin.Forms;
 
 namespace CophiPoint.Converters
 {
-    public class InverseBoolConverter : IValueConverter
+    class NullableBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var v = (bool?)value;
-            return v.HasValue ? !v.Value : false;
+            return v.HasValue && v.Value;
         }
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

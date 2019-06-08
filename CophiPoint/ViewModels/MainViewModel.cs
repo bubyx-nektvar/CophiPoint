@@ -17,6 +17,6 @@ namespace CophiPoint.ViewModels
         public decimal Balance { get; set; }
 
         [Reactive]
-        public bool HistoryShown { get; set; }
+        public bool? HistoryShown { get; set; }
     }
 }
