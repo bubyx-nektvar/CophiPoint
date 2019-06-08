@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using CarouselView.FormsPlugin.iOS;
+using FFImageLoading.Forms.Platform;
+using FFImageLoading.Svg.Forms;
 using Foundation;
 using UIKit;
 
@@ -31,7 +33,10 @@ namespace CophiPoint.iOS
 
         private void InitControls()
         {
-             CarouselViewRenderer.Init();
+            CarouselViewRenderer.Init();
+
+            CachedImageRenderer.Init();
+            var ignore = typeof(SvgCachedImage);
         }
     }
 }

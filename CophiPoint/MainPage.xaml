@@ -7,6 +7,7 @@
              xmlns:model="clr-namespace:CophiPoint.Models"
              xmlns:local="clr-namespace:CophiPoint"
              xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
+             xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              x:Class="CophiPoint.MainPage">
     <ContentPage.Resources>
         <Style TargetType="CarouselPage">
@@ -29,7 +30,7 @@
                         <StackLayout>
                             <Label HorizontalOptions="Center" Text="asdfl sad fdsa "/>
                             <Label HorizontalOptions="Center" Text="{Binding Name}"></Label>
-                            <Image HorizontalOptions="Center" Source="{Binding ImageUrl}" Aspect="AspectFit" />
+                            <ffsvg:SvgCachedImage WidthRequest="200" HeightRequest="200" Source="{Binding ImageUrl}"/>
                             <Label HorizontalOptions="Center" Text="{Binding Price}"></Label>
                         </StackLayout>
                     </DataTemplate>

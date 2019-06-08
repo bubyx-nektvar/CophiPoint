@@ -7,6 +7,8 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using CarouselView.FormsPlugin.Android;
+using FFImageLoading.Forms.Platform;
+using FFImageLoading.Svg.Forms;
 
 namespace CophiPoint.Droid
 {
@@ -34,6 +36,8 @@ namespace CophiPoint.Droid
         private void InitControls()
         {
             CarouselViewRenderer.Init();
+            CachedImageRenderer.Init(true);
+            var ignore = typeof(SvgCachedImage);
         }
     }
 }

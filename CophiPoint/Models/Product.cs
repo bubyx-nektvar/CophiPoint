@@ -1,6 +1,8 @@
-﻿using System;
+﻿using FFImageLoading.Svg.Forms;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace CophiPoint.Models
 {
@@ -15,7 +17,7 @@ namespace CophiPoint.Models
         /// </summary>
         public decimal DefaultSize { get; set; }
         public decimal Price { get; set; }
-        public string ImageUrl { get; set; }
+        public Uri ImageUrl { get; set; }
 
         public override string ToString()
         {
