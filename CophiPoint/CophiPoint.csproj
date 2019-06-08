@@ -14,6 +14,8 @@
     <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
     <PackageReference Include="DK.SlidingPanel" Version="2.2.9" />
     <PackageReference Include="LiveXAML" Version="2.1.72" />
+    <PackageReference Include="ReactiveUI.Fody" Version="9.16.6" />
+    <PackageReference Include="System.Reactive.Core" Version="4.1.5" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="4.0.0.425677" />
     <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />

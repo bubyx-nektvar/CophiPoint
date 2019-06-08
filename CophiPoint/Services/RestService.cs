@@ -31,5 +31,19 @@ namespace CophiPoint.Services
                 }
             };
         }
+        public List<PurchasedItem> GetPurchases()
+        {
+            return new List<PurchasedItem>()
+            {
+                new PurchasedItem
+                {
+                    ProductName = "Coffee"
+                },
+                new PurchasedItem
+                {
+                    ProductName = "Tea"
+                },
+            };
+        }
     }
 }

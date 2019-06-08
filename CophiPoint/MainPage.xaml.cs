@@ -1,5 +1,6 @@
 ﻿using CophiPoint.Models;
 using CophiPoint.Services;
+using CophiPoint.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using ReactiveUI;
+using DK.SlidingPanel.Interface;
 
 namespace CophiPoint
 {
@@ -19,13 +22,27 @@ namespace CophiPoint
         public MainPage()
         {
             InitializeComponent();
-
-            BindingContext = new BindingModel()
+            var service = new RestService();
+            BindingContext = new MainViewModel()
             {
-                Products = new ObservableCollection<Product>(new RestService().GetProducts()),
+                Products = new ObservableCollection<Product>(service.GetProducts()),
                 Balance = -123123.21m,
-                User = "filip.havel@mojeaplikace.com"
+                User = "filip.havel@mojeaplikace.com",
+                History = new ObservableCollection<PurchasedItem>(service.GetPurchases())
             };
+        }
+        protected override void OnBindingContextChanged()
+        {
+            base.OnBindingContextChanged();
+
+            SlidingPanelConfig config = new SlidingPanelConfig();
+
+            StackLayout titleStackLayout = new StackLayout();
+            titleStackLayout.Children.Add(new Label { Text = "Test Title x" });
+            config.TitleBackgroundColor = Color.Green;
+
+            slidingPanel.ApplyConfig(config);
+
         }
     }
 }

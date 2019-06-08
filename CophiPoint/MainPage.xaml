@@ -8,13 +8,63 @@
              xmlns:local="clr-namespace:CophiPoint"
              xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:DK="clr-namespace:DK.SlidingPanel.Interface;assembly=DK.SlidingPanel.Interface"
              x:Class="CophiPoint.MainPage">
     <ContentPage.Resources>
         <Style TargetType="CarouselPage">
-          <Setter Property="BackgroundColor" Value="Aqua"/>
+            <Setter Property="BackgroundColor" Value="Aqua"/>
         </Style>
     </ContentPage.Resources>
-    <Grid>
+  
+    <DK:SlidingUpPanel x:Name="slidingPanel">
+        <DK:SlidingUpPanel.MainView>
+            <ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <controls:CarouselViewControl ShowArrows="True" Position="0" ItemsSource="{Binding Products}" Orientation="Horizontal" InterPageSpacing="10">
+                    <controls:CarouselViewControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout>
+                                <Label HorizontalOptions="Center" Text="asdfl sad fdsa "/>
+                                <Label HorizontalOptions="Center" Text="{Binding Name}"></Label>
+                                <ffsvg:SvgCachedImage WidthRequest="200" HeightRequest="200" Source="{Binding ImageUrl}"/>
+                                <Label HorizontalOptions="Center" Text="{Binding Price}"></Label>
+                            </StackLayout>
+                        </DataTemplate>
+                    </controls:CarouselViewControl.ItemTemplate>
+                </controls:CarouselViewControl>
+            </ContentView>
+        </DK:SlidingUpPanel.MainView>
+
+    <DK:SlidingUpPanel.PanelRatio>0.6</DK:SlidingUpPanel.PanelRatio>
+    <DK:SlidingUpPanel.HideNavBar>True</DK:SlidingUpPanel.HideNavBar>
+
+    <!--<DK:SlidingUpPanel.HeaderLeftButton>
+      <Image HeightRequest="48" WidthRequest="48" Source="{Binding BackButtonImage}">
+        <Image.GestureRecognizers>
+          <TapGestureRecognizer Tapped="BackButtonTapGesture_Tapped"></TapGestureRecognizer>
+        </Image.GestureRecognizers>
+      </Image>
+    </DK:SlidingUpPanel.HeaderLeftButton>-->
+    <!--<DK:SlidingUpPanel.PictureView>
+      <Image BackgroundColor="White" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand" Aspect="AspectFill" Source="{Binding HondaImage}"></Image>
+    </DK:SlidingUpPanel.PictureView>-->
+
+    <DK:SlidingUpPanel.TitleView>
+      <StackLayout Orientation="Vertical" HeightRequest="80" BackgroundColor="Green">
+        <Label Text="{Binding User}"></Label>
+        <Label Text="{Binding Balance}"></Label>
+      </StackLayout>
+    </DK:SlidingUpPanel.TitleView>
+        <DK:SlidingUpPanel.BodyView>
+            <ListView ItemsSource="{Binding History}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                      <Label Text="{Binding ProductName}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </DK:SlidingUpPanel.BodyView>
+  </DK:SlidingUpPanel>
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
@@ -23,21 +73,8 @@
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <ContentView Grid.Row="0" Grid.ColumnSpan="2">
-            <controls:CarouselViewControl ShowArrows="True" Position="0" ItemsSource="{Binding Products}" Orientation="Horizontal" InterPageSpacing="10">
-                <controls:CarouselViewControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout>
-                            <Label HorizontalOptions="Center" Text="asdfl sad fdsa "/>
-                            <Label HorizontalOptions="Center" Text="{Binding Name}"></Label>
-                            <ffsvg:SvgCachedImage WidthRequest="200" HeightRequest="200" Source="{Binding ImageUrl}"/>
-                            <Label HorizontalOptions="Center" Text="{Binding Price}"></Label>
-                        </StackLayout>
-                    </DataTemplate>
-                </controls:CarouselViewControl.ItemTemplate>
-            </controls:CarouselViewControl>
-        </ContentView>
+        
         <Label Grid.Row="1" Grid.Column="0" Text="{Binding User}"/>
         <Label Grid.Row="1" Grid.Column="1" Text="{Binding Balance}"/>
-    </Grid>
+    </Grid>-->
 </ContentPage>
