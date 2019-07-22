@@ -20,26 +20,29 @@
         </Style>
     </ContentPage.Resources>
     <AbsoluteLayout VerticalOptions="FillAndExpand" x:Name="Page">
-        <StackLayout x:Name="ShopPage" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,.75" BackgroundColor="White">
-            <ImageButton HeightRequest="40" WidthRequest="40" Source="baseline_view_list_black_36.png" />
-            <ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <RelativeLayout x:Name="ShopPage" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,.75" BackgroundColor="White">
+            <ImageButton HeightRequest="40" WidthRequest="40" Source="baseline_view_list_black_36.png" BackgroundColor="Transparent"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-50}"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=20}"
+                />
+            <ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X}"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y}"
+                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
+                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                >
                 <controls:CarouselViewControl ShowArrows="True" ItemsSource="{Binding Products}" Orientation="Horizontal" InterPageSpacing="10">
                     <controls:CarouselViewControl.ItemTemplate>
                         <DataTemplate>
                             <RelativeLayout>
                                 <ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                                            Property=X
-                                        }"
-                                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                                            Property=Y
-                                        }"
-                                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,
-                                            Property=Width}"
+                                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X }"
+                                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y }"
+                                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"
                                         RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}"
                                         >
-                                    <FlexLayout Direction="Column" AlignItems="Center" JustifyContent="SpaceEvenly">
-                                        <Label Text="{Binding Name}" FontSize="Large"/>
+                                    <FlexLayout Direction="Column" AlignItems="Center" JustifyContent="SpaceEvenly" Margin="10">
+                                        <Label Text="{Binding Name}" FontSize="Large" Margin="50,10"/>
                                         <ffsvg:SvgCachedImage x:Name="productImage"  FlexLayout.Grow="1"
                                                 VerticalOptions="Center" WidthRequest="200" HeightRequest="200" 
                                                 Source="{Binding ImageUrl}"
@@ -72,14 +75,14 @@
                                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                                             Property=X, Factor=0, Constant=10}"
                                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                                            Property=Y, Factor=0, Constant=50}"
+                                            Property=Y, Factor=0, Constant=20}"
                                     />
                             </RelativeLayout>
                         </DataTemplate>
                     </controls:CarouselViewControl.ItemTemplate>
                 </controls:CarouselViewControl>
             </ContentView>
-        </StackLayout>
+        </RelativeLayout>
 
         <StackLayout x:Name="HistoryPage" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
                      Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
