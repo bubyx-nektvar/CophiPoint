@@ -26,7 +26,7 @@ namespace CophiPoint
             var service = new RestService();
             ViewModel = new MainViewModel()
             {
-                Products = new ObservableCollection<Product>(service.GetProducts()),
+                Products = new ObservableCollection<ProductViewModel>(service.GetProducts()),
                 Balance = -1123.21m,
                 User = "filip.havel@mojeaplikace.com",
                 History = new ObservableCollection<PurchasedItem>(service.GetPurchases()),
@@ -48,6 +48,7 @@ namespace CophiPoint
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
+            ShopPage.HeightRequest = TranslationYMinimized;
             HistoryPage.TranslationY = TranslationYMinimized;
         }
 

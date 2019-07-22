@@ -9,19 +9,31 @@ namespace CophiPoint.Models
     public class Product
     {
         public string Name { get; set; }
+
         public Unit Unit { get; set; }
-        public decimal PricePerUnit { get; set; }
-        
-        /// <summary>
-        /// Size in units
-        /// </summary>
-        public decimal DefaultSize { get; set; }
-        public decimal Price { get; set; }
+
+        public int DefaultSizeIndex { get; set; }
+
         public Uri ImageUrl { get; set; }
 
-        public override string ToString()
+        public Size[] Sizes { get; set; }
+
+        public Product() { }
+
+        protected Product(Product product)
         {
-            return Name;
+            Name = product.Name;
+            Unit = product.Unit;
+            DefaultSizeIndex = product.DefaultSizeIndex;
+            ImageUrl = product.ImageUrl;
+            Sizes = product.Sizes;
+        }
+
+        public class Size
+        {
+            public decimal UnitsCount { get; set; }
+            public decimal Price { get; set; }
+            public decimal PricePerUnit => Price / UnitsCount;
         }
     }
 }

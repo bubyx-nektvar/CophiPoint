@@ -9,7 +9,7 @@ namespace CophiPoint.ViewModels
 {
     public class MainViewModel:AbstractViewModel
     {
-        public ObservableCollection<Product> Products { get; set; }
+        public ObservableCollection<ProductViewModel> Products { get; set; }
         public ObservableCollection<PurchasedItem> History { get; set; }
 
         public string User { get; set; }
