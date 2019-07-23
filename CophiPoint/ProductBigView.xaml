@@ -52,9 +52,22 @@
                     BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40"
                     Source="baseline_star_border_black_36.png" IsVisible="{Binding Favorite, Converter={StaticResource inverter}}"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=X, Factor=0, Constant=10}"
+                            Property=X, Factor=0, Constant=20}"
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=Y, Factor=0, Constant=20}"
+                            Property=Y, Factor=0, Constant=50}"
+                    />
+            <ListView>
+
+            </ListView>
+            <Button Text="{Binding SelectedSize, StringFormat='{0}'}" 
+                    TextColor="White" FontSize="Micro"
+                    CornerRadius="25" HeightRequest="50" WidthRequest="50" Padding="0, 8"
+                    ImageSource="water_glass.png" ContentLayout="Top, 2"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=Width, Factor=1, Constant=-60 }"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=Height, Factor=1, Constant=-140}"
+                    BackgroundColor="Blue"
                     />
         </RelativeLayout>
     </ContentView.Content>

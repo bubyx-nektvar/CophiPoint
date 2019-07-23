@@ -94,13 +94,7 @@
                       SeparatorVisibility="None" Margin="10,3">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Orientation="Horizontal">
-                              <Label Text="{Binding Date, Converter={StaticResource formatDate}}" HorizontalOptions="Start"/>
-                              <Label Text="{Binding ProductName}" HorizontalOptions="CenterAndExpand"/>
-                              <Label Text="{Binding Price, Converter={StaticResource formatPrice}}" HorizontalOptions="End"/>
-                            </StackLayout>
-                        </ViewCell>
+                        <local:HistoryViewCell Item="{Binding}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

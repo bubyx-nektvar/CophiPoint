@@ -116,6 +116,8 @@
     <AndroidResource Include="Resources\drawable\baseline_star_24.xml" />
     <AndroidResource Include="Resources\drawable\baseline_star_border_24.xml" />
     <AndroidResource Include="Resources\drawable\baseline_view_list_24.xml" />
+    <AndroidResource Include="Resources\drawable\icons8_material_filled_24.png" />
+    <AndroidResource Include="Resources\drawable\water_glass.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\baseline_add_white_36.png" />

@@ -13,6 +13,8 @@ namespace CophiPoint.Models
 
         public decimal PricePerUnit { get; set; }
 
+        public SizeDefinition SelectedSize { get; set; }
+
         public bool Favorite { get; set; }
         public static ProductViewModel Empty => new ProductViewModel(new Product()
         {
@@ -40,13 +42,26 @@ namespace CophiPoint.Models
         public void UseSize(int index)
         {
             SelectedSizeIndex = index;
-            Price = Sizes[SelectedSizeIndex].Price;
-            PricePerUnit = Sizes[SelectedSizeIndex].PricePerUnit;
+            var s = Sizes[SelectedSizeIndex];
+            Price = s.Price;
+            PricePerUnit = s.PricePerUnit;
+            SelectedSize = new SizeDefinition{ Size = s.UnitsCount, Unit = Unit };
         }
 
         public override string ToString()
         {
             return Name;
+        }
+
+        public struct SizeDefinition
+        {
+            public decimal Size { get; set; }
+            public Unit Unit { get; set; }
+
+            public override string ToString()
+            {
+                return $"{Size} {Unit.ToAbbrevation()}";
+            }
         }
     }
 }
