@@ -18,7 +18,10 @@ namespace CophiPoint.Models
 
         public Size[] Sizes { get; set; }
 
-        public Product() { }
+        public Product()
+        {
+            Sizes = new Size[0];
+        }
 
         protected Product(Product product)
         {

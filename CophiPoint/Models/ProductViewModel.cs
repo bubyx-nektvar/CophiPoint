@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace CophiPoint.Models
 {
@@ -13,7 +14,21 @@ namespace CophiPoint.Models
         public decimal PricePerUnit { get; set; }
 
         public bool Favorite { get; set; }
-        public bool NotFavorite => !Favorite;
+        public static ProductViewModel Empty => new ProductViewModel(new Product()
+        {
+            Sizes = new[]
+            {
+                new Size()
+                {
+                    Price = 1,
+                    UnitsCount = 1
+                }
+            },
+            DefaultSizeIndex = 0,
+            Unit = Unit.MiliLiters,
+            Name="",
+            ImageUrl = new Uri("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTIxIDE5VjVjMC0xLjEtLjktMi0yLTJINWMtMS4xIDAtMiAuOS0yIDJ2MTRjMCAxLjEuOSAyIDIgMmgxNGMxLjEgMCAyLS45IDItMnpNOC41IDEzLjVsMi41IDMuMDFMMTQuNSAxMmw0LjUgNkg1bDMuNS00LjV6Ii8+PC9zdmc+")
+        }, false);
 
         public ProductViewModel(Product product, bool isFavorite)
             :base(product)

@@ -36,11 +36,12 @@ namespace CophiPoint
 
             HistoryPage.TranslationY = 2000;
         }
+
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
-
         }
+
         private double TranslationYMinimized => Page.Height * 0.75;
 
         public MainViewModel ViewModel { get; }

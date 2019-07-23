@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:converters="clr-namespace:CophiPoint.Converters"
+             xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             x:Class="CophiPoint.ProductBigView">
+    <ContentView.Resources>
+        <converters:InverseBoolConverter x:Key="inverter"/>
+        <converters:NullableBoolConverter x:Key="nullaplly"/>
+        <converters:PriceFormatter x:Key="formatPrice" />
+    </ContentView.Resources>
+    <ContentView.Content>
+        <RelativeLayout>
+            <ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X }"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y }"
+                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"
+                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}"
+                                        >
+                <FlexLayout Direction="Column" AlignItems="Center" JustifyContent="SpaceEvenly" Margin="10">
+                    <Label Text="{Binding Name}" FontSize="Large" Margin="50,10"/>
+                    <ffsvg:SvgCachedImage x:Name="productImage"  FlexLayout.Grow="1"
+                            VerticalOptions="Center" WidthRequest="200" HeightRequest="200" 
+                            Source="{Binding ImageUrl}"
+                            />
+                    <Label Text="{Binding Price, Converter={StaticResource formatPrice}}" 
+                                               FontSize="Large" TextColor="LimeGreen" />
+                    <Label Text="{Binding PricePerUnit, Converter={StaticResource formatPrice}}" />
+                </FlexLayout>
+            </ContentView>
+            <ImageButton 
+                    HeightRequest="60" WidthRequest="60" CornerRadius="30" Padding="20"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=Width, Factor=1, Constant=-80
+                    }"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=Height, Factor=1, Constant=-80}"
+                    BackgroundColor="Gray" Source="baseline_add_white_36.png"
+                    />
+            <ImageButton
+                    WidthRequest="40" HeightRequest="40"
+                    Source="baseline_star_black_36.png" IsVisible="{Binding Favorite}"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=X, Factor=0, Constant=20}"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=Y, Factor=0, Constant=50}"
+                    />
+            <ImageButton
+                    BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40"
+                    Source="baseline_star_border_black_36.png" IsVisible="{Binding Favorite, Converter={StaticResource inverter}}"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=X, Factor=0, Constant=10}"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=Y, Factor=0, Constant=20}"
+                    />
+        </RelativeLayout>
+    </ContentView.Content>
+</ContentView>
