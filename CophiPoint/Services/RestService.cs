@@ -17,10 +17,57 @@ namespace CophiPoint.Services
                     Name = "Coffee",
                     Unit = Unit.MiliLiters,
                     DefaultSizeIndex = 0,
-                    Sizes = new []{new Product.Size {
-                        UnitsCount = 250,
-                        Price = 25,
-                    } },
+                    Sizes = new []{
+                        new Product.Size {
+                            UnitsCount = 50,
+                            Price = 10,
+                        },new Product.Size {
+                            UnitsCount = 100,
+                            Price = 15,
+                        },new Product.Size {
+                            UnitsCount = 150,
+                            Price = 20,
+                        },new Product.Size {
+                            UnitsCount = 250,
+                            Price = 25,
+                        }
+                    },
+                    ImageUrl = new Uri("data:image/png;base64,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")
+                },
+
+                new Product
+                {
+                    Name = "Coffee",
+                    Unit = Unit.MiliLiters,
+                    DefaultSizeIndex = 0,
+                    Sizes = new []{
+                        new Product.Size {
+                            UnitsCount = 50,
+                            Price = 10,
+                        },new Product.Size {
+                            UnitsCount = 100,
+                            Price = 15,
+                        },new Product.Size {
+                            UnitsCount = 150,
+                            Price = 20,
+                        },new Product.Size {
+                            UnitsCount = 200,
+                            Price = 25,
+                        },
+                        new Product.Size {
+                            UnitsCount = 250,
+                            Price = 30,
+                        },new Product.Size {
+                            UnitsCount = 300,
+                            Price = 35,
+                        },new Product.Size {
+                            UnitsCount = 350,
+                            Price = 40,
+                        },new Product.Size {
+                            UnitsCount = 400,
+                            Price = 45,
+                        }
+                    },
                     ImageUrl = new Uri("data:image/png;base64,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")
                 },
                 new Product

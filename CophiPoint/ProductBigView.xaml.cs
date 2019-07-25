@@ -1,4 +1,5 @@
 ﻿using CophiPoint.Models;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,8 +20,20 @@ namespace CophiPoint
 
         public ProductBigView()
         {
+            //SelectSize = new Command<decimal>(execute: size => {
+            //    Product.UseSize(size);
+            //    SizesExpanded = false;
+            //});
             InitializeComponent();
             BindingContext = Product;
         }
+
+        async void ShowSizes(object sender, EventArgs args)
+        {
+            //SizesExpanded = true;
+        }
+
+        //public bool SizesExpanded { get; set; } = false;
+        //public Command SelectSize { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CophiPoint.Converters;
 using Xamarin.Forms;
 
 namespace CophiPoint.Models
@@ -13,8 +14,8 @@ namespace CophiPoint.Models
 
         public decimal PricePerUnit { get; set; }
 
-        public SizeDefinition SelectedSize { get; set; }
-
+        public Size SelectedSize { get; set; }
+        public SizeInfoConverter.SizeDefinition SelectedSizeDefinition { get; private set; }
         public bool Favorite { get; set; }
         public static ProductViewModel Empty => new ProductViewModel(new Product()
         {
@@ -32,36 +33,40 @@ namespace CophiPoint.Models
             ImageUrl = new Uri("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTIxIDE5VjVjMC0xLjEtLjktMi0yLTJINWMtMS4xIDAtMiAuOS0yIDJ2MTRjMCAxLjEuOSAyIDIgMmgxNGMxLjEgMCAyLS45IDItMnpNOC41IDEzLjVsMi41IDMuMDFMMTQuNSAxMmw0LjUgNkg1bDMuNS00LjV6Ii8+PC9zdmc+")
         }, false);
 
+        public ProductViewModel(ProductViewModel mode)
+            : this(mode, mode.Favorite)
+        { }
+
         public ProductViewModel(Product product, bool isFavorite)
             :base(product)
         {
             Favorite = isFavorite;
             UseSize(DefaultSizeIndex);
         }
-
+        public void UseSize(decimal unitCount)
+        {
+            for(int i =0; i <Sizes.Length; ++i)
+            {
+                if(Sizes[i].UnitsCount == unitCount)
+                {
+                    UseSize(i);
+                    return;
+                }
+            }
+            throw new ArgumentException($"Size of {unitCount} not found");
+        }
         public void UseSize(int index)
         {
             SelectedSizeIndex = index;
-            var s = Sizes[SelectedSizeIndex];
-            Price = s.Price;
-            PricePerUnit = s.PricePerUnit;
-            SelectedSize = new SizeDefinition{ Size = s.UnitsCount, Unit = Unit };
+            SelectedSize = Sizes[SelectedSizeIndex];
+            SelectedSizeDefinition = new SizeInfoConverter.SizeDefinition(SelectedSize, Unit);
+            Price = SelectedSize.Price;
+            PricePerUnit = SelectedSize.PricePerUnit;
         }
 
         public override string ToString()
         {
             return Name;
-        }
-
-        public struct SizeDefinition
-        {
-            public decimal Size { get; set; }
-            public Unit Unit { get; set; }
-
-            public override string ToString()
-            {
-                return $"{Size} {Unit.ToAbbrevation()}";
-            }
         }
     }
 }

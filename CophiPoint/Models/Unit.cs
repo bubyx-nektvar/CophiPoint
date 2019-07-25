@@ -1,4 +1,6 @@
-﻿namespace CophiPoint.Models
+﻿using System.Collections.Generic;
+
+namespace CophiPoint.Models
 {
     public enum Unit
     {
@@ -8,14 +10,26 @@
 
     public static class UnitExtensiongs
     {
-        public static string ToAbbrevation(this Unit unit)
-        {
-            switch (unit)
+
+        private static IDictionary<Unit, UnitViewInfo> appearance = new Dictionary<Unit, UnitViewInfo> {
+            {Unit.MiliLiters, new UnitViewInfo
             {
-                case Unit.Grams: return "g";
-                case Unit.MiliLiters: return "ml";
-                default: return "";
-            }
+                Abbrevation = "ml",
+                ImageSource = "water_glass.png"
+            } },
+            { Unit.Grams, new UnitViewInfo
+            {
+                Abbrevation = "g",
+                ImageSource = "weight.png"
+            } }
+        };
+        public static string ToAbbrevation(this Unit unit) => appearance[unit].Abbrevation;
+        public static string ImageSource(this Unit unit) => appearance[unit].ImageSource;
+
+        private struct UnitViewInfo
+        {
+            public string Abbrevation;
+            public string ImageSource;
         }
     }
 }

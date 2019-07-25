@@ -100,7 +100,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\weight.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CophiPoint\CophiPoint.csproj">
       <Project>{9EC31269-485F-4D89-9BF1-64CBC36FD55F}</Project>

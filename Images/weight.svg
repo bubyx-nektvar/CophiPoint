@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="34.660831mm"
+   height="39.086533mm"
+   viewBox="0 0 34.660831 39.086533"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="weight.svg"
+   inkscape:export-filename="C:\Development\Projects\MFF\MobileApp\CophiPoint\CophiPoint.Android\Resources\drawable\weight.png"
+   inkscape:export-xdpi="15.596166"
+   inkscape:export-ydpi="15.596166">
+  <title
+     id="title4529">weight</title>
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="-92.230566"
+     inkscape:cy="-49.129982"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     showguides="false"
+     inkscape:window-width="3840"
+     inkscape:window-height="2066"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4518"
+       originx="-55.429997"
+       originy="-61.727723" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>weight</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Vrstva 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-55.429999,-196.18575)">
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.00157475;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 274.94922,741.99023 c -40,0 -24.94922,30.5293 -14.94922,30.5293 5.13432,0 4.98844,7.90564 3.63867,15.60156 -30.41105,1.25269 -52.80038,7.27173 -53.55859,14.39844 H 210 v 0.36719 c 0,49.63298 0,70.06316 0,70.83057 0,8.28427 29.10149,15 65,15 35.89851,0 65,-6.71573 65,-15 0,-2.76741 0,-20.78884 0,-70.83057 v -0.36719 h -0.0566 c -0.78003,-7.12456 -23.17576,-13.13882 -53.58008,-14.38867 -1.35137,-7.69902 -1.49979,-15.61133 3.63672,-15.61133 10,0 24.94922,-30.5293 -15.05078,-30.5293 z"
+       transform="scale(0.26458333)"
+       id="path4522"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sscccccscccccsss" />
+  </g>
+</svg>

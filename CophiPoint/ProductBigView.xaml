@@ -11,6 +11,7 @@
         <converters:InverseBoolConverter x:Key="inverter"/>
         <converters:NullableBoolConverter x:Key="nullaplly"/>
         <converters:PriceFormatter x:Key="formatPrice" />
+        <converters:SizeInfoConverter x:Key="sizeInfoConverter"/>
     </ContentView.Resources>
     <ContentView.Content>
         <RelativeLayout>
@@ -56,13 +57,33 @@
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=Y, Factor=0, Constant=50}"
                     />
-            <ListView>
-
+            <Label x:Name="Current" IsVisible="False" Text="{Binding Unit}"/>
+            <ListView  ItemsSource="{Binding Sizes, Converter={StaticResource sizeInfoConverter}, ConverterParameter={x:Reference Name=Current}}"
+                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-60}"
+                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=70}"
+                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height, Factor=1, Constant=-160}"
+                        WidthRequest="50" RowHeight="55" SeparatorVisibility="None"
+                    >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Button Text="{Binding Text}" 
+                                    TextColor="White" FontSize="Micro"
+                                    CornerRadius="25" HeightRequest="50" WidthRequest="50" Padding="0, 8"
+                                    ImageSource="{Binding ImageSource}" ContentLayout="Top, 2"
+                                    BackgroundColor="Gray"
+                                />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
-            <Button Text="{Binding SelectedSize, StringFormat='{0}'}" 
+            <Button Text="{Binding SelectedSizeDefinition.Text}" 
+                    Clicked="ShowSizes"
                     TextColor="White" FontSize="Micro"
                     CornerRadius="25" HeightRequest="50" WidthRequest="50" Padding="0, 8"
-                    ImageSource="water_glass.png" ContentLayout="Top, 2"
+                    ImageSource="{Binding SelectedSizeDefinition.ImageSource}" ContentLayout="Top, 2"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=Width, Factor=1, Constant=-60 }"
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
