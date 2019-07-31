@@ -28,5 +28,16 @@ namespace CophiPoint
             InitializeComponent();
             BindingContext = Product;
         }
+
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            Product.SelectedSize = e.Item as SizeViewModel;
+            Product.SelectSizeVisible = false;
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            Product.SelectSizeVisible = true;
+        }
     }
 }
