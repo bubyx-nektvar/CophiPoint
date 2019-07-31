@@ -11,11 +11,10 @@
         <StackLayout Orientation="Horizontal">
             <StackLayout.Resources>
                 <converters:DateTimeFormatter x:Key="formatDate"/>
-                <converters:PriceFormatter x:Key="formatPrice" />
             </StackLayout.Resources>
             <Label Text="{Binding Date, Converter={StaticResource formatDate}}" HorizontalOptions="Start"/>
             <Label Text="{Binding ProductName}" HorizontalOptions="CenterAndExpand"/>
-            <Label Text="{Binding Price, Converter={StaticResource formatPrice}}" HorizontalOptions="End"/>
+            <Label Text="{Binding PriceText}" HorizontalOptions="End"/>
         </StackLayout>
     </ViewCell.View>
 </ViewCell>

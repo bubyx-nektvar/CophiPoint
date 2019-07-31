@@ -14,7 +14,7 @@
         <converters:InverseBoolConverter x:Key="inverter"/>
         <converters:NullableBoolConverter x:Key="nullaplly"/>
         <converters:DateTimeFormatter x:Key="formatDate"/>
-        <converters:PriceFormatter x:Key="formatPrice" />
+        <converters:PriceFormatter x:Key="formatPrice"/>
         <Style TargetType="CarouselPage">
             <Setter Property="BackgroundColor" Value="Aqua"/>
         </Style>

@@ -8,7 +8,7 @@ namespace CophiPoint.Services
 {
     public class RestService
     {
-        public List<ProductViewModel> GetProducts()
+        public List<Product> GetProducts()
         {
             return new Product[]
             {
@@ -16,18 +16,17 @@ namespace CophiPoint.Services
                 {
                     Name = "Coffee",
                     Unit = Unit.MiliLiters,
-                    DefaultSizeIndex = 0,
                     Sizes = new []{
-                        new Product.Size {
+                        new Size {
                             UnitsCount = 50,
                             Price = 10,
-                        },new Product.Size {
+                        },new Size {
                             UnitsCount = 100,
                             Price = 15,
-                        },new Product.Size {
+                        },new Size {
                             UnitsCount = 150,
                             Price = 20,
-                        },new Product.Size {
+                        },new Size {
                             UnitsCount = 250,
                             Price = 25,
                         }
@@ -39,31 +38,30 @@ namespace CophiPoint.Services
                 {
                     Name = "Coffee",
                     Unit = Unit.MiliLiters,
-                    DefaultSizeIndex = 0,
                     Sizes = new []{
-                        new Product.Size {
+                        new Size {
                             UnitsCount = 50,
                             Price = 10,
-                        },new Product.Size {
+                        },new Size {
                             UnitsCount = 100,
                             Price = 15,
-                        },new Product.Size {
+                        },new Size {
                             UnitsCount = 150,
                             Price = 20,
-                        },new Product.Size {
+                        },new Size {
                             UnitsCount = 200,
                             Price = 25,
                         },
-                        new Product.Size {
+                        new Size {
                             UnitsCount = 250,
                             Price = 30,
-                        },new Product.Size {
+                        },new Size {
                             UnitsCount = 300,
                             Price = 35,
-                        },new Product.Size {
+                        },new Size {
                             UnitsCount = 350,
                             Price = 40,
-                        },new Product.Size {
+                        },new Size {
                             UnitsCount = 400,
                             Price = 45,
                         }
@@ -74,15 +72,13 @@ namespace CophiPoint.Services
                 {
                     Name = "Tea",
                     Unit = Unit.MiliLiters,
-                    DefaultSizeIndex = 0,
-                    Sizes = new []{new Product.Size {
+                    Sizes = new []{new Size {
                         UnitsCount = 100,
                         Price = 12,
                     } },
                     ImageUrl = new Uri("data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTcuMS4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDM0NS44NTUgMzQ1Ljg1NSIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzQ1Ljg1NSAzNDUuODU1OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4Ij4KPGc+Cgk8cGF0aCBkPSJNMTE4LjgwMywxMjEuMzg1YzEuMDQyLDAuNzEsMi4yNjUsMS4wODUsMy41MzYsMS4wODVoMC4wMTZjMy40NzQsMCw2LjMwMS0yLjgyNSw2LjMwMS02LjI5NyAgIGMwLTAuNjA1LTAuMDg1LTEuMjAyLTAuMjUzLTEuNzc5Yy0zLjc4Ny0xNi41ODItMS45ODctMjkuOTQ0LDUuMzQ5LTM5LjcxOGM4LjU1MS0xMS4zOTMsMTIuMzM5LTI2LjAwOSwxMC4xMzMtMzkuMDk3ICAgYy0xLjk0Ny0xMS41ODgtOC4xNzctMjEuMjItMTguMDEtMjcuODQ5Yy0yLjEwNy0xLjQyOC01LjAwNi0xLjQxNS03LjEwNCwwLjAyOWMtMi4xNDQsMS40NzYtMy4xNTEsNC4wNzItMi41NjEsNi42MjggICBjNC4wODksMTcuNDQzLDAuMzc2LDI4LjQ4NC04LjkzNiw0NS4yMzZjLTUuNzU0LDEwLjM0OS04LjEwNCwyMS45NzItNi42MTgsMzIuNzI4QzEwMi4zMzYsMTA0LjUwMywxMDguNjIsMTE0LjU0OSwxMTguODAzLDEyMS4zODUgICB6IiBmaWxsPSIjMDAwMDAwIi8+Cgk8cGF0aCBkPSJNMTcyLjQ5NywxMTguNTg0YzAuOTg0LDAuNjczLDIuMTMzLDEuMDI4LDMuMzIzLDEuMDI4aDAuMDA4YzMuMjYxLDAsNS45MTQtMi42NTQsNS45MTQtNS45MTYgICBjMC0wLjU1Ni0wLjA3OS0xLjEwNy0wLjIzMy0xLjY0MmMtMi44NzUtMTIuNjM4LTEuNTI1LTIyLjc4OSw0LjAxNS0zMC4xNzFjNi44MzktOS4xMDgsOS44NjYtMjAuODA3LDguMS0zMS4yOTIgICBjLTEuNTY3LTkuMzItNi41NzktMTcuMDctMTQuNDk0LTIyLjQxMWMtMS45NzEtMS4zMzItNC42MzgtMS4zNDktNi42NzksMC4wNDFjLTEuOTkxLDEuMzgyLTIuOTQ1LDMuODkyLTIuMzgyLDYuMjA5ICAgYzMuMTE5LDEzLjMwNywwLjI2NiwyMS43NjctNi44ODQsMzQuNjIzYy00LjU5OSw4LjI3Mi02LjQ3NSwxNy41NjktNS4yODMsMjYuMTc2QzE1OS4yNTIsMTA1LjAwOCwxNjQuMzEsMTEzLjA5MSwxNzIuNDk3LDExOC41ODR6ICAgIiBmaWxsPSIjMDAwMDAwIi8+Cgk8cGF0aCBkPSJNMzQwLjQ3OCwxNTguOTg0Yy0zLjkyMy00LjYxOC05LjUzNi03LjE2MS0xNS44MDYtNy4xNjFoLTMwLjQ1MmMwLjQ2OS01LjI2MS0wLjM3My0xMi4xMzgtNC4yMjgtMTYuNjc2ICAgYy0yLjY5My0zLjE3LTYuNTMyLTQuODQ1LTExLjEwNC00Ljg0NUgxNy4wODljLTYuNzgsMC0xMC42ODIsMi45MTUtMTIuNzYxLDUuMzZjLTQuMjY5LDUuMDItNC44NTUsMTIuNTQ4LTMuOTgxLDE3LjkyICAgQzcuNTUzLDE5Ny44NTYsMjMuMTIsMjM4LjA3MSw0NC4xOCwyNjYuODJjMTIuNjczLDE3LjI5OSwyNy4xMTMsMzAuNTU2LDQzLjIxMywzOS43MjhjLTIuMzYxLDMuMzY5LTMuNzU5LDcuNDYxLTMuNzU5LDExLjg3OCAgIGMwLDExLjQ0Nyw5LjMxMywyMC43NiwyMC43NjEsMjAuNzZoODUuNTVjMTEuNDQ4LDAsMjAuNzYxLTkuMzEzLDIwLjc2MS0yMC43NmMwLTQuMzQyLTEuMzQ0LTguMzczLTMuNjMyLTExLjcwOSAgIGMxMi45NDUtNy4zLDI0Ljc4Ny0xNy4yMTUsMzUuNDctMjkuNzI4YzUxLjA1OC00LjczOSw5NS43NTMtNTMuNjgyLDEwMi45NjMtOTcuNjhDMzQ1Ljk3LDE3Ni40NzYsMzQ2Ljk3OSwxNjYuNjM4LDM0MC40NzgsMTU4Ljk4NCAgIHogTTI2Ny45OCwyMzcuODc1YzkuMzQxLTE4LjgwNiwxNS43NzktMzguMjk2LDIwLjIxNy01Ni4wNTFoMjYuMDA2QzMwNy45NTksMjAzLjAwNSwyODkuOTg4LDIyNS41MjIsMjY3Ljk4LDIzNy44NzV6IiBmaWxsPSIjMDAwMDAwIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==")
                 }
             }
-            .Select(x=> new ProductViewModel(x, false))
             .ToList();
         }
         public List<PurchasedItem> GetPurchases()

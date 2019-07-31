@@ -1,4 +1,5 @@
 ﻿using CophiPoint.Models;
+using CophiPoint.ViewModels;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -27,13 +28,5 @@ namespace CophiPoint
             InitializeComponent();
             BindingContext = Product;
         }
-
-        async void ShowSizes(object sender, EventArgs args)
-        {
-            //SizesExpanded = true;
-        }
-
-        //public bool SizesExpanded { get; set; } = false;
-        //public Command SelectSize { get; set; }
     }
 }

@@ -10,8 +10,7 @@
     <ContentView.Resources>
         <converters:InverseBoolConverter x:Key="inverter"/>
         <converters:NullableBoolConverter x:Key="nullaplly"/>
-        <converters:PriceFormatter x:Key="formatPrice" />
-        <converters:SizeInfoConverter x:Key="sizeInfoConverter"/>
+        <converters:PriceFormatter x:Key="formatPrice"/>
     </ContentView.Resources>
     <ContentView.Content>
         <RelativeLayout>
@@ -27,9 +26,9 @@
                             VerticalOptions="Center" WidthRequest="200" HeightRequest="200" 
                             Source="{Binding ImageUrl}"
                             />
-                    <Label Text="{Binding Price, Converter={StaticResource formatPrice}}" 
+                    <Label Text="{Binding SelectedSize.Price, Converter={StaticResource formatPrice}}" 
                                                FontSize="Large" TextColor="LimeGreen" />
-                    <Label Text="{Binding PricePerUnit, Converter={StaticResource formatPrice}}" />
+                    <Label Text="{Binding SelectedSize.PricePerUnitText}" />
                 </FlexLayout>
             </ContentView>
             <ImageButton 
@@ -57,21 +56,22 @@
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=Y, Factor=0, Constant=50}"
                     />
-            <Label x:Name="Current" IsVisible="False" Text="{Binding Unit}"/>
-            <ListView  ItemsSource="{Binding Sizes, Converter={StaticResource sizeInfoConverter}, ConverterParameter={x:Reference Name=Current}}"
+            <Label x:Name="Current" IsVisible="False" Text="{Binding Product.Unit}"/>
+            <ListView  ItemsSource="{Binding Sizes}"
                         RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-60}"
                         RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=70}"
                         RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height, Factor=1, Constant=-160}"
                         WidthRequest="50" RowHeight="55" SeparatorVisibility="None"
+                        SelectionMode="Single"
                     >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout>
-                                <Button Text="{Binding Text}" 
+                                <Button Text="{Binding SizeText}" 
                                     TextColor="White" FontSize="Micro"
                                     CornerRadius="25" HeightRequest="50" WidthRequest="50" Padding="0, 8"
-                                    ImageSource="{Binding ImageSource}" ContentLayout="Top, 2"
+                                    ImageSource="{Binding Image}" ContentLayout="Top, 2"
                                     BackgroundColor="Gray"
                                 />
                             </StackLayout>
@@ -79,11 +79,11 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="{Binding SelectedSizeDefinition.Text}" 
-                    Clicked="ShowSizes"
+            <Button Text="{Binding SelectedSize.SizeText}" 
+                    
                     TextColor="White" FontSize="Micro"
                     CornerRadius="25" HeightRequest="50" WidthRequest="50" Padding="0, 8"
-                    ImageSource="{Binding SelectedSizeDefinition.ImageSource}" ContentLayout="Top, 2"
+                    ImageSource="{Binding SelectedSize.Image}" ContentLayout="Top, 2"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=Width, Factor=1, Constant=-60 }"
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,

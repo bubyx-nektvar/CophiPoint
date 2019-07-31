@@ -24,12 +24,13 @@ namespace CophiPoint
         {
             InitializeComponent();
             var service = new RestService();
+
             ViewModel = new MainViewModel()
             {
-                Products = new ObservableCollection<ProductViewModel>(service.GetProducts()),
+                Products = new ObservableCollection<ProductViewModel>(service.GetProducts().Select(x=>new ProductViewModel(x))),
                 Balance = -1123.21m,
                 User = "filip.havel@mojeaplikace.com",
-                History = new ObservableCollection<PurchasedItem>(service.GetPurchases()),
+                History = new ObservableCollection<PurchasedItemViewModel>(service.GetPurchases().Select(x=>new PurchasedItemViewModel(x))),
                 HistoryShown = false
             };
             BindingContext = ViewModel;

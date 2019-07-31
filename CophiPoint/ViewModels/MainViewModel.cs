@@ -1,4 +1,5 @@
 ﻿using CophiPoint.Models;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
@@ -7,10 +8,10 @@ using System.Text;
 
 namespace CophiPoint.ViewModels
 {
-    public class MainViewModel:AbstractViewModel
+    public class MainViewModel: ReactiveObject
     {
         public ObservableCollection<ProductViewModel> Products { get; set; }
-        public ObservableCollection<PurchasedItem> History { get; set; }
+        public ObservableCollection<PurchasedItemViewModel> History { get; set; }
 
         public string User { get; set; }
 
