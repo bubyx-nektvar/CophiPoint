@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              xmlns:converters="clr-namespace:CophiPoint.Converters"
              xmlns:local="clr-namespace:CophiPoint"
-             xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
+             xmlns:controls="clr-namespace:CophiPoint.Components"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              x:Class="CophiPoint.MainPage"
              >
@@ -31,13 +31,13 @@
                     RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
                     RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
                 >
-                <controls:CarouselViewControl ShowArrows="True" ItemsSource="{Binding Products}" Orientation="Horizontal" InterPageSpacing="10">
-                    <controls:CarouselViewControl.ItemTemplate>
+                <controls:CarouselViewLayout ItemsSource="{Binding Products}">
+                    <controls:CarouselViewLayout.ItemTemplate>
                         <DataTemplate>
                             <local:ProductBigView Product="{Binding}"/>
                         </DataTemplate>
-                    </controls:CarouselViewControl.ItemTemplate>
-                </controls:CarouselViewControl>
+                    </controls:CarouselViewLayout.ItemTemplate>
+                </controls:CarouselViewLayout>
             </ContentView>
         </RelativeLayout>
 
