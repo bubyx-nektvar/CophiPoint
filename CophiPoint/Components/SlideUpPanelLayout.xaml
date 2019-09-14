@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:converters="clr-namespace:CophiPoint.Converters"
+             mc:Ignorable="d"
+             x:Class="CophiPoint.Components.SlideUpPanelLayout"
+             x:Name="View">
+    <ContentView.Resources>
+        <converters:InverseBoolConverter x:Key="inverter"/>
+        <converters:NullableBoolConverter x:Key="nullaplly"/>
+    </ContentView.Resources>
+  <ContentView.Content>
+        <AbsoluteLayout VerticalOptions="FillAndExpand" x:Name="Page">
+            <ContentView x:Name="MainLayout" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,.75" BackgroundColor="White">
+                <!--main-->
+            </ContentView>
+
+            <StackLayout x:Name="PanelLayout" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+                     Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+                <StackLayout.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Up" Swiped="Show"/>
+                    <SwipeGestureRecognizer Direction="Down" Swiped="Hide"/>
+                </StackLayout.GestureRecognizers>
+                <StackLayout x:Name="HeaderLayout" VerticalOptions="Start" BackgroundColor="#006df0" Spacing="0" Padding="10,5">
+                    <StackLayout HeightRequest="24" VerticalOptions="Start" HorizontalOptions="FillAndExpand" >
+                        <ffsvg:SvgCachedImage x:Name="ExpandButton"
+                            WidthRequest="24" HeightRequest="24" 
+                            IsVisible="{Binding Source={x:Reference View},Path=PanelShown, Converter={StaticResource inverter}}" 
+                            Source="ExpandLess.svg" HorizontalOptions="Center" >
+                            <ffsvg:SvgCachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Show"/>
+                            </ffsvg:SvgCachedImage.GestureRecognizers>
+                        </ffsvg:SvgCachedImage>
+                        <ffsvg:SvgCachedImage x:Name="CloseButton"
+                            WidthRequest="24" HeightRequest="24" 
+                            IsVisible="{Binding Source={x:Reference View},Path=PanelShown, Converter={StaticResource nullaplly}}"  
+                            Source="Close.svg" HorizontalOptions="Start">
+                            <ffsvg:SvgCachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Hide"/>
+                            </ffsvg:SvgCachedImage.GestureRecognizers>
+                        </ffsvg:SvgCachedImage>
+                    </StackLayout>
+                    <ContentView x:Name="HeaderHolder">
+                        <!--header-->
+                    </ContentView>
+                    
+                </StackLayout>
+                <ContentView x:Name="BodyHolder">
+                    <!--body-->
+                </ContentView>
+            </StackLayout>
+        </AbsoluteLayout>
+    </ContentView.Content>
+</ContentView>

@@ -34,8 +34,6 @@ namespace CophiPoint
                 HistoryShown = false
             };
             BindingContext = ViewModel;
-
-            HistoryPage.TranslationY = 2000;
         }
 
         protected override void OnBindingContextChanged()
@@ -43,30 +41,7 @@ namespace CophiPoint
             base.OnBindingContextChanged();
         }
 
-        private double TranslationYMinimized => Page.Height * 0.75;
-
         public MainViewModel ViewModel { get; }
-
-        protected override void OnSizeAllocated(double width, double height)
-        {
-            base.OnSizeAllocated(width, height);
-            ShopPage.HeightRequest = TranslationYMinimized;
-            HistoryPage.TranslationY = TranslationYMinimized;
-        }
-
-        async void ShowHistory(object sender, System.EventArgs e)
-        {
-            ViewModel.HistoryShown = null;
-            await HistoryPage.TranslateTo(0, 0, 500, Easing.SinIn);
-            ViewModel.HistoryShown = true;
-        }
-
-        async void HideHistory(object sender, System.EventArgs e)
-        {
-            ViewModel.HistoryShown = null;
-            await HistoryPage.TranslateTo(0, TranslationYMinimized, 500, Easing.SinIn);
-            ViewModel.HistoryShown = false;
-        }
 
     }
 }

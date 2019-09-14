@@ -43,7 +43,7 @@ namespace CophiPoint.Components
             set => SetValue(ItemsSourceProperty, value);
         }
         public DataTemplate ItemTemplate { get; set; }
-        public IList<View> Children => _stack.Children;
+        public new IList<View> Children => _stack.Children;
 
         public CarouselViewLayout()
         {

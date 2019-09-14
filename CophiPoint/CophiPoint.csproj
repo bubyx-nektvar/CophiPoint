@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Components\SlideUpPanelLayout.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="HistoryViewCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
