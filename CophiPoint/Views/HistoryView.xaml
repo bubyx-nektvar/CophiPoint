@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:converters="clr-namespace:CophiPoint.Converters"
              mc:Ignorable="d"
-             x:Class="CophiPoint.Views.HistoryView">
+             x:Class="CophiPoint.Views.HistoryView"
+             x:Name="HistoryViewRef">
     <ContentView.Content>
         <StackLayout HorizontalOptions="FillAndExpand" Orientation="Vertical">
             <StackLayout.Resources>
@@ -13,8 +14,8 @@
                 <converters:NullableBoolConverter x:Key="nullaplly"/>
             </StackLayout.Resources>
             <Label Text="Purchase history" FontSize="Micro" HorizontalOptions="Center"
-                       IsVisible="{Binding HistoryShown, Converter={StaticResource nullaplly}}"/>
-            <ListView ItemsSource="{Binding History}" HasUnevenRows="true" HorizontalOptions="FillAndExpand"
+                       IsVisible="{Binding  Source={x:Reference HistoryViewRef}, Path=Shown, Converter={StaticResource nullaplly}}"/>
+            <ListView ItemsSource="{Binding}" HasUnevenRows="true" HorizontalOptions="FillAndExpand"
                           SeparatorVisibility="None" Margin="10,3">
                 <ListView.ItemTemplate>
                     <DataTemplate>

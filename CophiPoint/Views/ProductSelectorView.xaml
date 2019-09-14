@@ -19,7 +19,7 @@
                         RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
                     >
-                <controls:CarouselViewLayout ItemsSource="{Binding Products}">
+                <controls:CarouselViewLayout ItemsSource="{Binding .}">
                     <controls:CarouselViewLayout.ItemTemplate>
                         <DataTemplate>
                             <view:ProductBigView Product="{Binding}"/>

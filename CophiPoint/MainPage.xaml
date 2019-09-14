@@ -19,15 +19,15 @@
             <Setter Property="BackgroundColor" Value="Aqua"/>
         </Style>
     </ContentPage.Resources>
-    <controls:SlideUpPanelLayout PanelShown="{Binding HistoryShown, Mode=TwoWay}">
+    <controls:SlideUpPanelLayout x:Name="SlidePanel">
         <controls:SlideUpPanelLayout.MainContent>
             <view:ProductSelectorView />
         </controls:SlideUpPanelLayout.MainContent>
         <controls:SlideUpPanelLayout.HeaderContent>
-            <view:HistoryHeaderView/>
+            <view:HistoryHeaderView Shown="{Binding Source={x:Reference SlidePanel}, Path=PanelShown}"/>
         </controls:SlideUpPanelLayout.HeaderContent>
         <controls:SlideUpPanelLayout.BodyContent>
-            <view:HistoryView/>
+            <view:HistoryView  Shown="{Binding Source={x:Reference SlidePanel}, Path=PanelShown}"/>
         </controls:SlideUpPanelLayout.BodyContent>
     </controls:SlideUpPanelLayout>
 </ContentPage>

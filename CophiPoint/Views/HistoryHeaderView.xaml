@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:converters="clr-namespace:CophiPoint.Converters"
              mc:Ignorable="d"
-             x:Class="CophiPoint.Views.HistoryHeaderView">
+             x:Class="CophiPoint.Views.HistoryHeaderView"
+             x:Name="HistoryHeader">
     <ContentView.Content>
         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
             <StackLayout.Resources>
@@ -13,7 +14,7 @@
                 <converters:PriceFormatter x:Key="formatPrice"/>
             </StackLayout.Resources>
             <Label Text="Account" FontSize="Micro" TextColor="White" HorizontalOptions="Center"
-                            IsVisible="{Binding HistoryShown, Converter={StaticResource nullaplly}}"/>
+                            IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown, Converter={StaticResource nullaplly}}"/>
             <Grid HorizontalOptions="FillAndExpand" RowSpacing="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -28,13 +29,13 @@
                                 FontSize="Default" TextColor="White"/>
                 <Label Text="Log out" Grid.Row="1" Grid.Column="0" FontSize="Small"
                                 HorizontalOptions="Start" VerticalOptions="Start" TextColor="WhiteSmoke"
-                                IsVisible="{Binding HistoryShown, Converter={StaticResource nullaplly}}" />
+                                IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown, Converter={StaticResource nullaplly}}" />
 
                 <Label Text="{Binding Balance, Converter={StaticResource formatPrice}}" Grid.Row="0" Grid.Column="1" VerticalOptions="End" 
                                 FontSize="Large" TextColor="White"/>
                 <Label Text="How to pay" Grid.Row="1" Grid.Column="1" FontSize="Small" 
                                 HorizontalOptions="End" VerticalOptions="Start" TextColor="WhiteSmoke"
-                                IsVisible="{Binding HistoryShown, Converter={StaticResource nullaplly}}" />
+                                IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown, Converter={StaticResource nullaplly}}" />
             </Grid>
         </StackLayout>
     </ContentView.Content>
