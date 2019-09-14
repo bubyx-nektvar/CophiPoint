@@ -43,6 +43,10 @@
 
         <StackLayout x:Name="HistoryPage" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
                      Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+            <StackLayout.GestureRecognizers>
+                <SwipeGestureRecognizer Direction="Up" Swiped="ShowHistory"/>
+                <SwipeGestureRecognizer Direction="Down" Swiped="HideHistory"/>
+            </StackLayout.GestureRecognizers>
             <StackLayout VerticalOptions="Start" BackgroundColor="#006df0" Spacing="0" Padding="10,5">
                 <StackLayout HeightRequest="24" VerticalOptions="Start" HorizontalOptions="FillAndExpand" >
                     <ffsvg:SvgCachedImage WidthRequest="24" HeightRequest="24" 

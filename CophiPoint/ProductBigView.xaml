@@ -68,13 +68,21 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout BackgroundColor="Gray" HeightRequest="50" WidthRequest="50" >
-                                <Image Source="{Binding Image}" />
-                                <Label Text="{Binding SizeText}" 
-                                    TextColor="White" FontSize="Micro"
-                                    BackgroundColor="Gray"
-                                />
-                            </StackLayout>
+                            <Frame BackgroundColor="Gray"
+                                   CornerRadius="25" HeightRequest="50" WidthRequest="50" Padding="0">
+                                <RelativeLayout
+                                        HeightRequest="50" WidthRequest="50" >
+                                    <Image Source="{Binding Image}" 
+                                           RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=8}"
+                                           RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                                           />
+                                    <Label Text="{Binding SizeText}" HorizontalTextAlignment="Center"
+                                           TextColor="White" FontSize="Micro"
+                                           RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.5}"
+                                           RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                                        />
+                                </RelativeLayout>
+                            </Frame>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
