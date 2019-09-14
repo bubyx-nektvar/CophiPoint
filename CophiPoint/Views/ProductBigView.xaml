@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              xmlns:converters="clr-namespace:CophiPoint.Converters"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-             x:Class="CophiPoint.ProductBigView">
+             x:Class="CophiPoint.Views.ProductBigView">
     <ContentView.Resources>
         <converters:InverseBoolConverter x:Key="inverter"/>
         <converters:NullableBoolConverter x:Key="nullaplly"/>

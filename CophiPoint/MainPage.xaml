@@ -7,7 +7,7 @@
              xmlns:converters="clr-namespace:CophiPoint.Converters"
              xmlns:local="clr-namespace:CophiPoint"
              xmlns:controls="clr-namespace:CophiPoint.Components"
-             xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:view="clr-namespace:CophiPoint.Views"
              x:Class="CophiPoint.MainPage"
              >
     <ContentPage.Resources>
@@ -21,68 +21,13 @@
     </ContentPage.Resources>
     <controls:SlideUpPanelLayout PanelShown="{Binding HistoryShown, Mode=TwoWay}">
         <controls:SlideUpPanelLayout.MainContent>
-            <RelativeLayout BackgroundColor="White" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-                <ImageButton HeightRequest="40" WidthRequest="40" Source="baseline_view_list_black_36.png" BackgroundColor="Transparent"
-                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-50}"
-                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=20}"
-                    />
-                <ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X}"
-                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y}"
-                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
-                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-                    >
-                    <controls:CarouselViewLayout ItemsSource="{Binding Products}">
-                        <controls:CarouselViewLayout.ItemTemplate>
-                            <DataTemplate>
-                                <local:ProductBigView Product="{Binding}"/>
-                            </DataTemplate>
-                        </controls:CarouselViewLayout.ItemTemplate>
-                    </controls:CarouselViewLayout>
-                </ContentView>
-            </RelativeLayout>
+            <view:ProductSelectorView />
         </controls:SlideUpPanelLayout.MainContent>
         <controls:SlideUpPanelLayout.HeaderContent>
-            <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
-                <Label Text="Account" FontSize="Micro" TextColor="White" HorizontalOptions="Center"
-                           IsVisible="{Binding HistoryShown, Converter={StaticResource nullaplly}}"/>
-                <Grid HorizontalOptions="FillAndExpand" RowSpacing="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Label Text="{Binding User}" Grid.Row="0" Grid.Column="0" VerticalOptions="End" 
-                               FontSize="Default" TextColor="White"/>
-                    <Label Text="Log out" Grid.Row="1" Grid.Column="0" FontSize="Small"
-                               HorizontalOptions="Start" VerticalOptions="Start" TextColor="WhiteSmoke"
-                               IsVisible="{Binding HistoryShown, Converter={StaticResource nullaplly}}" />
-
-                    <Label Text="{Binding Balance, Converter={StaticResource formatPrice}}" Grid.Row="0" Grid.Column="1" VerticalOptions="End" 
-                               FontSize="Large" TextColor="White"/>
-                    <Label Text="How to pay" Grid.Row="1" Grid.Column="1" FontSize="Small" 
-                               HorizontalOptions="End" VerticalOptions="Start" TextColor="WhiteSmoke"
-                               IsVisible="{Binding HistoryShown, Converter={StaticResource nullaplly}}" />
-                </Grid>
-            </StackLayout>
+            <view:HistoryHeaderView/>
         </controls:SlideUpPanelLayout.HeaderContent>
         <controls:SlideUpPanelLayout.BodyContent>
-            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Vertical">
-                <Label Text="Purchase history" FontSize="Micro" HorizontalOptions="Center"
-                       IsVisible="{Binding HistoryShown, Converter={StaticResource nullaplly}}"/>
-                <ListView ItemsSource="{Binding History}" HasUnevenRows="true" HorizontalOptions="FillAndExpand"
-                          SeparatorVisibility="None" Margin="10,3">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <local:HistoryViewCell Item="{Binding}"/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackLayout>
+            <view:HistoryView/>
         </controls:SlideUpPanelLayout.BodyContent>
     </controls:SlideUpPanelLayout>
 </ContentPage>

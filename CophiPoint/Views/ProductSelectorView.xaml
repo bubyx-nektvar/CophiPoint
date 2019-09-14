@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:CophiPoint.Components"
+             xmlns:view="clr-namespace:CophiPoint.Views"
+             mc:Ignorable="d"
+             x:Class="CophiPoint.Views.ProductSelectorView">
+  <ContentView.Content>
+        <RelativeLayout BackgroundColor="White" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <ImageButton HeightRequest="40" WidthRequest="40" Source="baseline_view_list_black_36.png" BackgroundColor="Transparent"
+                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-50}"
+                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=20}"
+                    />
+            <ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X}"
+                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y}"
+                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
+                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                    >
+                <controls:CarouselViewLayout ItemsSource="{Binding Products}">
+                    <controls:CarouselViewLayout.ItemTemplate>
+                        <DataTemplate>
+                            <view:ProductBigView Product="{Binding}"/>
+                        </DataTemplate>
+                    </controls:CarouselViewLayout.ItemTemplate>
+                </controls:CarouselViewLayout>
+            </ContentView>
+        </RelativeLayout>
+    </ContentView.Content>
+</ContentView>

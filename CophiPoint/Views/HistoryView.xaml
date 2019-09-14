@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:CophiPoint.Converters"
+             mc:Ignorable="d"
+             x:Class="CophiPoint.Views.HistoryView">
+    <ContentView.Content>
+        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Vertical">
+            <StackLayout.Resources>
+                <converters:DateTimeFormatter x:Key="formatDate"/>
+                <converters:NullableBoolConverter x:Key="nullaplly"/>
+            </StackLayout.Resources>
+            <Label Text="Purchase history" FontSize="Micro" HorizontalOptions="Center"
+                       IsVisible="{Binding HistoryShown, Converter={StaticResource nullaplly}}"/>
+            <ListView ItemsSource="{Binding History}" HasUnevenRows="true" HorizontalOptions="FillAndExpand"
+                          SeparatorVisibility="None" Margin="10,3">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout.Resources>
+                                    <converters:DateTimeFormatter x:Key="formatDate"/>
+                                </StackLayout.Resources>
+                                <Label Text="{Binding Date, Converter={StaticResource formatDate}}" HorizontalOptions="Start"/>
+                                <Label Text="{Binding ProductName}" HorizontalOptions="CenterAndExpand"/>
+                                <Label Text="{Binding PriceText}" HorizontalOptions="End"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

@@ -4,7 +4,7 @@ using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CophiPoint
+namespace CophiPoint.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProductBigView : ContentView
