@@ -12,8 +12,7 @@ namespace CophiPoint.Components
     public class CarouselViewLayout : ScrollView
     {
         private readonly StackLayout _stack;
-        private readonly ICommand _swipeCommand;
-
+        
         private bool _layingOutChildren;
 
 

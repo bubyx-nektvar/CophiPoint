@@ -1,13 +1,12 @@
 ﻿using CophiPoint.Extensions;
 using CophiPoint.Models;
-using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CophiPoint.ViewModels
 {
-    public class PurchasedItemViewModel : ReactiveObject
+    public class PurchasedItemViewModel
     {
         private readonly PurchasedItem _item;
 

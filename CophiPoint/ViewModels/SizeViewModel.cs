@@ -1,13 +1,12 @@
 ﻿using CophiPoint.Extensions;
 using CophiPoint.Models;
-using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CophiPoint.ViewModels
 {
-    public class SizeViewModel : ReactiveObject
+    public class SizeViewModel
     {
         private readonly Size _size;
 
