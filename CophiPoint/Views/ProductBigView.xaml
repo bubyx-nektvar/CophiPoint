@@ -32,7 +32,7 @@
                 </FlexLayout>
             </ContentView>
             <ImageButton 
-                    HeightRequest="60" WidthRequest="60" CornerRadius="30" Padding="20"
+                    Pressed="Order" HeightRequest="60" WidthRequest="60" CornerRadius="30" Padding="20"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=Width, Factor=1, Constant=-80
                     }"
@@ -41,7 +41,7 @@
                     BackgroundColor="Gray" Source="baseline_add_white_36.png"
                     />
             <ImageButton
-                    WidthRequest="40" HeightRequest="40"
+                    Pressed="SwitchFavorite" WidthRequest="40" HeightRequest="40"
                     Source="baseline_star_black_36.png" IsVisible="{Binding Favorite}"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=X, Factor=0, Constant=20}"
@@ -49,7 +49,7 @@
                             Property=Y, Factor=0, Constant=50}"
                     />
             <ImageButton
-                    BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40"
+                    Pressed="SwitchFavorite" BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40"
                     Source="baseline_star_border_black_36.png" IsVisible="{Binding Favorite, Converter={StaticResource inverter}}"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=X, Factor=0, Constant=20}"
@@ -63,7 +63,7 @@
                         RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=70}"
                         RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height, Factor=1, Constant=-160}"
                         WidthRequest="50" RowHeight="55" SeparatorVisibility="None"
-                        SelectionMode="Single" ItemTapped="ListView_ItemTapped"
+                        SelectionMode="Single" ItemTapped="SizeSelected"
                     >
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -87,7 +87,8 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="{Binding SelectedSize.SizeText}" 
+            <Button 
+                    Clicked="ChooseSize" Text="{Binding SelectedSize.SizeText}" 
                     IsVisible="{Binding SelectSizeVisible, Converter={StaticResource inverter}}"
                     TextColor="White" FontSize="Micro"
                     CornerRadius="25" HeightRequest="50" WidthRequest="50" Padding="0, 8"
@@ -97,7 +98,6 @@
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=Height, Factor=1, Constant=-140}"
                     BackgroundColor="Blue"
-                    Clicked="Button_Clicked"
                     />
         </RelativeLayout>
     </ContentView.Content>

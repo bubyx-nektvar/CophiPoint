@@ -21,23 +21,29 @@ namespace CophiPoint.Views
 
         public ProductBigView()
         {
-            //SelectSize = new Command<decimal>(execute: size => {
-            //    Product.UseSize(size);
-            //    SizesExpanded = false;
-            //});
             InitializeComponent();
             BindingContext = Product;
         }
 
-        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void SizeSelected(object sender, ItemTappedEventArgs e)
         {
             Product.SelectedSize = e.Item as SizeViewModel;
             Product.SelectSizeVisible = false;
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        private void ChooseSize(object sender, EventArgs e)
         {
             Product.SelectSizeVisible = true;
+        }
+
+        private void Order(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SwitchFavorite(object sender, EventArgs e)
+        {
+            Product.Favorite = !Product.Favorite;
         }
     }
 }
