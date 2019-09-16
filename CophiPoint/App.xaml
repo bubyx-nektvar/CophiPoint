@@ -6,6 +6,9 @@
              mc:Ignorable="d"
              x:Class="CophiPoint.App">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <Color x:Key="primary">#006df0</Color>
+            <Color x:Key="primaryComplement">White</Color>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

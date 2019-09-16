@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="15.610416mm"
+   height="15.610416mm"
+   viewBox="0 0 15.610416 15.610416"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="QuestionCircle.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="8"
+     inkscape:cx="7.0051492"
+     inkscape:cy="16.721967"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g837"
+     showgrid="true"
+     inkscape:window-width="3840"
+     inkscape:window-height="2066"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid815"
+       originx="-3.5981503"
+       originy="0.66147021" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Vrstva 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-3.5981504,-282.05105)">
+    <g
+       aria-label="?"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:Consolas;-inkscape-font-specification:Consolas;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       id="text821">
+      <g
+         id="g837"
+         style="fill:#ffffff;fill-opacity:1">
+        <circle
+           r="7.1437497"
+           cy="289.85626"
+           cx="11.403358"
+           id="path817"
+           style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1.32291663;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           transform="translate(-1.0625e-7,4.375e-6)" />
+        <path
+           inkscape:connector-curvature="0"
+           d="m 11.933035,294.09011 c 10e-7,0.36532 -0.296144,0.66146 -0.661458,0.66146 -0.365314,0 -0.661459,-0.29614 -0.661458,-0.66146 -10e-7,-0.36531 0.296144,-0.66146 0.661458,-0.66146 0.365314,0 0.661459,0.29615 0.661458,0.66146 z m -1.188558,-1.98541 c -10e-7,-1.5875 0.79375,-2.11666 1.322917,-2.64583 0.529167,-0.52917 1.322917,-1.05833 1.322917,-1.85208 0,-0.79375 -0.79375,-1.5875 -1.852084,-1.5875 -1.058333,0 -1.8520831,0.52916 -2.1166661,1.85208 -0.103778,0.51889 -1.145327,0.25738 -1.058333,-0.26458 0.264583,-1.5875 1.322916,-2.64584 3.1749991,-2.64584 1.852084,0 2.910417,1.32292 2.910417,2.64584 0,1.32291 -0.79375,1.85208 -1.322917,2.38125 -0.529166,0.52916 -1.322916,1.05833 -1.322916,2.11666 0,0.79375 -1.058334,0.79375 -1.058334,0 z"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.02645833;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           id="path830" />
+      </g>
+    </g>
+  </g>
+</svg>

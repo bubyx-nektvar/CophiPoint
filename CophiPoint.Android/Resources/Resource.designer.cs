@@ -6475,19 +6475,22 @@ namespace CophiPoint.Droid
 			public const int notify_panel_notification_icon_bg = 2131165508;
 			
 			// aapt resource value: 0x7F070145
-			public const int tooltip_frame_dark = 2131165509;
+			public const int QuestionCircle = 2131165509;
 			
 			// aapt resource value: 0x7F070146
-			public const int tooltip_frame_light = 2131165510;
+			public const int tooltip_frame_dark = 2131165510;
 			
 			// aapt resource value: 0x7F070147
-			public const int UpWhite = 2131165511;
+			public const int tooltip_frame_light = 2131165511;
 			
 			// aapt resource value: 0x7F070148
-			public const int water_glass = 2131165512;
+			public const int UpWhite = 2131165512;
 			
 			// aapt resource value: 0x7F070149
-			public const int weight = 2131165513;
+			public const int water_glass = 2131165513;
+			
+			// aapt resource value: 0x7F07014A
+			public const int weight = 2131165514;
 			
 			static Drawable()
 			{

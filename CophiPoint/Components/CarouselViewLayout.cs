@@ -14,7 +14,11 @@ namespace CophiPoint.Components
         private readonly StackLayout _stack;
         
         private bool _layingOutChildren;
+        private int _selectedIndex;
 
+        public DataTemplate ItemTemplate { get; set; }
+
+        public new IList<View> Children => _stack.Children;
 
         public static readonly BindableProperty ItemsSourceProperty =
             BindableProperty.Create(
@@ -37,11 +41,43 @@ namespace CophiPoint.Components
             get => (IList)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
-        
-        public DataTemplate ItemTemplate { get; set; }
-        public int SelectedIndex { get; set; }
 
-        public new IList<View> Children => _stack.Children;
+        public static readonly BindableProperty SelectedItemProperty = 
+            BindableProperty.Create(
+                nameof(SelectedItem), 
+                typeof(object), 
+                typeof(CarouselViewLayout), 
+                null,
+			    BindingMode.TwoWay,
+			    propertyChanged: (bindable, oldValue, newValue) =>
+			    {
+				    ((CarouselViewLayout)bindable).UpdateSelectedIndex();
+			    });
+        
+        public object SelectedItem
+        {
+            get => GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
+        }
+
+        public static readonly BindableProperty SelectedIndexProperty =
+            BindableProperty.Create(
+                nameof(SelectedIndex),
+                typeof(int),
+                typeof(CarouselViewLayout),
+                0,
+                BindingMode.TwoWay,
+                propertyChanged: async (bindable, oldValue, newValue) =>
+                {
+                    await ((CarouselViewLayout)bindable).UpdateSelectedItem();
+                }
+            );
+
+        public int SelectedIndex
+        {
+            get => (int)GetValue(SelectedIndexProperty);
+            set => SetValue(SelectedIndexProperty, value);
+        }
 
         public CarouselViewLayout()
         {
@@ -68,7 +104,7 @@ namespace CophiPoint.Components
         void ItemsSourceChanging()
         {
             if (ItemsSource == null) return;
-            SelectedIndex = 0;
+            _selectedIndex = ItemsSource.IndexOf(SelectedItem);
         }
 
         void ItemsSourceChanged()
@@ -82,6 +118,21 @@ namespace CophiPoint.Components
                     bindableObject.BindingContext = item;
                 _stack.Children.Add(view);
             }
+            
+            if (_selectedIndex >= 0) SelectedIndex = _selectedIndex;
+        }
+
+        async Task UpdateSelectedItem()
+        {
+            await Task.Delay(300);
+            SelectedItem = SelectedIndex > -1 ? Children[SelectedIndex].BindingContext : null;
+        }
+
+        void UpdateSelectedIndex()
+        {
+            if (SelectedItem == BindingContext) return;
+
+            SelectedIndex = ItemsSource.IndexOf(SelectedItem);
         }
     }
 }

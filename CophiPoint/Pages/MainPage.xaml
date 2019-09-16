@@ -8,17 +8,16 @@
              xmlns:local="clr-namespace:CophiPoint"
              xmlns:controls="clr-namespace:CophiPoint.Components"
              xmlns:view="clr-namespace:CophiPoint.Views"
-             x:Class="CophiPoint.MainPage"
+             xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             x:Class="CophiPoint.Pages.MainPage"
              >
-    <ContentPage.Resources>
-        <converters:InverseBoolConverter x:Key="inverter"/>
-        <converters:NullableBoolConverter x:Key="nullaplly"/>
-        <converters:DateTimeFormatter x:Key="formatDate"/>
-        <converters:PriceFormatter x:Key="formatPrice"/>
-        <Style TargetType="CarouselPage">
-            <Setter Property="BackgroundColor" Value="Aqua"/>
-        </Style>
-    </ContentPage.Resources>
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="CophiPoint" FontSize="Medium" TextColor="White" HorizontalOptions="StartAndExpand"/>
+            <ffsvg:SvgCachedImage Source="resource://CophiPoint.Resources.QuestionCircle.svg" HorizontalOptions="End" Margin="10,0"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    
     <controls:SlideUpPanelLayout x:Name="SlidePanel">
         <controls:SlideUpPanelLayout.MainContent>
             <view:ProductSelectorView />

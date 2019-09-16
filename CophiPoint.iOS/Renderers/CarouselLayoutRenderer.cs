@@ -29,6 +29,7 @@ namespace CophiPoint.iOS.Renderers
 
             _native = (UIScrollView)NativeView;
             _native.Scrolled += NativeScrolled;
+            e.NewElement.PropertyChanged += ElementPropertyChanged;
         }
 
         void NativeScrolled(object sender, EventArgs e)
@@ -42,6 +43,13 @@ namespace CophiPoint.iOS.Renderers
             if (Element == null) return;
             var targetX = _native.Bounds.Width * LayoutElement.SelectedIndex;
             _native.SetContentOffset(new CoreGraphics.CGPoint(targetX, _native.ContentOffset.Y), animate);
+        }
+        void ElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == CarouselViewLayout.SelectedIndexProperty.PropertyName && !Dragging)
+            {
+                ScrollToSelection(false);
+            }
         }
 
         public override void Draw(CoreGraphics.CGRect rect)

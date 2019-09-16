@@ -51,6 +51,10 @@ namespace CophiPoint.Android.Renderers
                 _scrollView.Touch += HScrollViewTouch;
                 _scrollView.ScrollChange += OnScroll;
             }
+            if (e.PropertyName == CarouselViewLayout.SelectedIndexProperty.PropertyName && !_motionDown)
+            {
+                ScrollToIndex(((CarouselViewLayout)this.Element).SelectedIndex);
+            }
         }
 
         private void OnScroll(object sender, global::Android.Views.View.ScrollChangeEventArgs e)

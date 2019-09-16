@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:converters="clr-namespace:CophiPoint.Converters"
+             xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+            xmlns:fftran="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             x:Class="CophiPoint.Pages.ProductSearchPage">
+    <NavigationPage.TitleView>
+        <SearchBar  HorizontalOptions="FillAndExpand" TextColor="White" PlaceholderColor="White"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Resources>
+        <converters:InverseBoolConverter x:Key="inverter"/>
+        <converters:NullableBoolConverter x:Key="nullaplly"/>
+        <converters:PriceFormatter x:Key="formatPrice"/>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ListView HorizontalOptions="FillAndExpand" ItemsSource="{Binding .}" ItemSelected="ProductSelected" x:Name="ProductList">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <RelativeLayout HorizontalOptions="Center">
+                                <ffsvg:SvgCachedImage x:Name="productImage" VerticalOptions="Center" 
+                                    Source="{Binding ImageUrl}"
+                                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X, Factor=0, Constant=2}"
+                                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=2}"
+                                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.8}"
+                                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.8}"
+                                    >
+                                    <ffsvg:SvgCachedImage.Transformations>
+                                        <fftran:ColorFillTransformation HexColor="#999999"/>
+                                        <fftran:CircleTransformation />
+                                    </ffsvg:SvgCachedImage.Transformations>
+                                </ffsvg:SvgCachedImage>
+                                <ffsvg:SvgCachedImage
+                                    Source="resource://CophiPoint.Resources.Star.svg"
+                                    IsVisible="{Binding Favorite}"
+                                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X, Factor=0, Constant=2}"
+                                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=2}" 
+                                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.2}"
+                                    />
+                                <ffsvg:SvgCachedImage
+                                    Source="resource://CophiPoint.Resources.StarFill.svg"
+                                    IsVisible="{Binding Favorite, Converter={StaticResource inverter}}"
+                                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X, Factor=0, Constant=2}"
+                                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=2}"
+                                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.2}"
+                                    />
+                            </RelativeLayout>
+                            <Label Text="{Binding Name}" HorizontalOptions="StartAndExpand"/>
+                            <StackLayout Orientation="Vertical" HorizontalOptions="End">
+                                <Label Text="{Binding SelectedSize.Price, Converter={StaticResource formatPrice}}" 
+                                                       FontSize="Small" TextColor="LimeGreen" />
+                                <Label Text="{Binding SelectedSize.PricePerUnitText}" FontSize="Micro"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

@@ -9,17 +9,13 @@
              x:Class="CophiPoint.Views.ProductSelectorView">
   <ContentView.Content>
         <RelativeLayout BackgroundColor="White" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
-            <ImageButton HeightRequest="40" WidthRequest="40" Source="baseline_view_list_black_36.png" BackgroundColor="Transparent"
-                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-50}"
-                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=20}"
-                    />
             <ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                         RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X}"
                         RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y}"
                         RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
                     >
-                <controls:CarouselViewLayout ItemsSource="{Binding .}">
+                <controls:CarouselViewLayout ItemsSource="{Binding .}" x:Name="ProductCarousel">
                     <controls:CarouselViewLayout.ItemTemplate>
                         <DataTemplate>
                             <view:ProductBigView Product="{Binding}"/>
@@ -27,6 +23,11 @@
                     </controls:CarouselViewLayout.ItemTemplate>
                 </controls:CarouselViewLayout>
             </ContentView>
+            <ImageButton HeightRequest="40" WidthRequest="40" Source="baseline_view_list_black_36.png" BackgroundColor="Transparent"
+                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-50}"
+                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=20}"
+                        Pressed="OpenProductSearch"
+                    />
         </RelativeLayout>
     </ContentView.Content>
 </ContentView>

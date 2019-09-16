@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CophiPoint.Pages;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -6,11 +7,11 @@ namespace CophiPoint
 {
     public partial class App : Application
     {
+        NavigationPage Page;
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()
