@@ -66,7 +66,6 @@ namespace CophiPoint.Components
             InitializeComponent();
             PanelLayout.TranslationY = 2000;
             ShowGesture.Tapped += Show;
-            PanelLayout.GestureRecognizers.Add(ShowGesture);
         }
 
         private double TranslationYMinimized => Height * 0.75;
@@ -74,7 +73,16 @@ namespace CophiPoint.Components
         {
             base.OnSizeAllocated(width, height);
             MainLayout.HeightRequest = TranslationYMinimized;
-            PanelLayout.TranslationY = TranslationYMinimized;
+            
+            if (PanelShown == null || (!PanelShown.Value))
+            {
+                PanelLayout.TranslationY = TranslationYMinimized;
+                PanelLayout.GestureRecognizers.Add(ShowGesture);
+            }
+            else
+            {
+                PanelLayout.TranslationY = 0;
+            }
         }
 
         async void Show(object sender, System.EventArgs e)

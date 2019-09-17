@@ -1,5 +1,4 @@
-﻿using CophiPoint.Models;
-using CophiPoint.ViewModels;
+﻿using CophiPoint.ViewModels;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

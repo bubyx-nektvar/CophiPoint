@@ -1,7 +1,7 @@
 ﻿using FFImageLoading.Svg.Forms;
 using System.Collections.Generic;
 
-namespace CophiPoint.Models
+namespace CophiPoint.Api.Models
 {
     public enum Unit
     {

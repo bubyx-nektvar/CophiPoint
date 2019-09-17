@@ -1,5 +1,5 @@
 ﻿using CophiPoint.Extensions;
-using CophiPoint.Models;
+using CophiPoint.Api.Models;
 using FFImageLoading.Svg.Forms;
 using System;
 using System.Collections.Generic;

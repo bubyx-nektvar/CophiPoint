@@ -29,13 +29,21 @@
                                 FontSize="Default" TextColor="White"/>
                 <Label Text="Log out" Grid.Row="1" Grid.Column="0" FontSize="Small"
                                 HorizontalOptions="Start" VerticalOptions="Start" TextColor="WhiteSmoke"
-                                IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown, Converter={StaticResource nullaplly}}" />
+                                IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown, Converter={StaticResource nullaplly}}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="LogOut"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <Label Text="{Binding Balance, Converter={StaticResource formatPrice}}" Grid.Row="0" Grid.Column="1" VerticalOptions="End" 
                                 FontSize="Large" TextColor="White"/>
                 <Label Text="How to pay" Grid.Row="1" Grid.Column="1" FontSize="Small" 
-                                HorizontalOptions="End" VerticalOptions="Start" TextColor="WhiteSmoke"
-                                IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown, Converter={StaticResource nullaplly}}" />
+                        HorizontalOptions="End" VerticalOptions="Start" TextColor="WhiteSmoke"
+                        IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown, Converter={StaticResource nullaplly}}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OpenPaymentInfo"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </Grid>
         </StackLayout>
     </ContentView.Content>

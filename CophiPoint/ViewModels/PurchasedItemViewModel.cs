@@ -1,5 +1,5 @@
 ﻿using CophiPoint.Extensions;
-using CophiPoint.Models;
+using CophiPoint.Api.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +14,7 @@ namespace CophiPoint.ViewModels
 
         public string ProductName => _item.ProductName;
 
-        public string PriceText => _item.Price.GetPriceString();
+        public string PriceText => _item.TotalPrice.GetPriceString();
 
         public PurchasedItemViewModel(PurchasedItem item)
         {

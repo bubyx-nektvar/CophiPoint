@@ -1,4 +1,5 @@
-﻿using CophiPoint.Models;
+﻿using CophiPoint.Api;
+using CophiPoint.Api.Models;
 using CophiPoint.Services;
 using CophiPoint.ViewModels;
 using System;
@@ -22,5 +23,10 @@ namespace CophiPoint.Pages
             InitializeComponent();
         }
 
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            var page = await HtmlPage.FromUrl(Urls.InfoPage);
+            await Navigation.PushAsync(page);
+        }
     }
 }

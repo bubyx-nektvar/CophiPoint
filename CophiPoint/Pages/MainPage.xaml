@@ -15,7 +15,11 @@
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
             <Label Text="CophiPoint" FontSize="Medium" TextColor="White" HorizontalOptions="StartAndExpand"/>
-            <ffsvg:SvgCachedImage Source="resource://CophiPoint.Resources.QuestionCircle.svg" HorizontalOptions="End" Margin="10,0"/>
+            <ffsvg:SvgCachedImage Source="resource://CophiPoint.Resources.QuestionCircle.svg" HorizontalOptions="End" Margin="10,0">
+                <ffsvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                </ffsvg:SvgCachedImage.GestureRecognizers>
+            </ffsvg:SvgCachedImage>
         </StackLayout>
     </NavigationPage.TitleView>
     

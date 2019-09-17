@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CophiPoint.Models
+namespace CophiPoint.Api.Models
 {
     public class PurchasedItem
     {
+        public int ProductId { get; set; }
         public DateTime Date { get; set; }
         public string ProductName { get; set; }
-        public decimal Price { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }

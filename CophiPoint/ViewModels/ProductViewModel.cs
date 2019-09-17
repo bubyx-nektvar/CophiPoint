@@ -1,4 +1,4 @@
-﻿using CophiPoint.Models;
+﻿using CophiPoint.Api.Models;
 using FFImageLoading.Svg.Forms;
 using System;
 using System.Collections.Generic;
@@ -17,13 +17,13 @@ namespace CophiPoint.ViewModels
 
         public string Name => _model.Name;
 
-        public Uri ImageUrl => _model.ImageUrl;
+        public Uri ImageUrl => _model.Image;
 
         public static ProductViewModel Empty => new ProductViewModel(new Product()
         {
             Sizes = new[]
             {
-                new Models.Size()
+                new Api.Models.Size()
                 {
                     Price = 1,
                     UnitsCount = 1
@@ -31,7 +31,7 @@ namespace CophiPoint.ViewModels
             },
             Unit = Unit.MiliLiters,
             Name = "",
-            ImageUrl = new Uri("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTIxIDE5VjVjMC0xLjEtLjktMi0yLTJINWMtMS4xIDAtMiAuOS0yIDJ2MTRjMCAxLjEuOSAyIDIgMmgxNGMxLjEgMCAyLS45IDItMnpNOC41IDEzLjVsMi41IDMuMDFMMTQuNSAxMmw0LjUgNkg1bDMuNS00LjV6Ii8+PC9zdmc+")
+            Image = new Uri("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTIxIDE5VjVjMC0xLjEtLjktMi0yLTJINWMtMS4xIDAtMiAuOS0yIDJ2MTRjMCAxLjEuOSAyIDIgMmgxNGMxLjEgMCAyLS45IDItMnpNOC41IDEzLjVsMi41IDMuMDFMMTQuNSAxMmw0LjUgNkg1bDMuNS00LjV6Ii8+PC9zdmc+")
         });
 
         public ObservableCollection<SizeViewModel> Sizes { get; set; }

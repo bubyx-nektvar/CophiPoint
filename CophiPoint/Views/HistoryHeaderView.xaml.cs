@@ -1,4 +1,6 @@
-﻿using CophiPoint.ViewModels;
+﻿using CophiPoint.Api;
+using CophiPoint.Pages;
+using CophiPoint.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +32,17 @@ namespace CophiPoint.Views
                 Balance = -1123.21m,
                 User = "filip.havel@mojeaplikace.com",
             };
+        }
+
+        private async void OpenPaymentInfo(object sender, EventArgs e)
+        {
+            var page = await HtmlPage.FromUrl(Urls.PaymentPage);
+            await Navigation.PushAsync(page);
+        }
+
+        private async void LogOut(object sender, EventArgs e)
+        {
+
         }
     }
 }
