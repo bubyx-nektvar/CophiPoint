@@ -43,12 +43,12 @@
                     />
             <ffsvg:SvgCachedImage
                     Source="resource://CophiPoint.Resources.Star.svg"
-                    WidthRequest="40" HeightRequest="40"
+                    HeightRequest="30"
                     IsVisible="{Binding Favorite}"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=X, Factor=0, Constant=20}"
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=Y, Factor=0, Constant=50}"
+                            Property=Y, Factor=0, Constant=20}"
                     >
                 <ffsvg:SvgCachedImage.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SwitchFavorite"/>
@@ -57,12 +57,12 @@
 
             <ffsvg:SvgCachedImage
                     Source="resource://CophiPoint.Resources.StarFill.svg"
-                    BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40"
+                    HeightRequest="30"
                     IsVisible="{Binding Favorite, Converter={StaticResource inverter}}"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=X, Factor=0, Constant=20}"
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=Y, Factor=0, Constant=50}"
+                            Property=Y, Factor=0, Constant=20}"
                     >
                 <ffsvg:SvgCachedImage.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SwitchFavorite"/>
@@ -76,8 +76,7 @@
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=70}"
                     RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height, Factor=1, Constant=-160}"
                     WidthRequest="50" RowHeight="50" SeparatorVisibility="None"
-                    SelectionMode="Single"
-                    SelectedItem="{Binding SelectedSize, Mode=TwoWay}" ItemSelected="SizeSelected"
+                    SelectionMode="None" ItemTapped="SizeSelected"
                 >
                 <ListView.ItemTemplate>
                     <DataTemplate>

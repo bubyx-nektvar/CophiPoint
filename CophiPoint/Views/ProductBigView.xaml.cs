@@ -36,8 +36,9 @@ namespace CophiPoint.Views
             Product.Favorite = !Product.Favorite;
         }
 
-        private void SizeSelected(object sender, SelectedItemChangedEventArgs e)
+        private void SizeSelected(object sender, ItemTappedEventArgs e)
         {
+            Product.SelectedSize = e.Item as SizeViewModel;
             Product.SelectSizeVisible = false;
         }
         

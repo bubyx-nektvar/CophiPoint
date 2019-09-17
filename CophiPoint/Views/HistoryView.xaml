@@ -16,7 +16,7 @@
             <Label Text="Purchase history" FontSize="Micro" HorizontalOptions="Center"
                        IsVisible="{Binding  Source={x:Reference HistoryViewRef}, Path=Shown, Converter={StaticResource nullaplly}}"/>
             <ListView ItemsSource="{Binding}" HasUnevenRows="true" HorizontalOptions="FillAndExpand"
-                          SeparatorVisibility="None" Margin="10,3">
+                          SeparatorVisibility="None" Margin="10,3" SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
