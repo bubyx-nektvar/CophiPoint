@@ -11,13 +11,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Close.svg" />
+    <None Remove="Resources\ExpandLess.svg" />
     <None Remove="Resources\QuestionCircle.svg" />
     <None Remove="Resources\Star.svg" />
+    <None Remove="Resources\StarFill.svg" />
+    <None Remove="Resources\volume.svg" />
+    <None Remove="Resources\weight.svg" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Close.svg" />
     <EmbeddedResource Include="Resources\QuestionCircle.svg" />
     <EmbeddedResource Include="Resources\Star.svg" />
+    <EmbeddedResource Include="Resources\StarFill.svg" />
+    <EmbeddedResource Include="Resources\weight.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,7 +36,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\ExpandLess.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\volume.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Components\SlideUpPanelLayout.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Components\SvgImageButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\ProductSearchPage.xaml">

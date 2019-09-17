@@ -4,11 +4,16 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:converters="clr-namespace:CophiPoint.Converters"
              x:Class="CophiPoint.App">
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="primary">#006df0</Color>
             <Color x:Key="primaryComplement">White</Color>
+            <Color x:Key="secondary">#dfdfff</Color>
         </ResourceDictionary>
+
+        <converters:InverseBoolConverter x:Key="inverter"/>
+        <converters:NullableBoolConverter x:Key="nullaplly"/>
     </Application.Resources>
 </Application>

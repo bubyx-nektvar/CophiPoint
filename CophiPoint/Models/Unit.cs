@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FFImageLoading.Svg.Forms;
+using System.Collections.Generic;
 
 namespace CophiPoint.Models
 {
@@ -15,21 +16,21 @@ namespace CophiPoint.Models
             {Unit.MiliLiters, new UnitViewInfo
             {
                 Abbrevation = "ml",
-                ImageSource = "water_glass.png"
+                ImageSource = SvgImageSource.FromResource("CophiPoint.Resources.volume.svg")
             } },
             { Unit.Grams, new UnitViewInfo
             {
                 Abbrevation = "g",
-                ImageSource = "weight.png"
+                ImageSource = SvgImageSource.FromResource("CophiPoint.Resources.weight.svg")
             } }
         };
         public static string ToAbbrevation(this Unit unit) => appearance[unit].Abbrevation;
-        public static string ImageSource(this Unit unit) => appearance[unit].ImageSource;
+        public static SvgImageSource ImageSource(this Unit unit) => appearance[unit].ImageSource;
 
         private struct UnitViewInfo
         {
             public string Abbrevation;
-            public string ImageSource;
+            public SvgImageSource ImageSource;
         }
     }
 }

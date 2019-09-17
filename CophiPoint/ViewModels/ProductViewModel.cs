@@ -1,4 +1,5 @@
 ﻿using CophiPoint.Models;
+using FFImageLoading.Svg.Forms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,7 +35,7 @@ namespace CophiPoint.ViewModels
         });
 
         public ObservableCollection<SizeViewModel> Sizes { get; set; }
-
+        
         private SizeViewModel _selectedSize;
 
         public SizeViewModel SelectedSize
@@ -82,7 +83,8 @@ namespace CophiPoint.ViewModels
         public ProductViewModel(Product product)
         {
             _model = product;
-            Sizes = new ObservableCollection<SizeViewModel>(product.Sizes.Select(x => new SizeViewModel(x, product.Unit)));
+            var unitImage = product.Unit.ImageSource();
+            Sizes = new ObservableCollection<SizeViewModel>(product.Sizes.Select(x => new SizeViewModel(x, product.Unit, unitImage)));
             SelectedSize = Sizes.First();
         }
         protected virtual void OnPropertyChanged(string propertyName)

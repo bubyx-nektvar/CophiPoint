@@ -25,16 +25,6 @@ namespace CophiPoint.Views
             BindingContext = Product;
         }
 
-        private void SizeSelected(object sender, ItemTappedEventArgs e)
-        {
-            Product.SelectedSize = e.Item as SizeViewModel;
-            Product.SelectSizeVisible = false;
-        }
-
-        private void ChooseSize(object sender, EventArgs e)
-        {
-            Product.SelectSizeVisible = true;
-        }
 
         private void Order(object sender, EventArgs e)
         {
@@ -44,6 +34,17 @@ namespace CophiPoint.Views
         private void SwitchFavorite(object sender, EventArgs e)
         {
             Product.Favorite = !Product.Favorite;
+        }
+
+        private void SizeSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            Product.SelectSizeVisible = false;
+        }
+        
+        private void ChooseSize(object sender, EventArgs e)
+        {
+            Product.SelectSizeVisible = true;
+
         }
     }
 }

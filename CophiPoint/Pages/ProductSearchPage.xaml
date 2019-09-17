@@ -12,8 +12,6 @@
         <SearchBar  HorizontalOptions="FillAndExpand" TextColor="White" PlaceholderColor="White"/>
     </NavigationPage.TitleView>
     <ContentPage.Resources>
-        <converters:InverseBoolConverter x:Key="inverter"/>
-        <converters:NullableBoolConverter x:Key="nullaplly"/>
         <converters:PriceFormatter x:Key="formatPrice"/>
     </ContentPage.Resources>
     <ContentPage.Content>

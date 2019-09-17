@@ -5,7 +5,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              xmlns:converters="clr-namespace:CophiPoint.Converters"
+             xmlns:comp="clr-namespace:CophiPoint.Components"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+            xmlns:fftran="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
+            xmlns:ffstatic="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading"
              x:Class="CophiPoint.Views.ProductBigView">
     <ContentView.Resources>
         <converters:InverseBoolConverter x:Key="inverter"/>
@@ -27,7 +30,7 @@
                             Source="{Binding ImageUrl}"
                             />
                     <Label Text="{Binding SelectedSize.Price, Converter={StaticResource formatPrice}}" 
-                                               FontSize="Large" TextColor="LimeGreen" />
+                                               FontSize="Large" TextColor="{StaticResource primary}" />
                     <Label Text="{Binding SelectedSize.PricePerUnitText}" />
                 </FlexLayout>
             </ContentView>
@@ -56,30 +59,39 @@
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=Y, Factor=0, Constant=50}"
                     />
-            <Label x:Name="Current" IsVisible="False" Text="{Binding Product.Unit}"/>
-            <ListView  ItemsSource="{Binding Sizes}"
-                       IsVisible="{Binding SelectSizeVisible}"
-                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-60}"
-                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=70}"
-                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height, Factor=1, Constant=-160}"
-                        WidthRequest="50" RowHeight="55" SeparatorVisibility="None"
-                        SelectionMode="Single" ItemTapped="SizeSelected"
-                    >
+            <ListView  
+                    x:Name="Root"
+                    ItemsSource="{Binding Sizes}"
+                    IsVisible="{Binding SelectSizeVisible}"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-60}"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=70}"
+                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height, Factor=1, Constant=-160}"
+                    WidthRequest="50" RowHeight="50" SeparatorVisibility="None"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedSize, Mode=TwoWay}" ItemSelected="SizeSelected"
+                >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Frame BackgroundColor="Gray"
-                                   CornerRadius="25" HeightRequest="50" WidthRequest="50" Padding="0">
-                                <RelativeLayout
-                                        HeightRequest="50" WidthRequest="50" >
-                                    <Image Source="{Binding Image}" 
-                                           RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=8}"
-                                           RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-                                           />
-                                    <Label Text="{Binding SizeText}" HorizontalTextAlignment="Center"
-                                           TextColor="White" FontSize="Micro"
-                                           RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.5}"
-                                           RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                            <Frame CornerRadius="50" BorderColor="{StaticResource primary}" Padding="0" BackgroundColor="Transparent"
+                                    HeightRequest="50" WidthRequest="50" >
+                                <RelativeLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                    <ffsvg:SvgCachedImage 
+                                        Source="{Binding Image}" 
+                                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.1}"
+                                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.5}"
+                                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width, Factor=1}"
+                                        >
+                                        <ffsvg:SvgCachedImage.Transformations>
+                                            <fftran:ColorSpaceTransformation RGBAWMatrix="{x:Static ffstatic:FFColorMatrix.InvertColorMatrix}"/>
+                                        </ffsvg:SvgCachedImage.Transformations>
+                                    </ffsvg:SvgCachedImage>
+                                    <Label
+                                        Text="{Binding SizeText}" 
+                                        HorizontalTextAlignment="Center"
+                                        TextColor="{StaticResource primary}" FontSize="Micro"
+                                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.6}"
+                                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
                                         />
                                 </RelativeLayout>
                             </Frame>
@@ -87,18 +99,32 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button 
-                    Clicked="ChooseSize" Text="{Binding SelectedSize.SizeText}" 
+
+            <Frame CornerRadius="50" BackgroundColor="{StaticResource primary}" Padding="0"
                     IsVisible="{Binding SelectSizeVisible, Converter={StaticResource inverter}}"
-                    TextColor="White" FontSize="Micro"
-                    CornerRadius="25" HeightRequest="50" WidthRequest="50" Padding="0, 8"
-                    ImageSource="{Binding SelectedSize.Image}" ContentLayout="Top, 2"
-                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=Width, Factor=1, Constant=-60 }"
-                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=Height, Factor=1, Constant=-140}"
-                    BackgroundColor="Blue"
-                    />
+                    HeightRequest="50" WidthRequest="50" 
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-60 }"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-140}"
+                   >
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ChooseSize"/>
+                </Frame.GestureRecognizers>
+                <RelativeLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <ffsvg:SvgCachedImage 
+                        Source="{Binding SelectedSize.Image}" 
+                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.1}"
+                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.5}"
+                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width, Factor=1}"
+                        />
+                    <Label
+                        Text="{Binding SelectedSize.SizeText}" 
+                        HorizontalTextAlignment="Center"
+                        TextColor="White" FontSize="Micro"
+                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.6}"
+                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                        />
+                </RelativeLayout>
+            </Frame>
         </RelativeLayout>
     </ContentView.Content>
 </ContentView>
