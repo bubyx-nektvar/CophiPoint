@@ -18,17 +18,24 @@ namespace CophiPoint.Views
             get { return (ProductViewModel)GetValue(ProductProperty); }
             set { SetValue(ProductProperty, value); }
         }
-
+        
         public ProductBigView()
         {
             InitializeComponent();
             BindingContext = Product;
         }
 
-
-        private void Order(object sender, EventArgs e)
+        private async void Order(object sender, EventArgs e)
         {
-
+            var result = await App.Current.MainPage.DisplayAlert(
+                "Confirm order", 
+                $"Do you realy want add {Product.Name} to your purchuases?", 
+                "Add", 
+                "Cancel");
+            if (result)
+            {
+                //TODO send order to server
+            }
         }
 
         private void SwitchFavorite(object sender, EventArgs e)
