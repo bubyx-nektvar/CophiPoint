@@ -6,6 +6,7 @@
              xmlns:controls="clr-namespace:CophiPoint.Components"
              xmlns:view="clr-namespace:CophiPoint.Views"
              mc:Ignorable="d"
+             xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              x:Class="CophiPoint.Views.ProductSelectorView">
   <ContentView.Content>
         <RelativeLayout BackgroundColor="White" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
@@ -23,11 +24,16 @@
                     </controls:CarouselViewLayout.ItemTemplate>
                 </controls:CarouselViewLayout>
             </ContentView>
-            <ImageButton HeightRequest="40" WidthRequest="40" Source="baseline_view_list_black_36.png" BackgroundColor="Transparent"
-                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-50}"
-                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=20}"
-                        Pressed="OpenProductSearch"
-                    />
+            <ffsvg:SvgCachedImage
+                Source="resource://CophiPoint.Resources.gallery.svg"
+                HeightRequest="30"
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-50}"
+                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=20}"
+            >
+                <ffsvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OpenProductSearch"/>
+                </ffsvg:SvgCachedImage.GestureRecognizers>
+            </ffsvg:SvgCachedImage>
         </RelativeLayout>
     </ContentView.Content>
 </ContentView>

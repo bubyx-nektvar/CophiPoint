@@ -8,7 +8,7 @@
              xmlns:comp="clr-namespace:CophiPoint.Components"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
             xmlns:fftran="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
-            xmlns:ffstatic="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading"
+            xmlns:ffstatic="clr-namespace:CophiPoint.Resources"
              x:Class="CophiPoint.Views.ProductBigView">
     <ContentView.Resources>
         <converters:InverseBoolConverter x:Key="inverter"/>
@@ -36,29 +36,38 @@
             </ContentView>
             <ImageButton 
                     Pressed="Order" HeightRequest="60" WidthRequest="60" CornerRadius="30" Padding="20"
-                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=Width, Factor=1, Constant=-80
-                    }"
-                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=Height, Factor=1, Constant=-80}"
-                    BackgroundColor="Gray" Source="baseline_add_white_36.png"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-80 }"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-80}"
+                    Source="baseline_add_white_36.png"
+                    BackgroundColor="{StaticResource primary}"
                     />
-            <ImageButton
-                    Pressed="SwitchFavorite" WidthRequest="40" HeightRequest="40"
-                    Source="baseline_star_black_36.png" IsVisible="{Binding Favorite}"
-                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=X, Factor=0, Constant=20}"
-                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=Y, Factor=0, Constant=50}"
-                    />
-            <ImageButton
-                    Pressed="SwitchFavorite" BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40"
-                    Source="baseline_star_border_black_36.png" IsVisible="{Binding Favorite, Converter={StaticResource inverter}}"
+            <ffsvg:SvgCachedImage
+                    Source="resource://CophiPoint.Resources.Star.svg"
+                    WidthRequest="40" HeightRequest="40"
+                    IsVisible="{Binding Favorite}"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=X, Factor=0, Constant=20}"
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
                             Property=Y, Factor=0, Constant=50}"
-                    />
+                    >
+                <ffsvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="SwitchFavorite"/>
+                </ffsvg:SvgCachedImage.GestureRecognizers>
+            </ffsvg:SvgCachedImage>
+
+            <ffsvg:SvgCachedImage
+                    Source="resource://CophiPoint.Resources.StarFill.svg"
+                    BackgroundColor="Transparent" WidthRequest="40" HeightRequest="40"
+                    IsVisible="{Binding Favorite, Converter={StaticResource inverter}}"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=X, Factor=0, Constant=20}"
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=Y, Factor=0, Constant=50}"
+                    >
+                <ffsvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="SwitchFavorite"/>
+                </ffsvg:SvgCachedImage.GestureRecognizers>
+            </ffsvg:SvgCachedImage>
             <ListView  
                     x:Name="Root"
                     ItemsSource="{Binding Sizes}"
@@ -83,7 +92,7 @@
                                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width, Factor=1}"
                                         >
                                         <ffsvg:SvgCachedImage.Transformations>
-                                            <fftran:ColorSpaceTransformation RGBAWMatrix="{x:Static ffstatic:FFColorMatrix.InvertColorMatrix}"/>
+                                            <fftran:ColorSpaceTransformation RGBAWMatrix="{x:Static ffstatic:StaticConsts.MakeBlue}"/>
                                         </ffsvg:SvgCachedImage.Transformations>
                                     </ffsvg:SvgCachedImage>
                                     <Label

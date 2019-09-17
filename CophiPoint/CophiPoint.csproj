@@ -11,8 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Add.svg" />
     <None Remove="Resources\Close.svg" />
     <None Remove="Resources\ExpandLess.svg" />
+    <None Remove="Resources\gallery.svg" />
     <None Remove="Resources\QuestionCircle.svg" />
     <None Remove="Resources\Star.svg" />
     <None Remove="Resources\StarFill.svg" />
@@ -21,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Add.svg" />
     <EmbeddedResource Include="Resources\Close.svg" />
+    <EmbeddedResource Include="Resources\gallery.svg" />
     <EmbeddedResource Include="Resources\QuestionCircle.svg" />
     <EmbeddedResource Include="Resources\Star.svg" />
     <EmbeddedResource Include="Resources\StarFill.svg" />

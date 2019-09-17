@@ -7,7 +7,6 @@ namespace CophiPoint
 {
     public partial class App : Application
     {
-        NavigationPage Page;
         public App()
         {
             InitializeComponent();

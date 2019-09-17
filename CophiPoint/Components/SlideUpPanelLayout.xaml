@@ -21,9 +21,9 @@
                     <SwipeGestureRecognizer Direction="Down" Swiped="Hide"/>
                 </StackLayout.GestureRecognizers>
                 <StackLayout x:Name="HeaderLayout" VerticalOptions="Start" BackgroundColor="{StaticResource primary}" Spacing="0" Padding="10,5">
-                    <StackLayout HeightRequest="24" VerticalOptions="Start" HorizontalOptions="FillAndExpand" >
+                    <StackLayout VerticalOptions="Start" HorizontalOptions="FillAndExpand" >
                         <ffsvg:SvgCachedImage x:Name="ExpandButton"
-                            WidthRequest="24" HeightRequest="24" 
+                            WidthRequest="16"
                             IsVisible="{Binding Source={x:Reference View},Path=PanelShown, Converter={StaticResource inverter}}" 
                             Source="resource://CophiPoint.Resources.ExpandLess.svg" HorizontalOptions="Center" >
                             <ffsvg:SvgCachedImage.GestureRecognizers>
@@ -31,7 +31,7 @@
                             </ffsvg:SvgCachedImage.GestureRecognizers>
                         </ffsvg:SvgCachedImage>
                         <ffsvg:SvgCachedImage x:Name="CloseButton"
-                            WidthRequest="24" HeightRequest="24" 
+                            WidthRequest="24"
                             IsVisible="{Binding Source={x:Reference View},Path=PanelShown, Converter={StaticResource nullaplly}}"  
                             Source="resource://CophiPoint.Resources.Close.svg" HorizontalOptions="Start">
                             <ffsvg:SvgCachedImage.GestureRecognizers>
