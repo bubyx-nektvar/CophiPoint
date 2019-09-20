@@ -25,7 +25,7 @@ namespace CophiPoint.ViewModels
             {
                 new Api.Models.Size()
                 {
-                    Price = 1,
+                    TotalPrice = 1,
                     UnitsCount = 1
                 }
             },

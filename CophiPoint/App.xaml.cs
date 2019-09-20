@@ -1,4 +1,5 @@
 ﻿using CophiPoint.Pages;
+using CophiPoint.Services;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -10,7 +11,10 @@ namespace CophiPoint
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new MainPage());
+            
+            var authService = new AuthService();
+            var page = (authService.IsLoggedIn) ? (Page)new MainPage() : new LoginPage(authService);
+            MainPage = new NavigationPage(page);
         }
 
         protected override void OnStart()

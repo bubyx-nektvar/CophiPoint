@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="CophiPoint.Pages.LoginPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label FontSize="Large">Welcome to MFF Cophi-Point</Label>
+            <Label>This application is intended for MFF attendees only and should be used according to internal policy.</Label>
+            <Label>CophiPoint provides refreshemnt (at this point coffee only) for MFF attendees.</Label>
+            <Button Text="More about CophiPoint" Clicked="ShowInfo" BackgroundColor="{StaticResource secondary}"/>
+            <Button Text="Login with MojeID" Clicked="RequestLogin" BackgroundColor="{StaticResource primary}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

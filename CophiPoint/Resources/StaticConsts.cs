@@ -15,6 +15,7 @@ namespace CophiPoint.Resources
                 new [] { 0f, 0f, 240f/255f, 0f, 0f },
                 new [] { 0f, 0f, 0f, 1f, 0f },
                 new [] { 0f, 0f, 0f, 0f, 1f },
-            }; //FFColorMatrix.ColorToTintMatrix(00, 109, 240, 255);//#006df0
+            }; //#006df0
+
     }
 }

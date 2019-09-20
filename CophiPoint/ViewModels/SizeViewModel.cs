@@ -20,8 +20,8 @@ namespace CophiPoint.ViewModels
         {
             _size = size;
             SizeText = size.UnitsCount + unit.ToAbbrevation();
-            Price = size.Price;
-            var pricePerUnit = size.Price / size.UnitsCount;
+            Price = size.TotalPrice;
+            var pricePerUnit = size.TotalPrice / size.UnitsCount;
             PricePerUnitText = pricePerUnit.GetPriceString() + "/" + unit.ToAbbrevation();
             Image = unitImage;
         }
