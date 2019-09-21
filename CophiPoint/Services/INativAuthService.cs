@@ -8,9 +8,9 @@ namespace CophiPoint.Services
     public interface INativAuthService
     {
         bool IsLogged { get; }
-        Task Login();
-
+        Task<(bool IsSucessful, string Error)> Login();
         Task<(string accessToken, string idToken)> GetTokens();
+        Task LogOut();
     }
 
 }

@@ -9,7 +9,7 @@ namespace CophiPoint.ViewModels
 {
     public class SizeViewModel
     {
-        private readonly Size _size;
+        internal readonly Size _size;
 
         public string SizeText {get;set;}
         public decimal Price { get; set; }

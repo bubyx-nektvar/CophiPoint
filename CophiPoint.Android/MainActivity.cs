@@ -49,37 +49,5 @@ namespace CophiPoint.Droid
             CachedImageRenderer.Init(true);
             var ignore = typeof(SvgCachedImage);
         }
-
-        //public async Task Authorization()
-        //{
-        //    var authService = new AuthorizationService(global::Android.App.Application.Context);
-        //    var configuration = await AuthorizationServiceConfiguration
-        //        .FetchFromUrlAsync(global::Android.Net.Uri.Parse(AuthConstants.ConfigUrl));
-
-        //    var authRequest = new AuthorizationRequest.Builder(
-        //        configuration,
-        //        AuthConstants.ClientId,
-        //        ResponseTypeValues.Code,
-        //        global::Android.Net.Uri.Parse(AuthConstants.RedirectUri)
-        //    )
-        //        .SetScope("openid profile email")
-        //        .Build();
-
-        //    Console.WriteLine("Making auth request to " + configuration.AuthorizationEndpoint);
-        //    var intent = authService.GetAuthorizationRequestIntent(authRequest);
-
-        //    StartActivityForResult(intent, RC_AUTH);
-        //}
-
-        //protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-        //{
-        //    if(requestCode == RC_AUTH)
-        //    {
-        //        AuthorizationResponse resp = AuthorizationResponse.FromIntent(data);
-        //        AuthorizationException ex = AuthorizationException.FromIntent(data);
-                
-        //    }
-        //    base.OnActivityResult(requestCode, resultCode, data);
-        //}
     }
 }

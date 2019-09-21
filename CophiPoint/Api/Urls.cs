@@ -7,14 +7,14 @@ namespace CophiPoint.Api
 {
     public static class Urls
     {
-        private const string Domain = "https://bubyx.cz";
+        private const string Domain = "https://cophipoint.bubyx.cz/";
         
         public static Uri BaseUrl => new Uri(Domain);
 
-        public const string InfoPage = Domain +"/info";
-        public const string PaymentPage = Domain + "/info/payment";
-        public const string UserOrdersApi = UserApi + "/orders";
-        public const string Products = "products";
-        public const string UserApi = "account";
+        public const string InfoPage = Domain +"api/info/info.html";
+        public const string PaymentPage = Domain + "api/info/payment.html";
+        public const string UserOrdersApi = "api/account/orders.php";
+        public const string Products = "api/products.json";
+        public const string UserApi = "api/account.php";
     }
 }

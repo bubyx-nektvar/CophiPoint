@@ -1,4 +1,6 @@
-﻿using CophiPoint.ViewModels;
+﻿using CophiPoint.Api;
+using CophiPoint.Services;
+using CophiPoint.ViewModels;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,6 +13,7 @@ namespace CophiPoint.Views
         public static readonly BindableProperty ProductProperty = BindableProperty.Create(nameof(Product), typeof(ProductViewModel), typeof(ProductBigView),
             ProductViewModel.Empty
             );
+        private readonly OrderManager _orderManager;
 
         public ProductViewModel Product
         {
@@ -20,6 +23,8 @@ namespace CophiPoint.Views
         
         public ProductBigView()
         {
+            _orderManager = ((App)Application.Current).OrderManager;
+            
             InitializeComponent();
             BindingContext = Product;
         }
@@ -28,12 +33,12 @@ namespace CophiPoint.Views
         {
             var result = await App.Current.MainPage.DisplayAlert(
                 "Confirm order", 
-                $"Do you realy want add {Product.Name} to your purchuases?", 
+                $"Do you realy want add {Product.Name} ({Product.SelectedSize.SizeText}) to your purchuases?", 
                 "Add", 
                 "Cancel");
             if (result)
             {
-                //TODO send order to server
+                await _orderManager.AddItem(Product);
             }
         }
 

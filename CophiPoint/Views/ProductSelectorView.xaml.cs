@@ -16,15 +16,14 @@ namespace CophiPoint.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProductSelectorView : ContentView
     {
+
         public ObservableCollection<ProductViewModel> Products { get; private set; }
 
         public ProductSelectorView()
         {
-
-            var service = new RestService();
             InitializeComponent();
 
-            Products = new ObservableCollection<ProductViewModel>(service.GetProducts().Select(x => new ProductViewModel(x)));
+            Products = ((App)Application.Current).ProductManager.Products;
             BindingContext = Products;
         }
 

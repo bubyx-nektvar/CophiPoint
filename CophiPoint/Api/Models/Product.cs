@@ -11,7 +11,7 @@ namespace CophiPoint.Api.Models
 
         public string Name { get; set; }
 
-        public Uri Image { get; set; }
+        public string Image { get; set; }
 
         public Unit Unit { get; set; }
 

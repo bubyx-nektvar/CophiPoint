@@ -22,11 +22,6 @@ namespace CophiPoint.Droid
     [Activity(Label = "Auth")]
     public class AuthActivity : Activity
     {
-        private static string KEY_AUTH_STATE = "authState";
-        private static string KEY_USER_INFO = "userInfo";
-
-        private static string EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
-        private static string EXTRA_AUTH_STATE = "authState";
 
         protected override void OnCreate(Bundle savedInstanceState)
         {

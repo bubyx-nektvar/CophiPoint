@@ -21,6 +21,14 @@ namespace CophiPoint.Pages
             _auth = ((App)Application.Current).AuthService;
             InitializeComponent();
         }
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            if (_auth.IsLoggedIn)
+            {
+                await OpenMain();
+            }
+        }
 
         private async void ShowInfo(object sender, EventArgs e)
         {
@@ -29,7 +37,21 @@ namespace CophiPoint.Pages
         }
         private async void RequestLogin(object sender, EventArgs e)
         {
-            await _auth.Login();
+            var result = await _auth.Login();
+            if (result.IsSucessful)
+            {
+                await OpenMain();
+            }
+            else
+            {
+                await DisplayAlert("Login failed", result.Error, "Cancel");
+            }
+        }
+        
+        private async Task OpenMain()
+        {
+            await ((App)Application.Current).Reload();
+            await Navigation.PushAsync(new MainPage(), false);
         }
     }
 }

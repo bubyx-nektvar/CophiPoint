@@ -1,5 +1,6 @@
 ﻿using CophiPoint.Api;
 using CophiPoint.Pages;
+using CophiPoint.Services;
 using CophiPoint.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace CophiPoint.Views
 
         public static readonly BindableProperty ShownProperty = BindableProperty.Create(nameof(Shown), typeof(bool?), typeof(HistoryHeaderView), false, BindingMode.TwoWay);
 
+        private readonly OrderManager OrderManager;
+
         public bool? Shown
         {
             get => (bool?)GetValue(ShownProperty);
@@ -27,11 +30,9 @@ namespace CophiPoint.Views
         public HistoryHeaderView()
         {
             InitializeComponent();
-            BindingContext = new UserViewModel
-            {
-                Balance = -1123.21m,
-                User = "filip.havel@mojeaplikace.com",
-            };
+
+            OrderManager = ((App)Application.Current).OrderManager;
+            BindingContext = OrderManager.Info;
         }
 
         private async void OpenPaymentInfo(object sender, EventArgs e)
@@ -42,7 +43,8 @@ namespace CophiPoint.Views
 
         private async void LogOut(object sender, EventArgs e)
         {
-
+            await OrderManager.Logout();
+            await Navigation.PopToRootAsync();
         }
     }
 }

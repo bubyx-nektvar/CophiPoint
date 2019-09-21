@@ -29,10 +29,8 @@ namespace CophiPoint.Views
 
         public HistoryView()
         {
-            var service = new RestService();
-
             InitializeComponent();
-            History = new ObservableCollection<PurchasedItemViewModel>(service.GetPurchases().Select(x => new PurchasedItemViewModel(x)));
+            History = ((App)Application.Current).OrderManager.Items;
 
             BindingContext = History;
         }

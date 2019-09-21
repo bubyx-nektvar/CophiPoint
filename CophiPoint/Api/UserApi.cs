@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CophiPoint.Api
 {
-    public class UserApi
+    public class UserApi : IOrderService
     {
         private readonly AuthService _auth;
         private readonly HttpClient _client;
@@ -20,11 +20,11 @@ namespace CophiPoint.Api
             _auth = auth;
             _client = new HttpClient();
             _client.BaseAddress = Urls.BaseUrl;
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _auth.GetToken());
         }
         
         public async Task<List<PurchasedItem>> GetPurchases()
         {
+            _client.DefaultRequestHeaders.Authorization = await _auth.GetAccessToken();
             var response = await _client.GetAsync(Urls.UserOrdersApi);
 
             if (response.IsSuccessStatusCode)
@@ -35,8 +35,9 @@ namespace CophiPoint.Api
             return null;
         }
 
-        public async Task<AccountInfo> GetBalance()
+        public async Task<AccountInfo> GetAccountInfo()
         {
+            _client.DefaultRequestHeaders.Authorization = await _auth.GetAccessToken();
             var response = await _client.GetAsync(Urls.UserApi);
             if (response.IsSuccessStatusCode)
             {
@@ -46,8 +47,10 @@ namespace CophiPoint.Api
             //TODO nedostupne
             return null;
         }
-        public async Task<PurchasedItem> AddOrder(PurchaseOrder purchase)
+        public async Task<PurchasedItem> AddPuchase(PurchaseOrder purchase)
         {
+            _client.DefaultRequestHeaders.Authorization = await _auth.GetAccessToken();
+
             var json = JsonConvert.SerializeObject(purchase);
             var content = new StringContent(json,Encoding.UTF8, "application/json");
             var response = await _client.PostAsync(Urls.UserOrdersApi, content);

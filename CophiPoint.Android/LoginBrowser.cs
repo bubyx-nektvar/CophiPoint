@@ -43,7 +43,7 @@ namespace CophiPoint.Droid
             return (authState.AccessToken, authState.IdToken);
         }
 
-        public async Task Login()
+        public async Task<(bool IsSucessful, string Error)> Login()
         {
             var configuration = await AuthorizationServiceConfiguration
                 .FetchFromUrlAsync(global::Android.Net.Uri.Parse(AuthConstants.ConfigUrl));
@@ -69,14 +69,23 @@ namespace CophiPoint.Droid
                     authRequest),
                 authService.CreateCustomTabsIntentBuilder().Build()
             );
-            
-            await taskCompletitionSource.Task;
+
+            var state = await taskCompletitionSource.Task;
+            if (state.AuthorizationException != null)
+            {
+                return (false, state.AuthorizationException.ErrorDescription);
+            }
+            else
+            {
+                return (true, null);
+            }
         }
 
         internal void AuthActivityCreated(AuthorizationResponse resp, AuthorizationException ex)
         {
             var authState = GetAuthState();
             authState.Update(resp, ex);
+
             if(resp != null)
             {
                 Console.WriteLine("Received AuthorizationResponse.");
@@ -87,7 +96,7 @@ namespace CophiPoint.Droid
             else
             {
                 Console.WriteLine("Auth failed: " + ex);
-                taskCompletitionSource.SetResult(null);
+                taskCompletitionSource.SetResult(authState);
             }
         }
         private Task<AuthState> PerformTokenRequest(TokenRequest request)
@@ -127,6 +136,19 @@ namespace CophiPoint.Droid
             pref.Edit()
                 .PutString(nameof(AuthState), state.JsonSerializeString())
                 .Apply();
+        }
+        private void RemoveAuthState()
+        {
+            var pref = _context.GetSharedPreferences(nameof(LoginBrowser), FileCreationMode.Private);
+            pref.Edit()
+                .Remove(nameof(AuthState))
+                .Apply();
+        }
+
+        public Task LogOut()
+        {
+            RemoveAuthState();
+            return Task.CompletedTask;
         }
     }
 }

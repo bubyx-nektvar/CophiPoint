@@ -1,8 +1,8 @@
 ﻿using CophiPoint.Api;
-using IdentityModel.OidcClient;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -18,9 +18,13 @@ namespace CophiPoint.Services
             return DependencyService.Get<INativAuthService>().GetTokens();
         }
 
-        public async Task Login()
+        public Task<(bool IsSucessful, string Error)> Login() => DependencyService.Get<INativAuthService>().Login();
+
+        public async Task Logout()
         {
-            await DependencyService.Get<INativAuthService>().Login();
+            await DependencyService.Get<INativAuthService>().LogOut();
         }
+
+        public async Task<AuthenticationHeaderValue> GetAccessToken() => new AuthenticationHeaderValue("Bearer", (await GetToken()).accessToken);
     }
 }

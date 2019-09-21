@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using CophiPoint.Services;
 
 namespace CophiPoint.Api
 {
-    public class ProductsApi
+    public class ProductsApi : IProductService
     {
         private readonly HttpClient _client;
 
