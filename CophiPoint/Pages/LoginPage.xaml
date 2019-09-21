@@ -6,12 +6,16 @@
              mc:Ignorable="d"
              x:Class="CophiPoint.Pages.LoginPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label FontSize="Large">Welcome to MFF Cophi-Point</Label>
-            <Label>This application is intended for MFF attendees only and should be used according to internal policy.</Label>
-            <Label>CophiPoint provides refreshemnt (at this point coffee only) for MFF attendees.</Label>
-            <Button Text="More about CophiPoint" Clicked="ShowInfo" BackgroundColor="{StaticResource secondary}"/>
-            <Button Text="Login with MojeID" Clicked="RequestLogin" BackgroundColor="{StaticResource primary}"/>
-        </StackLayout>
+        <AbsoluteLayout>
+            <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                <Label FontSize="Large">Welcome to MFF Cophi-Point</Label>
+                <Label>This application is intended for MFF attendees only and should be used according to internal policy.</Label>
+                <Label>CophiPoint provides refreshemnt (at this point coffee only) for MFF attendees.</Label>
+                <Button Text="More about CophiPoint" Clicked="ShowInfo" BackgroundColor="{StaticResource secondary}"/>
+                <Button Text="Login with MojeID" Clicked="RequestLogin" BackgroundColor="{StaticResource primary}"/>
+            </StackLayout>
+            
+            <ActivityIndicator x:Name="activity" IsRunning="True" BackgroundColor="#66666666" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" />
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -37,14 +37,22 @@ namespace CophiPoint.Pages
         }
         private async void RequestLogin(object sender, EventArgs e)
         {
-            var result = await _auth.Login();
-            if (result.IsSucessful)
+            activity.IsRunning = true; 
+            try
             {
-                await OpenMain();
+                var result = await _auth.Login();
+                if (result.IsSucessful)
+                {
+                    await OpenMain();
+                }
+                else
+                {
+                    await DisplayAlert("Login failed", result.Error, "Cancel");
+                }
             }
-            else
+            finally
             {
-                await DisplayAlert("Login failed", result.Error, "Cancel");
+                activity.IsRunning = false;
             }
         }
         
