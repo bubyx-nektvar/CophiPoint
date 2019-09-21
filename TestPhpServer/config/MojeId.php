@@ -8,5 +8,5 @@
 
 class MojeId
 {
-
+    const UserInfoEndpoint = "https://mojeid.regtest.nic.cz/oidc/userinfo/";
 }
