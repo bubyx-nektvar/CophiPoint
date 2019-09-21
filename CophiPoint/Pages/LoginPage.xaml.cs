@@ -16,9 +16,9 @@ namespace CophiPoint.Pages
     {
         private readonly AuthService _auth;
 
-        public LoginPage(AuthService auth)
+        public LoginPage()
         {
-            _auth = auth;
+            _auth = ((App)Application.Current).AuthService;
             InitializeComponent();
         }
 

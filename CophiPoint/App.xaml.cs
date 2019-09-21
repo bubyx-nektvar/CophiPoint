@@ -8,12 +8,16 @@ namespace CophiPoint
 {
     public partial class App : Application
     {
+        public AuthService AuthService { get; }
+        public TestRestService RestService { get; }
+
         public App()
         {
             InitializeComponent();
             
-            var authService = new AuthService();
-            var page = (authService.IsLoggedIn) ? (Page)new MainPage() : new LoginPage(authService);
+            AuthService = new AuthService();
+            RestService = new TestRestService();
+            var page = (AuthService.IsLoggedIn) ? (Page)new MainPage() : new LoginPage();
             MainPage = new NavigationPage(page);
         }
 

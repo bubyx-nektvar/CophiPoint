@@ -13,39 +13,14 @@ namespace CophiPoint.Services
     {
         public bool IsLoggedIn { get; private set; }
 
-        public string GetToken()
+        public Task<(string accessToken, string idToken)> GetToken()
         {
-            //TODO
-            return "";
+            return DependencyService.Get<INativAuthService>().GetTokens();
         }
 
         public async Task Login()
         {
-            var options = new OidcClientOptions
-            {
-                Authority = AuthConstants.AuthorityUri,
-                ClientId = AuthConstants.ClientId,
-                Scope = AuthConstants.Scope,
-                RedirectUri = AuthConstants.RedirectUri,
-                Flow = OidcClientOptions.AuthenticationFlow.Hybrid,
-                ResponseMode = OidcClientOptions.AuthorizeResponseMode.Redirect,
-            };
-
-            var oidcClient = new OidcClient(options);
-            var state = await oidcClient.PrepareLoginAsync();
-
-            var response = await DependencyService.Get<ILoginBrowser>().LaunchBrowser(state.StartUrl);
-            // HACK: Replace the RedirectURI, purely for UWP, with the current application callback URI.
-            state.RedirectUri = AuthConstants.RedirectUri;
-            var result = await oidcClient.ProcessResponseAsync(response, state);
-
-            if (result.IsError)
-            {
-                Debug.WriteLine("\tERROR: {0}", result.Error);
-                return;
-            }
-
-            //TODO store token
+            await DependencyService.Get<INativAuthService>().Login();
         }
     }
 }
