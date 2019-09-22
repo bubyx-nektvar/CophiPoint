@@ -19,9 +19,24 @@ namespace CophiPoint.Services
             }
         }
 
-        public Task<(string accessToken, string idToken)> GetToken()
+        public async Task<(string accessToken, string idToken)> GetToken()
         {
-            return DependencyService.Get<INativAuthService>().GetTokens();
+            try
+            {
+                return await DependencyService.Get<INativAuthService>().GetTokens();
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                var result = await Login();
+                if (result.IsSucessful)
+                {
+                    return await DependencyService.Get<INativAuthService>().GetTokens();
+                }
+                else
+                {
+                    throw new UnauthorizedAccessException(result.Error, ex);
+                }
+            }
         }
 
         public Task<(bool IsSucessful, string Error)> Login() => DependencyService.Get<INativAuthService>().Login();

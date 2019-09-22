@@ -33,7 +33,7 @@ namespace CophiPoint.Droid
         public bool IsLogged { 
             get {
                 var state = GetAuthState();
-                return state.IsAuthorized && !string.IsNullOrWhiteSpace(state.RefreshToken);
+                return state.IsAuthorized && ((!string.IsNullOrWhiteSpace(state.RefreshToken)) || (!state.NeedsTokenRefresh));
             }
         }
 
@@ -42,8 +42,15 @@ namespace CophiPoint.Droid
             var authState = GetAuthState();
             if (authState.NeedsTokenRefresh)
             {
-                var request = authState.CreateTokenRefreshRequest();
-                authState = await PerformTokenRequest(request);
+                try
+                {
+                    var request = authState.CreateTokenRefreshRequest();
+                    authState = await PerformTokenRequest(request);
+                }
+                catch (AuthorizationException ex)
+                {
+                    throw new UnauthorizedAccessException("refresh failed", ex);
+                }
             }
             return (authState.AccessToken, authState.IdToken);
         }
@@ -51,17 +58,20 @@ namespace CophiPoint.Droid
         public async Task<(bool IsSucessful, string Error)> Login()
         {
             var configuration = await AuthorizationServiceConfiguration
-                .FetchFromUrlAsync(global::Android.Net.Uri.Parse(AuthConstants.ConfigUrl));
+                .FetchFromIssuerAsync(global::Android.Net.Uri.Parse(AuthConstants.AuthorityUri));
 
-            var authRequest = new AuthorizationRequest.Builder(
+            var authRequestBuilder = new AuthorizationRequest.Builder(
                 configuration,
                 AuthConstants.ClientId,
                 ResponseTypeValues.Code,
                 global::Android.Net.Uri.Parse(AuthConstants.RedirectUri)
-            )
-                .SetScope(AuthConstants.Scope)
-                .SetPrompt("consent")
-                .Build();
+            ).SetScope(AuthConstants.Scope);
+            
+            if (AuthConstants.Scope.Contains("offline_access")) 
+            {
+                authRequestBuilder = authRequestBuilder.SetPrompt("consent");
+            }
+            var authRequest = authRequestBuilder.Build();
 
             Console.WriteLine("Making auth request to " + configuration.AuthorizationEndpoint);
             var intent = authService.GetAuthorizationRequestIntent(authRequest);
@@ -113,6 +123,13 @@ namespace CophiPoint.Droid
                 {
                     Console.WriteLine("Token request complete");
                     var authState = GetAuthState();
+                    if (tokenResponse.AccessTokenExpirationTime == null) {
+                        tokenResponse.AccessTokenExpirationTime = new Java.Lang.Long(
+                            DateTimeOffset.Now
+                                .AddMinutes(AuthConstants.ExpirationPeriodMinutes)
+                                .ToUnixTimeMilliseconds()
+                        );
+                    }
 
                     authState.Update(tokenResponse, authException);
                     SetAuthState(authState);
