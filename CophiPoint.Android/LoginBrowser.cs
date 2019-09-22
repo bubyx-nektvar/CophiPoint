@@ -30,7 +30,12 @@ namespace CophiPoint.Droid
             Instance = this;
         }
 
-        public bool IsLogged => GetAuthState().IsAuthorized;
+        public bool IsLogged { 
+            get {
+                var state = GetAuthState();
+                return state.IsAuthorized && !string.IsNullOrWhiteSpace(state.RefreshToken);
+            }
+        }
 
         public async Task<(string accessToken, string idToken)> GetTokens()
         {
@@ -54,7 +59,8 @@ namespace CophiPoint.Droid
                 ResponseTypeValues.Code,
                 global::Android.Net.Uri.Parse(AuthConstants.RedirectUri)
             )
-                .SetScope("openid profile email")
+                .SetScope(AuthConstants.Scope)
+                .SetPrompt("consent")
                 .Build();
 
             Console.WriteLine("Making auth request to " + configuration.AuthorizationEndpoint);

@@ -26,7 +26,7 @@ namespace CophiPoint.Pages
             base.OnAppearing();
             if (_auth.IsLoggedIn)
             {
-                await OpenMain();
+                await Loading(OpenMain);
             }
         }
 
@@ -37,19 +37,28 @@ namespace CophiPoint.Pages
         }
         private async void RequestLogin(object sender, EventArgs e)
         {
+            await Loading(Login);
+        }
+        private async Task Login()
+        {
+            var result = await _auth.Login();
+            if (result.IsSucessful)
+            {
+                await OpenMain();
+            }
+            else
+            {
+                await DisplayAlert("Login failed", result.Error, "Cancel");
+            }
+        }
+        private async Task Loading(Func<Task> func)
+        {
+
             activity.IsRunning = true;
             activity.IsVisible = true;
             try
             {
-                var result = await _auth.Login();
-                if (result.IsSucessful)
-                {
-                    await OpenMain();
-                }
-                else
-                {
-                    await DisplayAlert("Login failed", result.Error, "Cancel");
-                }
+                await func();
             }
             finally
             {

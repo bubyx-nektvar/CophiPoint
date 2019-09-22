@@ -113,8 +113,12 @@ namespace CophiPoint.Android.Renderers
             base.Draw(canvas);
             if (_initialized) return;
             _initialized = true;
-            var carouselLayout = (CarouselViewLayout)this.Element;
-            _scrollView.ScrollTo(carouselLayout.SelectedIndex * Width, 0);
+
+            var targetX = LayoutElement.SelectedIndex * Width;
+            _scrollView.Post(new Runnable(() =>
+            {
+                _scrollView.ScrollTo(targetX, 0);
+            }));
         }
 
         protected override void OnSizeChanged(int w, int h, int oldw, int oldh)

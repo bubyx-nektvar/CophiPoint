@@ -42,7 +42,7 @@
                     BackgroundColor="{StaticResource primary}"
                     />
             <ffsvg:SvgCachedImage
-                    Source="resource://CophiPoint.Resources.Star.svg"
+                    Source="resource://CophiPoint.Resources.StarFill.svg"
                     HeightRequest="30"
                     IsVisible="{Binding Favorite}"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
@@ -56,7 +56,7 @@
             </ffsvg:SvgCachedImage>
 
             <ffsvg:SvgCachedImage
-                    Source="resource://CophiPoint.Resources.StarFill.svg"
+                    Source="resource://CophiPoint.Resources.Star.svg"
                     HeightRequest="30"
                     IsVisible="{Binding Favorite, Converter={StaticResource inverter}}"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,

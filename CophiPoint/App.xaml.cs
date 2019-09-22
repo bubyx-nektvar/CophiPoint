@@ -45,10 +45,6 @@ namespace CophiPoint
 
         protected override async void OnStart()
         {
-            if (AuthService.IsLoggedIn)
-            {
-                await Reload();
-            }
             // Handle when your app starts
         }
 

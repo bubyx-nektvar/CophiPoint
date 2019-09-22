@@ -11,7 +11,13 @@ namespace CophiPoint.Services
 {
     public class AuthService
     {
-        public bool IsLoggedIn { get; private set; }
+        public bool IsLoggedIn
+        {
+            get
+            {
+                return DependencyService.Get<INativAuthService>().IsLogged;
+            }
+        }
 
         public Task<(string accessToken, string idToken)> GetToken()
         {

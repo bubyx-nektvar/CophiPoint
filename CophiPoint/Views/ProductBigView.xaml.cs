@@ -14,6 +14,7 @@ namespace CophiPoint.Views
             ProductViewModel.Empty
             );
         private readonly OrderManager _orderManager;
+        private readonly ProductManager _productManager;
 
         public ProductViewModel Product
         {
@@ -24,7 +25,8 @@ namespace CophiPoint.Views
         public ProductBigView()
         {
             _orderManager = ((App)Application.Current).OrderManager;
-            
+            _productManager = ((App)Application.Current).ProductManager;
+
             InitializeComponent();
             BindingContext = Product;
         }
@@ -44,7 +46,7 @@ namespace CophiPoint.Views
 
         private void SwitchFavorite(object sender, EventArgs e)
         {
-            Product.Favorite = !Product.Favorite;
+            _productManager.SetFavorite(Product, !Product.Favorite);
         }
 
         private void SizeSelected(object sender, ItemTappedEventArgs e)

@@ -16,20 +16,20 @@ namespace CophiPoint.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProductSelectorView : ContentView
     {
-
-        public ObservableCollection<ProductViewModel> Products { get; private set; }
+        private readonly ProductManager _productManager;
 
         public ProductSelectorView()
         {
             InitializeComponent();
 
-            Products = ((App)Application.Current).ProductManager.Products;
-            BindingContext = Products;
+            _productManager = ((App)Application.Current).ProductManager;
+            BindingContext = _productManager.Products;
+            ProductCarousel.SelectedItem = _productManager.Favorite;
         }
 
         private void OpenProductSearch(object sender, EventArgs e)
         {
-            var page = new ProductSearchPage(Products);
+            var page = new ProductSearchPage();
             page.SetBinding(new Binding(CarouselViewLayout.SelectedItemProperty.PropertyName, source: ProductCarousel, mode: BindingMode.OneWayToSource));
             Navigation.PushAsync(page, true);
         }

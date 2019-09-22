@@ -17,11 +17,11 @@ namespace CophiPoint.Pages
     {
 
         public ObservableCollection<ProductViewModel> Products { get; }
-        public ProductSearchPage(ObservableCollection<ProductViewModel> products)
+        public ProductSearchPage()
         {
             InitializeComponent();
 
-            BindingContext = products;
+            BindingContext = ((App)Application.Current).ProductManager.Products;
         }
 
         public void SetBinding(BindingBase binding) => ProductList.SetBinding(ListView.SelectedItemProperty, binding);

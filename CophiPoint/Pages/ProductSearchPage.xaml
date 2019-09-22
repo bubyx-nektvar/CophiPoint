@@ -34,14 +34,14 @@
                                     </ffsvg:SvgCachedImage.Transformations>
                                 </ffsvg:SvgCachedImage>
                                 <ffsvg:SvgCachedImage
-                                    Source="resource://CophiPoint.Resources.Star.svg"
+                                    Source="resource://CophiPoint.Resources.StarFill.svg"
                                     IsVisible="{Binding Favorite}"
                                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X, Factor=0, Constant=2}"
                                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=2}" 
                                     RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.2}"
                                     />
                                 <ffsvg:SvgCachedImage
-                                    Source="resource://CophiPoint.Resources.StarFill.svg"
+                                    Source="resource://CophiPoint.Resources.Star.svg"
                                     IsVisible="{Binding Favorite, Converter={StaticResource inverter}}"
                                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X, Factor=0, Constant=2}"
                                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=2}"
