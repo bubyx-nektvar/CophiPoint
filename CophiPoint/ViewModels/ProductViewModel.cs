@@ -62,7 +62,7 @@ namespace CophiPoint.ViewModels
                     OnPropertyChanged(nameof(Favorite));
                 }
             }
-        } //TODO store favorite
+        }
 
         private bool _selectSizeVisible;
         public bool SelectSizeVisible
