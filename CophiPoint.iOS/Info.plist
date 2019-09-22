@@ -34,5 +34,12 @@
     <string>CophiPoint</string>
     <key>XSAppIconAssets</key>
     <string>Assets.xcassets/AppIcon.appiconset</string>
+    <key>CFBundleLocalizations</key>
+    <array>
+      <string>en</string>
+      <string>cs</string>
+    </array>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
 </dict>
 </plist>

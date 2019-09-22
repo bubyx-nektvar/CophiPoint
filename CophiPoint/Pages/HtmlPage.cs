@@ -36,11 +36,11 @@ namespace CophiPoint.Pages
         }
         public static Task<HtmlPage> GetInfoPage()
         {
-            return HtmlPage.FromUrl(Urls.InfoPage, "Informations");
+            return HtmlPage.FromUrl(Urls.InfoPage, GeneralResources.InfoTitle);
         }
         public static Task<HtmlPage> GetPaymentPage()
         {
-            return HtmlPage.FromUrl(Urls.PaymentPage, "Payments");
+            return HtmlPage.FromUrl(Urls.PaymentPage, GeneralResources.PayInfoTitle);
         }
     }
 }

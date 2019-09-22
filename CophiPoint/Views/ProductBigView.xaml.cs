@@ -34,10 +34,10 @@ namespace CophiPoint.Views
         private async void Order(object sender, EventArgs e)
         {
             var result = await App.Current.MainPage.DisplayAlert(
-                "Confirm order", 
-                $"Do you realy want add {Product.Name} ({Product.SelectedSize.SizeText}) to your purchuases?", 
-                "Add", 
-                "Cancel");
+                GeneralResources.OrderConfirmAlertTitle, 
+                string.Format(GeneralResources.OrderConfirmAlertMsg,Product.Name,Product.SelectedSize.SizeText),
+                GeneralResources.AlertAdd,
+                GeneralResources.AlertCancel);
             if (result)
             {
                 await _orderManager.AddItem(Product);

@@ -48,7 +48,7 @@ namespace CophiPoint.Pages
             }
             else
             {
-                await DisplayAlert("Login failed", result.Error, "Cancel");
+                await DisplayAlert(GeneralResources.LoginFailedAlert , result.Error, GeneralResources.AlertCancel);
             }
         }
         private async Task Loading(Func<Task> func)

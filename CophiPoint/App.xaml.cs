@@ -20,6 +20,13 @@ namespace CophiPoint
         {
             InitializeComponent();
             
+            if (Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)
+            {
+                var ci = DependencyService.Get<ILocalize>().GetCurrentCultureInfo();
+                GeneralResources.Culture = ci; // set the RESX for resource localization
+                DependencyService.Get<ILocalize>().SetLocale(ci); // set the Thread for locale-aware methods
+            }
+
             AuthService = new AuthService();
             if (false)
             {
