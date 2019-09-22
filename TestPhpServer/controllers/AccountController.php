@@ -46,6 +46,7 @@ class AccountController
             $email= $this->orderDb->getUser($uid)->email;
         }else {
             $email = $this->user['email'];
+            $this->orderDb->updateUser($this->user);
         }
 
         $balance = $this->orderDb->balance($uid);

@@ -15,6 +15,10 @@
             </StackLayout.Resources>
             <Label Text="Purchase history" FontSize="Micro" HorizontalOptions="Center"
                        IsVisible="{Binding  Source={x:Reference HistoryViewRef}, Path=Shown, Converter={StaticResource nullaplly}}"/>
+            <Label 
+                Text="Empty purchuases history" 
+                IsVisible="{Binding Path=., Converter={StaticResource empty}}"
+                HorizontalOptions="Center" Margin="5"/>
             <ListView ItemsSource="{Binding}" HasUnevenRows="true" HorizontalOptions="FillAndExpand"
                           SeparatorVisibility="None" Margin="10,3" SelectionMode="None">
                 <ListView.ItemTemplate>

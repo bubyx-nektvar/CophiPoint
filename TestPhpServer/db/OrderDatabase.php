@@ -87,7 +87,8 @@ class OrderDatabase
 
     public function updateUser($user){
         $uid = Auth::getId($user);
-        if($this->getUser($uid)) {
+        $userDb = $this->getUser($uid);
+        if(!$userDb) {
             $statement = "
             INSERT INTO users 
                 (user_id, email, full_name)

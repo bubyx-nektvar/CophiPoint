@@ -15,5 +15,6 @@
 
         <converters:InverseBoolConverter x:Key="inverter"/>
         <converters:NullableBoolConverter x:Key="nullaplly"/>
+        <converters:EmptySourceConvertor x:Key="empty"/>
     </Application.Resources>
 </Application>
