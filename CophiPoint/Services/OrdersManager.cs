@@ -34,6 +34,7 @@ namespace CophiPoint.Services
                     Size = selected.SelectedSize._size
                 });
                 Items.Add(GetViewModel(addedItem));
+                Info.Balance += addedItem.TotalPrice;
             }
             catch (DataConflictException ex)
             {

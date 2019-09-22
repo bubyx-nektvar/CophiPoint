@@ -6,15 +6,21 @@
  * Time: 19:39
  */
 require_once __DIR__ .'/../config/Auth.php';
+require_once __DIR__.'/../db/OrderDatabase.php';
 
 class AccountController
 {
     private $user;
     private $method;
+    private $orderDb;
 
     function  __construct($requestMethod)
     {
         $this->method = $requestMethod;
+
+        $connector = new DatabaseConnector();
+        $dbConnection = $connector->getConnection();
+        $this->orderDb= new OrderDatabase($dbConnection);
     }
 
     public  function  process(){
@@ -37,8 +43,10 @@ class AccountController
         //TODO get balance
 
         $email = $this->user['email'];
+        $balance = $this->orderDb->balance(Auth::getId($this->user));
+
         return array(
-            "balance" => -100.2,
+            "balance" => $balance,
             "email" => $email
         );
     }
