@@ -13,6 +13,7 @@ namespace CophiPoint.ViewModels
 
         public string SizeText {get;set;}
         public decimal Price { get; set; }
+        public decimal PricePerUnit { get; set; }
         public string PricePerUnitText { get; set; }
         public SvgImageSource Image { get; set; }
 
@@ -21,8 +22,8 @@ namespace CophiPoint.ViewModels
             _size = size;
             SizeText = size.UnitsCount + unit.ToAbbrevation();
             Price = size.TotalPrice;
-            var pricePerUnit = size.TotalPrice / size.UnitsCount;
-            PricePerUnitText = pricePerUnit.GetPriceString() + "/" + unit.ToAbbrevation();
+            PricePerUnit = size.TotalPrice / size.UnitsCount;
+            PricePerUnitText = PricePerUnit.GetPriceString() + "/" + unit.ToAbbrevation();
             Image = unitImage;
         }
     }

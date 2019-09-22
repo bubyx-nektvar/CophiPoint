@@ -1,4 +1,6 @@
 ﻿using CophiPoint.Api.Models;
+using CophiPoint.Converters;
+using CophiPoint.Extensions;
 using FFImageLoading.Svg.Forms;
 using System;
 using System.Collections.Generic;
@@ -35,7 +37,15 @@ namespace CophiPoint.ViewModels
         });
 
         public ObservableCollection<SizeViewModel> Sizes { get; set; }
-        
+        public string AvgPricePerUnit 
+        { 
+            get
+            {
+                var avg = Sizes.Average(x => x.PricePerUnit);
+                return "~" + avg.GetPriceString() + "/" + _model.Unit.ToAbbrevation();
+            }
+        }
+
         private SizeViewModel _selectedSize;
 
         public SizeViewModel SelectedSize
