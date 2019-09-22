@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -17,18 +19,54 @@ namespace CophiPoint.Pages
     {
 
         public ObservableCollection<ProductViewModel> Products { get; }
+        public ObservableCollection<ProductViewModel> Hidden { get; }
+        private SemaphoreSlim _lock = new SemaphoreSlim(1);
+
         public ProductSearchPage()
         {
             InitializeComponent();
 
-            BindingContext = ((App)Application.Current).ProductManager.Products;
+            Products = new ObservableCollection<ProductViewModel>( ((App)Application.Current).ProductManager.Products);
+            Hidden = new ObservableCollection<ProductViewModel>();
+            BindingContext = Products;
         }
 
         public void SetBinding(BindingBase binding) => ProductList.SetBinding(ListView.SelectedItemProperty, binding);
 
-        private void ProductSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void ProductSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            Navigation.PopAsync(true);
+            await Navigation.PopAsync(true);
+        }
+
+        private async void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var search = e.NewTextValue.ToLowerInvariant().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            await _lock.WaitAsync();
+            var oldValue = e.OldTextValue ?? "";
+            var newValue = e.NewTextValue ?? "";
+            try
+            {
+                if (newValue.Length > oldValue.Length)
+                {
+                    foreach (var x in Products.Where(p => !search.All(x => p.Name.ToLowerInvariant().Contains(x))).ToList())
+                    {
+                        Hidden.Add(x);
+                        Products.Remove(x);
+                    }
+                }
+                else if (newValue.Length < oldValue.Length)
+                {
+                    foreach (var i in Hidden.Where(p => search.All(x => p.Name.ToLowerInvariant().Contains(x))).ToList())
+                    {
+                        Products.Add(i);
+                        Hidden.Remove(i);
+                    }
+                }
+            }
+            finally
+            {
+                _lock.Release();
+            }
         }
     }
 }

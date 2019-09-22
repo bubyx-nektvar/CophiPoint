@@ -9,7 +9,9 @@
             xmlns:fftran="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              x:Class="CophiPoint.Pages.ProductSearchPage">
     <NavigationPage.TitleView>
-        <SearchBar  HorizontalOptions="FillAndExpand" TextColor="White" PlaceholderColor="White"/>
+        <SearchBar  HorizontalOptions="FillAndExpand" 
+                    TextColor="{StaticResource primaryComplement}" PlaceholderColor="{StaticResource primaryComplement}" CancelButtonColor="{StaticResource primaryComplement}"
+                    TextChanged="SearchBar_TextChanged"/>
     </NavigationPage.TitleView>
     <ContentPage.Resources>
         <converters:PriceFormatter x:Key="formatPrice"/>
