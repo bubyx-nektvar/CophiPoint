@@ -37,7 +37,7 @@ namespace CophiPoint.Views
 
         private async void OpenPaymentInfo(object sender, EventArgs e)
         {
-            var page = await HtmlPage.FromUrl(Urls.PaymentPage);
+            var page = await HtmlPage.GetPaymentPage();
             await Navigation.PushAsync(page);
         }
 

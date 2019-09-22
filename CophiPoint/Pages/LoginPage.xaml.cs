@@ -32,12 +32,13 @@ namespace CophiPoint.Pages
 
         private async void ShowInfo(object sender, EventArgs e)
         {
-            var page = await HtmlPage.FromUrl(Urls.InfoPage);
+            var page = await HtmlPage.GetInfoPage();
             await Navigation.PushAsync(page);
         }
         private async void RequestLogin(object sender, EventArgs e)
         {
-            activity.IsRunning = true; 
+            activity.IsRunning = true;
+            activity.IsVisible = true;
             try
             {
                 var result = await _auth.Login();
@@ -52,6 +53,7 @@ namespace CophiPoint.Pages
             }
             finally
             {
+                activity.IsVisible = false;
                 activity.IsRunning = false;
             }
         }

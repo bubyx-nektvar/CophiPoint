@@ -15,7 +15,7 @@
                 <Button Text="Login with MojeID" Clicked="RequestLogin" BackgroundColor="{StaticResource primary}"/>
             </StackLayout>
             
-            <ActivityIndicator x:Name="activity" IsRunning="True" BackgroundColor="#66666666" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" />
+            <ActivityIndicator x:Name="activity" IsVisible="False" IsRunning="False" BackgroundColor="#66666666" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" />
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

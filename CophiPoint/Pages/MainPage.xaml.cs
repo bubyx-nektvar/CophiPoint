@@ -25,7 +25,7 @@ namespace CophiPoint.Pages
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            var page = await HtmlPage.FromUrl(Urls.InfoPage);
+            var page = await HtmlPage.GetInfoPage();
             await Navigation.PushAsync(page);
         }
     }
