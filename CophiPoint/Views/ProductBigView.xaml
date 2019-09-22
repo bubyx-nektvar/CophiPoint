@@ -83,12 +83,12 @@
                         <ViewCell>
                             <Frame CornerRadius="50" BorderColor="{StaticResource primary}" Padding="0" BackgroundColor="Transparent"
                                     HeightRequest="50" WidthRequest="50" >
-                                <RelativeLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                                        Orientation="Vertical" Spacing="0" Padding="5">
                                     <ffsvg:SvgCachedImage 
-                                        Source="{Binding Image}" 
-                                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.1}"
-                                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.5}"
-                                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width, Factor=1}"
+                                        Source="{Binding Image}"
+                                        HeightRequest="25"
+                                        HorizontalOptions="Center"
                                         >
                                         <ffsvg:SvgCachedImage.Transformations>
                                             <fftran:ColorSpaceTransformation RGBAWMatrix="{x:Static ffstatic:StaticConsts.MakeBlue}"/>
@@ -97,11 +97,10 @@
                                     <Label
                                         Text="{Binding SizeText}" 
                                         HorizontalTextAlignment="Center"
+                                        HorizontalOptions="Center"
                                         TextColor="{StaticResource primary}" FontSize="Micro"
-                                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.6}"
-                                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
                                         />
-                                </RelativeLayout>
+                                </StackLayout>
                             </Frame>
                         </ViewCell>
                     </DataTemplate>
@@ -117,21 +116,21 @@
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Tapped="ChooseSize"/>
                 </Frame.GestureRecognizers>
-                <RelativeLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <ffsvg:SvgCachedImage 
+                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                             Orientation="Vertical" Spacing="0" Padding="5">
+                    <ffsvg:SvgCachedImage
                         Source="{Binding SelectedSize.Image}" 
-                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.1}"
-                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.5}"
-                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width, Factor=1}"
+                        HeightRequest="25"
+                        HorizontalOptions="Center"
                         />
                     <Label
+                        d:Text="999 ml"
                         Text="{Binding SelectedSize.SizeText}" 
                         HorizontalTextAlignment="Center"
-                        TextColor="White" FontSize="Micro"
-                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.6}"
-                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                        HorizontalOptions="Center"
+                        TextColor="{StaticResource primaryComplement}" FontSize="Micro"
                         />
-                </RelativeLayout>
+                </StackLayout>
             </Frame>
         </RelativeLayout>
     </ContentView.Content>
