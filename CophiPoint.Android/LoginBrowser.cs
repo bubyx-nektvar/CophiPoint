@@ -58,7 +58,7 @@ namespace CophiPoint.Droid
         public async Task<(bool IsSucessful, string Error)> Login()
         {
             var configuration = await AuthorizationServiceConfiguration
-                .FetchFromIssuerAsync(global::Android.Net.Uri.Parse(AuthConstants.AuthorityUri));
+                .FetchFromUrlAsync(global::Android.Net.Uri.Parse(AuthConstants.ConfigUrl));
 
             var authRequestBuilder = new AuthorizationRequest.Builder(
                 configuration,

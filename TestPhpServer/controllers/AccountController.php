@@ -40,10 +40,15 @@ class AccountController
         }
     }
     private function  getBalance(){
-        //TODO get balance
+        $uid = Auth::getId($this->user);
 
-        $email = $this->user['email'];
-        $balance = $this->orderDb->balance(Auth::getId($this->user));
+        if(!isset($this->user['email'])){
+            $email= $this->orderDb->getUser($uid)->email;
+        }else {
+            $email = $this->user['email'];
+        }
+
+        $balance = $this->orderDb->balance($uid);
 
         return array(
             "balance" => $balance,
