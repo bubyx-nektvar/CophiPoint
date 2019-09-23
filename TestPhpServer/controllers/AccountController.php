@@ -43,7 +43,7 @@ class AccountController
         $uid = Auth::getId($this->user);
 
         if(!isset($this->user['email'])){
-            $email= $this->orderDb->getUser($uid)->email;
+            $email= $this->orderDb->getUser($uid)['email'];
         }else {
             $email = $this->user['email'];
             $this->orderDb->updateUser($this->user);

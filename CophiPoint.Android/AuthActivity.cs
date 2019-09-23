@@ -29,7 +29,7 @@ namespace CophiPoint.Droid
             AuthorizationResponse resp = AuthorizationResponse.FromIntent(Intent);
             AuthorizationException ex = AuthorizationException.FromIntent(Intent);
 
-            LoginBrowser.Instance.AuthActivityCreated(resp, ex);
+            AuthService.Instance.AuthActivityCreated(resp, ex);
             Finish();
         }
         public static PendingIntent CreatePostAuthorizationIntent(Context context, AuthorizationRequest request)

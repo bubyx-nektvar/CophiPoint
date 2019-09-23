@@ -11,19 +11,19 @@ using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(LoginBrowser))]
+[assembly: Dependency(typeof(CophiPoint.Droid.AuthService))]
 namespace CophiPoint.Droid
 {
-    public class LoginBrowser : INativAuthService
+    public class AuthService : INativAuthService
     {
-        public static LoginBrowser Instance;
+        public static AuthService Instance;
         private readonly Context _context;
         private readonly AuthorizationService authService;
         private TaskCompletionSource<AuthState> taskCompletitionSource;
 
         private IClientAuthentication ClientAuthentication = new ClientSecretBasic(AuthConstants.ClientSecret);
 
-        public LoginBrowser()
+        public AuthService()
         {
             _context = CrossCurrentActivity.Current.Activity;
             authService = new AuthorizationService(_context);
@@ -141,7 +141,7 @@ namespace CophiPoint.Droid
 
         private AuthState GetAuthState()
         {
-            var pref = _context.GetSharedPreferences(nameof(LoginBrowser), FileCreationMode.Private);
+            var pref = _context.GetSharedPreferences(nameof(AuthService), FileCreationMode.Private);
             var stateJson = pref.GetString(nameof(AuthState),null);
             if(stateJson != null)
             {
@@ -155,14 +155,14 @@ namespace CophiPoint.Droid
 
         private void SetAuthState(AuthState state)
         {
-            var pref = _context.GetSharedPreferences(nameof(LoginBrowser), FileCreationMode.Private);
+            var pref = _context.GetSharedPreferences(nameof(AuthService), FileCreationMode.Private);
             pref.Edit()
                 .PutString(nameof(AuthState), state.JsonSerializeString())
                 .Apply();
         }
         private void RemoveAuthState()
         {
-            var pref = _context.GetSharedPreferences(nameof(LoginBrowser), FileCreationMode.Private);
+            var pref = _context.GetSharedPreferences(nameof(AuthService), FileCreationMode.Private);
             pref.Edit()
                 .Remove(nameof(AuthState))
                 .Apply();
