@@ -64,10 +64,12 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AuthService.cs" />
     <Compile Include="Localize.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\CarouselLayoutRenderer.cs" />
+    <Compile Include="ViewController.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,6 +130,9 @@
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.0.0.425677" />
     <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
+    <PackageReference Include="Xamarin.OpenId.AppAuth.iOS">
+      <Version>0.92.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -135,17 +140,5 @@
       <Project>{9EC31269-485F-4D89-9BF1-64CBC36FD55F}</Project>
       <Name>CophiPoint</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\UpWhite.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\DownBlue.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\Close.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\ExpandLess.svg" />
   </ItemGroup>
 </Project>

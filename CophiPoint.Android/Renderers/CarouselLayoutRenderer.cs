@@ -21,7 +21,6 @@ namespace CophiPoint.Android.Renderers
         float _direction;
         bool _motionDown;
         Timer _swipeTimer;
-        //Timer _scrollStopTimer;
         HorizontalScrollView _scrollView;
 
         public CarouselViewLayout LayoutElement => (CarouselViewLayout)Element;
