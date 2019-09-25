@@ -45,9 +45,11 @@ namespace CophiPoint.Services
 
         public async Task Load()
         {
+            Console.WriteLine("Loading Account");
             var info = await _restService.GetAccountInfo();
             Info.Set(info);
 
+            Console.WriteLine("Loading Purchases");
             var items = await _restService.GetPurchases();
             Items.Clear();
 
@@ -55,6 +57,7 @@ namespace CophiPoint.Services
             {
                 Items.Add(GetViewModel(item));
             }
+            Console.WriteLine("Loading Orders Done");
         }
 
         public async Task Logout()

@@ -46,6 +46,7 @@ namespace CophiPoint
 
         public async Task Reload()
         {
+            Console.WriteLine("Reloading data sets from Server");
             await ProductManager.Load();
             await OrderManager.Load();
         }
