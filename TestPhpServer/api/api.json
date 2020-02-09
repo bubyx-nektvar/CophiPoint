@@ -1,0 +1,9 @@
+{
+  "info": {
+    "general": "info/info.html",
+    "payment": "info/payment.html"
+  },
+  "products": "products.json",
+  "user": "account.php",
+  "orders": "account/orders.php"
+}
