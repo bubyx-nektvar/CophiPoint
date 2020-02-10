@@ -138,6 +138,9 @@
   <data name="LogOutBtn" xml:space="preserve">
     <value>Log out</value>
   </data>
+  <data name="MediaTypeError" xml:space="preserve">
+    <value>Unsupported media type</value>
+  </data>
   <data name="MojeIdBtn" xml:space="preserve">
     <value>Login with MojeID</value>
   </data>
@@ -154,11 +157,30 @@
   <data name="OrderConfirmAlertTitle" xml:space="preserve">
     <value>Confirm order</value>
   </data>
+  <data name="OrderFailedMsg" xml:space="preserve">
+    <value>Failed to process order due to product conflict. Please try again.</value>
+  </data>
+  <data name="OrderFailedTitle" xml:space="preserve">
+    <value>Product error</value>
+  </data>
   <data name="PayInfoBtn" xml:space="preserve">
     <value>How to pay</value>
   </data>
   <data name="PayInfoTitle" xml:space="preserve">
     <value>Payments</value>
+  </data>
+  <data name="ProductPriceChangedAlert" xml:space="preserve">
+    <value>Product price has chaged. Do you want to add {0} ({1}) with new price {2}.</value>
+    <comment>0-product name, 1-size text, 2-price text</comment>
+  </data>
+  <data name="ServerErrorMsg" xml:space="preserve">
+    <value>Error occured while requesting server. Please try again later.</value>
+  </data>
+  <data name="ServerErrorTitle" xml:space="preserve">
+    <value>Comunnication error</value>
+  </data>
+  <data name="StatusCodeError" xml:space="preserve">
+    <value>Unexpected HTTP response code</value>
   </data>
   <data name="WelcomeAbout" xml:space="preserve">
     <value>CophiPoint provides refreshemnt (at this point coffee only) for MFF attendees.</value>

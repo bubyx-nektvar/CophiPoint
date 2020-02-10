@@ -57,7 +57,7 @@ namespace CophiPoint.iOS
             return (authState.LastTokenResponse.AccessToken, authState.LastTokenResponse.IdToken);
         }
 
-        public async Task<(bool IsSucessful, string Error)> Login()
+        public async Task<(bool IsSucessful, string Error)> Login(Api.Urls.OIDCUrls urls)
         {
             Console.WriteLine(nameof(Login));
             return await AuthWithAutoCodeExchange();

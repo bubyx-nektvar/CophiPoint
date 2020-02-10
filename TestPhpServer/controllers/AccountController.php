@@ -5,26 +5,36 @@
  * Date: 21.09.2019
  * Time: 19:39
  */
-require_once __DIR__ .'/../config/Auth.php';
+require_once __DIR__ . '/../services/Auth.php';
 require_once __DIR__.'/../db/OrderDatabase.php';
+require_once __DIR__.'/../db/UserDatabase.php';
+require_once __DIR__.'/OIDCController.php';
 
 class AccountController
 {
-    private $user;
+    /**
+     * @var TokenInfo
+     */
+    private $tokenInfo;
     private $method;
+
     private $orderDb;
+    private $userDb;
+    private $oidc;
 
     function  __construct($requestMethod)
     {
         $this->method = $requestMethod;
 
-        $connector = new DatabaseConnector();
+        $connector = DatabaseConnector::create();
         $dbConnection = $connector->getConnection();
         $this->orderDb= new OrderDatabase($dbConnection);
+        $this->userDb = new UserDatabase($dbConnection);
+        $this->oidc = new OIDCController($connector);
     }
 
     public  function  process(){
-        $this->user = Auth::authorize();
+        $this->tokenInfo = $this->oidc->authorize();
         switch ($this->method) {
             case 'GET':
                 $response = $this->getBalance();
@@ -40,20 +50,14 @@ class AccountController
         }
     }
     private function  getBalance(){
-        $uid = Auth::getId($this->user);
+        $uid = $this->tokenInfo->getUserId();
 
-        if(!isset($this->user['email'])){
-            $email= $this->orderDb->getUser($uid)['email'];
-        }else {
-            $email = $this->user['email'];
-            $this->orderDb->updateUser($this->user);
-        }
-
+        $userInfo = $this->userDb->getUserById($uid);
         $balance = $this->orderDb->balance($uid);
 
         return array(
             "balance" => $balance,
-            "email" => $email
+            "email" => $userInfo['email']
         );
     }
 

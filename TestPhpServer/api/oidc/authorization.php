@@ -6,6 +6,10 @@
  * Time: 18:15
  */
 
+require_once __DIR__.'/classes/AuthorizationRequest.php';
+require_once __DIR__.'/../../services/Auth.php';
+require_once __DIR__.'/../../config/LocalID.php';
+
 $request = new AuthorizationRequest();
 
 // Parse arguments
@@ -18,15 +22,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Assert arguments
-if($request->clientId != LocalID::ClientID){
-    die(400);
-}
-// check allowed scopes
-if(count(array_diff($request->scope, array_intersect($request->scope,LocalID::Scopes))) != 0){
-    die(400);
-}
+if($request->check()) {
 
-// Store arguments
-session_start();
-$request->store($_SESSION);
-header("Location: ".($_SERVER['HTTPS']?'https':'http').'://'.$_SERVER['HTTP_HOST'].'/api/oidc/connect.php');
+    session_start();
+    $request->store($_SESSION);
+    session_commit();
+
+    Auth::redirect(Auth::localUrl('/api/oidc/connect.php'));
+}

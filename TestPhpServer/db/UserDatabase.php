@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__.'/DatabaseConnector.php';
 
 class UserDatabase
 {
@@ -11,14 +12,14 @@ class UserDatabase
         $this->db = $db;
     }
 
-    public function getUser($userId){
+    public function getUserById($userId){
         $statement = "
             SELECT 
-               user_id, email, full_name
+               id, sub, email, full_name
             FROM
                 users
             WHERE
-              user_id = :uid
+              id = :uid
         ";
 
         try {
@@ -26,41 +27,58 @@ class UserDatabase
             $statement->execute(array(
                 "uid" => $userId
             ));
-            $result = $statement->fetch(\PDO::FETCH_ASSOC);
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            exit($e->getMessage());
+        }
+    }
+    public function getUserBySub($userId){
+        $statement = "
+            SELECT 
+               id, sub, email, full_name
+            FROM
+                users
+            WHERE
+              sub = :sub
+        ";
 
-            return $result;
-        } catch (\PDOException $e) {
+        try {
+            $statement = $this->db->prepare($statement);
+            $statement->execute(array(
+                "sub" => $userId
+            ));
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }
 
-    public function updateUser($user){
-        $uid = Auth::getId($user);
-        $userDb = $this->getUser($uid);
+    public function updateUser($sub, $email, $fullName = null){
+        $userDb = $this->getUserBySub($sub);
         if(!$userDb) {
             $statement = "
             INSERT INTO users 
-                (user_id, email, full_name)
+                (sub, email, full_name)
             VALUES
-                (:uid, :email, :full_name);";
+                (:sub, :email, :full_name);";
         }else{
             $statement = "
             UPDATE users
             SET 
                 email = :email,
                 full_name  = :full_name
-            WHERE user_id = :uid;
+            WHERE sub = :sub;
             ";
         }
 
         try {
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
-                "uid" => $uid,
-                "email" => $user['email'],
-                "full_name" => $user['name']
+                "sub" => $sub,
+                "email" => $email,
+                "full_name" => $fullName
             ));
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }

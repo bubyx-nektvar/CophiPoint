@@ -49,16 +49,16 @@ class OrderDatabase
         ";
 
         try {
-            //$this->db = new PDO();//TODO remove
+            //$this->DB = new PDO();//TODO remove
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
                 "uid" => $userId,
                 "id" => $id
             ));
-            $result = $statement->fetch(\PDO::FETCH_ASSOC);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
 
             return OrderDatabase::transform($result);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }
@@ -76,15 +76,15 @@ class OrderDatabase
         ";
 
         try {
-            //$this->db = new PDO();//TODO remove
+            //$this->DB = new PDO();//TODO remove
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
                 "uid" => $userId
             ));
-            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             return array_map($this->transform,$result);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }
@@ -101,15 +101,15 @@ class OrderDatabase
         ";
 
         try {
-            //$this->db = new PDO();//TODO remove
+            //$this->DB = new PDO();//TODO remove
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
                 "uid" => $userId
             ));
-            $result = $statement->fetch(\PDO::FETCH_ASSOC);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
 
             return $result['total'] ?? 0;
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }
@@ -125,7 +125,7 @@ class OrderDatabase
         ";
 
         try {
-            //$this->db = new PDO();//TODO remove
+            //$this->DB = new PDO();//TODO remove
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
                 'uid' => $userId,
@@ -134,7 +134,7 @@ class OrderDatabase
                 'price' => ( -$order->Size->TotalPrice),
             ));
             return $this->db->lastInsertId();
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }

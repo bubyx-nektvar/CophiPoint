@@ -1,0 +1,16 @@
+{
+  "domain": "https://cophipoint.bubyx.cz/api/",
+  "info": {
+    "general": "info/info.html",
+      "payment": "info/payment.html"
+  },
+  "shop": {
+    "products": "products.json",
+    "user": "account.php",
+    "orders": "account/orders.php"
+  },
+  "oidc": {
+    "authorization": "oidc/authorization.php",
+    "token": "oidc/token.php"
+  }
+}

@@ -5,28 +5,35 @@
  * Date: 21.09.2019
  * Time: 19:48
  */
-require_once __DIR__ .'/../config/Auth.php';
+require_once __DIR__ . '/../services/Auth.php';
 require_once __DIR__.'/../db/OrderDatabase.php';
+require_once __DIR__.'/OIDCController.php';
 
 class OrdersController
 {
-    private $user;
-    private $uid;
+    /**
+     * @var TokenInfo
+     */
+    private $tokenInfo;
     private $method;
+
     private $orderDb;
+    private $oidc;
 
     function  __construct($requestMethod)
     {
         $this->method = $requestMethod;
 
-        $connector = new DatabaseConnector();
+        $connector = DatabaseConnector::create();
         $dbConnection = $connector->getConnection();
+
         $this->orderDb= new OrderDatabase($dbConnection);
+        $this->oidc = new OIDCController($connector);
     }
 
     public  function  process(){
-        $this->user = Auth::authorize();
-        $this->uid = Auth::getId($this->user);
+        $this->tokenInfo = $this->oidc->authorize();
+
         switch ($this->method) {
             case 'GET':
                 $response = $this->getOrders();
@@ -46,19 +53,31 @@ class OrdersController
     }
 
     private function getOrders(){
-        return $this->orderDb->findAll($this->uid );
+        return $this->orderDb->findAll($this->tokenInfo->getUserId() );
     }
 
     private function addOrder(){
+        if(true && http_response_code(409))
+        {//test
+            $result = new Order();
+            $result->ProductId = 1;
+            $result->Size = new Size();
+            $result->Size->UnitsCount =1;
+            $result->Size->TotalPrice = 1000;
+            return $result;
+        }
+
         /** @var Order $input*/
         $input = json_decode(file_get_contents('php://input'), FALSE);
 
         $order = new Order();
         $order->parse($input);
 
-        $newId = $this->orderDb->insert($order, $this->uid);
+        $uid = $this->tokenInfo->getUserId();
 
-        return $this->orderDb->get($newId,$this->uid);
+        $newId = $this->orderDb->insert($order, $uid);
+
+        return $this->orderDb->get($newId,$uid);
     }
 
 }

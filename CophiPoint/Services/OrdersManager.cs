@@ -1,5 +1,6 @@
 ﻿using CophiPoint.Api;
 using CophiPoint.Api.Models;
+using CophiPoint.Extensions;
 using CophiPoint.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,32 +15,57 @@ namespace CophiPoint.Services
     {
         private readonly IOrderService _restService;
         private readonly AuthService _authService;
+        private readonly ProductManager _productManager;
 
         public ObservableCollection<PurchasedItemViewModel> Items { get; } = new ObservableCollection<PurchasedItemViewModel>();
         public UserViewModel Info { get; } = new UserViewModel();
 
-        public OrderManager(IOrderService restService, AuthService authService)
+        public OrderManager(IOrderService restService, ProductManager productManager, AuthService authService)
         {
             _restService = restService;
             _authService = authService;
+            _productManager = productManager;
         }
         public async Task AddItem(ProductViewModel selected)
         {
-
-            try
+            var orderItem = new PurchaseOrder
             {
-                var addedItem = await _restService.AddPuchase(new Api.Models.PurchaseOrder
+                ProductId = selected._model.Id,
+                Size = selected.SelectedSize._size
+            };
+            
+            bool retry = true;
+            while (retry)
+            {
+                retry = false;
+                try
                 {
-                    ProductId = selected._model.Id,
-                    Size = selected.SelectedSize._size
-                });
-                Items.Add(GetViewModel(addedItem));
-                Info.Balance += addedItem.TotalPrice;
-            }
-            catch (DataConflictException ex)
-            {
-                await App.Current.MainPage.DisplayAlert("Add order failed", ex.Message, "Cancel");
-                //TODO produc conflict
+                    var addedItem = await _restService.AddPuchase(orderItem);
+                    Items.Add(GetViewModel(addedItem));
+                    Info.Balance += addedItem.TotalPrice;
+                    return;
+                }
+                catch (DataConflictException ex)
+                {
+                    await _productManager.Load();
+
+                    if (selected._model.Id == ex.Proposal.ProductId)
+                    {
+                        var alertMessage = string.Format(GeneralResources.ProductPriceChangedAlert
+                            , selected._model.Name
+                            , ex.Proposal.Size.UnitsCount.GetSizeString(selected._model.Unit)
+                            , ex.Proposal.Size.TotalPrice.GetPriceString());
+
+                        if(await App.Current.MainPage.DisplayAlert(GeneralResources.OrderConfirmAlertTitle, alertMessage, GeneralResources.AlertAdd, GeneralResources.AlertCancel))
+                        {
+                            retry = true;
+                        }
+                    }
+                    else
+                    {
+                        await App.Current.MainPage.DisplayAlert(GeneralResources.OrderFailedTitle, GeneralResources.OrderFailedMsg, GeneralResources.AlertCancel);
+                    }
+                }
             }
         }
 
