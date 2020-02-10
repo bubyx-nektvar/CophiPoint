@@ -54,11 +54,16 @@ namespace CophiPoint.Droid
             }
             return (authState.AccessToken, authState.IdToken);
         }
-
-        public async Task<(bool IsSucessful, string Error)> Login()
+        private static global::Android.Net.Uri toUrl(string url)
         {
-            var configuration = await AuthorizationServiceConfiguration
-                .FetchFromUrlAsync(global::Android.Net.Uri.Parse(AuthConstants.ConfigUrl));
+            return global::Android.Net.Uri.Parse(url);
+        }
+        public async Task<(bool IsSucessful, string Error)> Login(Api.Urls.OIDCUrls urls)
+        {
+            var configuration = new AuthorizationServiceConfiguration(
+                toUrl(urls.Authorization), 
+                toUrl(urls.Token)
+                );
 
             var authRequestBuilder = new AuthorizationRequest.Builder(
                 configuration,
@@ -115,26 +120,35 @@ namespace CophiPoint.Droid
                 taskCompletitionSource.SetResult(authState);
             }
         }
+
         private Task<AuthState> PerformTokenRequest(TokenRequest request)
         {
             var tcs = new TaskCompletionSource<AuthState>();
             authService.PerformTokenRequest(request, ClientAuthentication,
                 (TokenResponse tokenResponse, AuthorizationException authException)=>
                 {
-                    Console.WriteLine("Token request complete");
-                    var authState = GetAuthState();
-                    if (tokenResponse.AccessTokenExpirationTime == null) {
-                        tokenResponse.AccessTokenExpirationTime = new Java.Lang.Long(
-                            DateTimeOffset.Now
-                                .AddMinutes(AuthConstants.ExpirationPeriodMinutes)
-                                .ToUnixTimeMilliseconds()
-                        );
+                    if (tokenResponse != null)
+                    {
+                        Console.WriteLine("Token request complete");
+                        var authState = GetAuthState();
+                        if (tokenResponse?.AccessTokenExpirationTime == null)
+                        {
+                            tokenResponse.AccessTokenExpirationTime = new Java.Lang.Long(
+                                DateTimeOffset.Now
+                                    .AddMinutes(AuthConstants.ExpirationPeriodMinutes)
+                                    .ToUnixTimeMilliseconds()
+                            );
+                        }
+
+                        authState.Update(tokenResponse, authException);
+                        SetAuthState(authState);
+
+                        tcs.SetResult(authState);
                     }
-
-                    authState.Update(tokenResponse, authException);
-                    SetAuthState(authState);
-
-                    tcs.SetResult(authState);
+                    else
+                    {
+                        throw authException;
+                    }
                 });
             return tcs.Task;
         }

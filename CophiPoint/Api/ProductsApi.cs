@@ -11,17 +11,16 @@ namespace CophiPoint.Api
 {
     public class ProductsApi : IProductService
     {
-        private readonly HttpClient _client;
+        private readonly ApiConnectionService _connectionService;
 
-        public ProductsApi()
+        public ProductsApi(ApiConnectionService urlService)
         {
-            _client = new HttpClient();
-            _client.BaseAddress = Urls.BaseUrl;
+            _connectionService = urlService;
         }
         
         public async Task<List<Product>> GetProducts()
         {
-            var response = await _client.GetAsync(Urls.Products);
+            var response = await _connectionService.SendAsync(HttpMethod.Get, urls => urls.Shop.Products);
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();

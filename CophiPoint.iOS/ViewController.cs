@@ -22,21 +22,19 @@ namespace CophiPoint.iOS
 
 
         // Authorization code flow using OIDAuthState automatic code exchanges.
-        public async Task<(bool, string)> AuthWithAutoCodeExchange()
+        public async Task<(bool, string)> AuthWithAutoCodeExchange(Api.Urls.OIDCUrls urls)
         {
-            var discoveryUri = new NSUrl(AuthConstants.ConfigUrl);
-            var redirectURI = new NSUrl(AuthConstants.RedirectUri);
-
-            Console.WriteLine($"Fetching configuration for issuer: {discoveryUri}");
-
             try
             {
                 // discovers endpoints
-                var configuration = await AuthorizationService.DiscoverServiceConfigurationForDiscoveryAsync(discoveryUri);
+                //var configuration = await AuthorizationService.DiscoverServiceConfigurationForDiscoveryAsync(discoveryUri);
+                var configuration = new ServiceConfiguration(new NSUrl(urls.Authorization), new NSUrl(urls.Token));
 
                 Console.WriteLine($"Got configuration: {configuration}");
 
                 // builds authentication request
+
+                var redirectURI = new NSUrl(AuthConstants.RedirectUri);
                 var request = new AuthorizationRequest(configuration, AuthConstants.ClientId, AuthConstants.ScopesArray, redirectURI, ResponseType.Code, null);
                 // performs authentication request
                 var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;

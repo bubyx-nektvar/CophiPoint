@@ -18,14 +18,18 @@ namespace CophiPoint.Pages
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
+        private readonly ApiConnectionService ConnectionService;
+
         public MainPage()
         {
+            ConnectionService = ((App)Application.Current).ConnectionService;
             InitializeComponent();
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            var page = await HtmlPage.GetInfoPage();
+            var urls = await ConnectionService.GetUrls();
+            var page = await HtmlPage.GetInfoPage(urls.GetInfoFullPathUrls());
             await Navigation.PushAsync(page);
         }
     }

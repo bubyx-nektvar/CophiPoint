@@ -14,6 +14,8 @@ namespace CophiPoint
 
         public readonly ProductManager ProductManager;
 
+        public readonly ApiConnectionService ConnectionService;
+
         public readonly AuthService AuthService;
 
         public App()
@@ -27,17 +29,18 @@ namespace CophiPoint
                 DependencyService.Get<ILocalize>().SetLocale(ci); // set the Thread for locale-aware methods
             }
 
-            AuthService = new AuthService();
+            ConnectionService = new ApiConnectionService();
+            AuthService = new AuthService(ConnectionService);
             if (false)
             {
                 var restService = new TestRestService();
-                OrderManager = new OrderManager(restService,AuthService);
                 ProductManager = new ProductManager(restService);
+                OrderManager = new OrderManager(restService, ProductManager, AuthService);
             }
             else
             {
-                OrderManager = new OrderManager(new UserApi(AuthService), AuthService);
-                ProductManager = new ProductManager(new ProductsApi());
+                ProductManager = new ProductManager(new ProductsApi(ConnectionService));
+                OrderManager = new OrderManager(new UserApi(ConnectionService, AuthService), ProductManager, AuthService);
             }
 
 

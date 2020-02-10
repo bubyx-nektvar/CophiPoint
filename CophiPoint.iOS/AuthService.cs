@@ -50,7 +50,7 @@ namespace CophiPoint.iOS
             return (authState.LastTokenResponse.AccessToken, authState.LastTokenResponse.IdToken);
         }
 
-        public async Task<(bool IsSucessful, string Error)> Login()
+        public async Task<(bool IsSucessful, string Error)> Login(Api.Urls.OIDCUrls urls)
         {
             rootViewController = UIApplication.SharedApplication.KeyWindow.RootViewController;
             var authController = new ViewController();
@@ -59,7 +59,7 @@ namespace CophiPoint.iOS
                 tsc.SetResult(null);
             });
             await tsc.Task;
-            return await authController.AuthWithAutoCodeExchange();
+            return await authController.AuthWithAutoCodeExchange(urls);
         }
 
         public Task LogOut()

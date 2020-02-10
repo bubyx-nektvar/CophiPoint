@@ -15,10 +15,12 @@ namespace CophiPoint.Pages
     public partial class LoginPage : ContentPage
     {
         private readonly AuthService _auth;
+        private readonly ApiConnectionService ConnectionService;
 
         public LoginPage()
         {
             _auth = ((App)Application.Current).AuthService;
+            ConnectionService = ((App)Application.Current).ConnectionService;
             InitializeComponent();
         }
         protected override async void OnAppearing()
@@ -32,7 +34,8 @@ namespace CophiPoint.Pages
 
         private async void ShowInfo(object sender, EventArgs e)
         {
-            var page = await HtmlPage.GetInfoPage();
+            var urls = await ConnectionService.GetUrls();
+            var page = await HtmlPage.GetInfoPage(urls.GetInfoFullPathUrls());
             await Navigation.PushAsync(page);
         }
         private async void RequestLogin(object sender, EventArgs e)

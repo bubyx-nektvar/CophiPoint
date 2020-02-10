@@ -34,13 +34,13 @@ namespace CophiPoint.Pages
         {
             return Task.FromResult(new HtmlPage(url, title));
         }
-        public static Task<HtmlPage> GetInfoPage()
+        public static Task<HtmlPage> GetInfoPage(Urls.InfoUrls urls)
         {
-            return HtmlPage.FromUrl(Urls.InfoPage, GeneralResources.InfoTitle);
+            return HtmlPage.FromUrl(urls.General, GeneralResources.InfoTitle);
         }
-        public static Task<HtmlPage> GetPaymentPage()
+        public static Task<HtmlPage> GetPaymentPage(Urls.InfoUrls urls)
         {
-            return HtmlPage.FromUrl(Urls.PaymentPage, GeneralResources.PayInfoTitle);
+            return HtmlPage.FromUrl(urls.Payment, GeneralResources.PayInfoTitle);
         }
     }
 }

@@ -16,7 +16,7 @@ class Order
     public $ProductId;
     public $Size;
 
-    public  function parse($obj){
+    public function parse($obj){
         $this->ProductId = $obj->ProductId;
         $this->Size = new Size();
         $this->Size->UnitsCount = $obj->Size->UnitsCount ;
