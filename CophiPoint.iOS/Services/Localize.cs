@@ -10,9 +10,9 @@ using Foundation;
 using UIKit;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(CophiPoint.iOS.Localize))]
+[assembly: Dependency(typeof(CophiPoint.iOS.Services.Localize))]
 
-namespace CophiPoint.iOS
+namespace CophiPoint.iOS.Services
 {
     public class Localize : ILocalize
     {

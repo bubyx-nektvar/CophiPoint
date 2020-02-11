@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Drawing;
 using CophiPoint.Components;
 using CophiPoint.iOS.Renderers;
+using CarouselViewLayout = CophiPoint.Components.CarouselViewLayout;
 
 [assembly: ExportRenderer(typeof(CarouselViewLayout), typeof(CarouselLayoutRenderer))]
 

@@ -5,23 +5,17 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Threading.Tasks;
 using CophiPoint.Api;
+using TinyIoC;
+using CophiPoint.Services.Implementation;
 
 namespace CophiPoint
 {
     public partial class App : Application
     {
-        public readonly OrderManager OrderManager;
-
-        public readonly ProductManager ProductManager;
-
-        public readonly ApiConnectionService ConnectionService;
-
-        public readonly AuthService AuthService;
-
         public App()
         {
             InitializeComponent();
-            
+
             if (Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)
             {
                 var ci = DependencyService.Get<ILocalize>().GetCurrentCultureInfo();
@@ -29,28 +23,31 @@ namespace CophiPoint
                 DependencyService.Get<ILocalize>().SetLocale(ci); // set the Thread for locale-aware methods
             }
 
-            ConnectionService = new ApiConnectionService();
-            AuthService = new AuthService(ConnectionService);
+            var container = TinyIoCContainer.Current;
+            container.Register<IHttpRestService, ApiConnectionService>().AsSingleton();
+            container.Register<AuthService>().AsSingleton();
+
             if (false)
             {
-                var restService = new TestRestService();
-                ProductManager = new ProductManager(restService);
-                OrderManager = new OrderManager(restService, ProductManager, AuthService);
+                container.Register<TestRestService>().AsSingleton();
             }
             else
             {
-                ProductManager = new ProductManager(new ProductsApi(ConnectionService));
-                OrderManager = new OrderManager(new UserApi(ConnectionService, AuthService), ProductManager, AuthService);
+                container.Register<IProductService, ProductsApi>().AsSingleton();
+                container.Register<IOrderService, UserApi>().AsSingleton();
             }
+            container.Register<ProductManager>().AsSingleton();
+            container.Register<OrderManager>().AsSingleton();
 
-
-            MainPage = new NavigationPage(new LoginPage());
+            MainPage = new NavigationPage(
+                TinyIoCContainer.Current.Resolve<LoginPage>()
+            );
         }
 
         public async Task Reload()
         {
-            await ProductManager.Load();
-            await OrderManager.Load();
+            await TinyIoCContainer.Current.Resolve<ProductManager>().Load();
+            await TinyIoCContainer.Current.Resolve<OrderManager>().Load();
         }
 
         protected override async void OnStart()
@@ -65,7 +62,7 @@ namespace CophiPoint
 
         protected override async void OnResume()
         {
-            if (AuthService.IsLoggedIn)
+            if (TinyIoCContainer.Current.Resolve<AuthService>().IsLoggedIn)
             {
                 await Reload();
             }

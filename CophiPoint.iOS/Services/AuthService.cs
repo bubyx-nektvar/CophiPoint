@@ -10,8 +10,8 @@ using OpenId.AppAuth;
 using UIKit;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(AuthService))]
-namespace CophiPoint.iOS
+[assembly: Dependency(typeof(CophiPoint.iOS.Services.AuthService))]
+namespace CophiPoint.iOS.Services
 {
     public class AuthService : INativAuthService
     {

@@ -7,6 +7,7 @@ using Foundation;
 using OpenId.AppAuth;
 using CophiPoint.Api;
 using System.Threading.Tasks;
+using CophiPoint.iOS.Services;
 
 namespace CophiPoint.iOS
 {

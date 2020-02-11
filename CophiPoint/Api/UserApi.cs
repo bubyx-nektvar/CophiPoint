@@ -13,25 +13,23 @@ namespace CophiPoint.Api
 {
     public class UserApi : IOrderService
     {
-        private readonly ApiConnectionService _connectionService;
-        private readonly AuthService _auth;
+        private readonly IHttpRestService _connectionService;
 
-        public UserApi(ApiConnectionService connectionService, AuthService auth)
+        public UserApi(IHttpRestService connectionService)
         {
             _connectionService = connectionService;
-            _auth = auth;
         }
 
         
         public async Task<List<PurchasedItem>> GetPurchases()
-            => await _auth.GetAuthorizedAsync<List<PurchasedItem>>(u => u.Shop.Orders);
+            => await _connectionService.GetAuthorizedAsync<List<PurchasedItem>>(u => u.Shop.Orders);
 
         public async Task<AccountInfo> GetAccountInfo()
-            => await _auth.GetAuthorizedAsync<AccountInfo>(u => u.Shop.User);
+            => await _connectionService.GetAuthorizedAsync<AccountInfo>(u => u.Shop.User);
 
         public async Task<PurchasedItem> AddPuchase(PurchaseOrder purchase)
         {
-            using (var result = await _auth.PostAuthorizedAsync(purchase, u => u.Shop.Orders))
+            using (var result = await _connectionService.PostAuthorizedAsync(purchase, u => u.Shop.Orders))
             {
                 if (result.IsSuccessStatusCode)
                 {

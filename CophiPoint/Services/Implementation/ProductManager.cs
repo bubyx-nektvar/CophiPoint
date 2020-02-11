@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using System.Linq;
 
-namespace CophiPoint.Services
+namespace CophiPoint.Services.Implementation
 {
     public class ProductManager
     {

@@ -1,11 +1,12 @@
 ﻿using CophiPoint.Api;
 using CophiPoint.Services;
+using CophiPoint.Services.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using TinyIoC;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,10 +18,10 @@ namespace CophiPoint.Pages
         private readonly AuthService _auth;
         private readonly ApiConnectionService ConnectionService;
 
-        public LoginPage()
+        public LoginPage(AuthService authService, ApiConnectionService connectionService)
         {
-            _auth = ((App)Application.Current).AuthService;
-            ConnectionService = ((App)Application.Current).ConnectionService;
+            _auth = authService;
+            ConnectionService = connectionService;
             InitializeComponent();
         }
         protected override async void OnAppearing()
@@ -73,7 +74,7 @@ namespace CophiPoint.Pages
         private async Task OpenMain()
         {
             await ((App)Application.Current).Reload();
-            await Navigation.PushAsync(new MainPage(), false);
+            await Navigation.PushAsync(TinyIoCContainer.Current.Resolve<MainPage>(), false);
         }
     }
 }
