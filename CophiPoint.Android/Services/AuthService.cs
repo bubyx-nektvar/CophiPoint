@@ -11,8 +11,8 @@ using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(CophiPoint.Droid.AuthService))]
-namespace CophiPoint.Droid
+[assembly: Dependency(typeof(CophiPoint.Droid.Services.AuthService))]
+namespace CophiPoint.Droid.Services
 {
     public class AuthService : INativAuthService
     {

@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using CophiPoint.Droid.Services;
 using OpenId.AppAuth;
 
 namespace CophiPoint.Droid

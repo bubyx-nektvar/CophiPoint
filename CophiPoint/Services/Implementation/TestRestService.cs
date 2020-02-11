@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CophiPoint.Services
+namespace CophiPoint.Services.Implementation
 {
     public class TestRestService:IOrderService, IProductService
     {

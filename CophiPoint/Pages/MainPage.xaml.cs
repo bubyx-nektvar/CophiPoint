@@ -1,6 +1,7 @@
 ﻿using CophiPoint.Api;
 using CophiPoint.Api.Models;
 using CophiPoint.Services;
+using CophiPoint.Services.Implementation;
 using CophiPoint.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,11 @@ namespace CophiPoint.Pages
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
-        private readonly ApiConnectionService ConnectionService;
+        private readonly IHttpRestService ConnectionService;
 
-        public MainPage()
+        public MainPage(IHttpRestService connectionService)
         {
-            ConnectionService = ((App)Application.Current).ConnectionService;
+            ConnectionService = connectionService;
             InitializeComponent();
         }
 

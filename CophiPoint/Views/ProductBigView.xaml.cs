@@ -1,7 +1,9 @@
 ﻿using CophiPoint.Api;
 using CophiPoint.Services;
+using CophiPoint.Services.Implementation;
 using CophiPoint.ViewModels;
 using System;
+using TinyIoC;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -24,8 +26,8 @@ namespace CophiPoint.Views
         
         public ProductBigView()
         {
-            _orderManager = ((App)Application.Current).OrderManager;
-            _productManager = ((App)Application.Current).ProductManager;
+            _orderManager = TinyIoCContainer.Current.Resolve<OrderManager>();
+            _productManager = TinyIoCContainer.Current.Resolve<ProductManager>();
 
             InitializeComponent();
             BindingContext = Product;

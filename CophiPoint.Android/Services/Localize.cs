@@ -14,9 +14,9 @@ using CophiPoint.Helpers;
 using CophiPoint.Services;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(CophiPoint.Droid.Localize))]
+[assembly: Dependency(typeof(CophiPoint.Droid.Services.Localize))]
 
-namespace CophiPoint.Droid
+namespace CophiPoint.Droid.Services
 {
     public class Localize : ILocalize
     {

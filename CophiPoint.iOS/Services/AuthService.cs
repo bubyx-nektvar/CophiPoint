@@ -11,8 +11,8 @@ using SafariServices;
 using UIKit;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(CophiPoint.iOS.AuthService))]
-namespace CophiPoint.iOS
+[assembly: Dependency(typeof(CophiPoint.iOS.Services.AuthService))]
+namespace CophiPoint.iOS.Services
 {
     public class AuthService : INativAuthService, IAuthStateChangeDelegate, IAuthStateErrorDelegate
     {

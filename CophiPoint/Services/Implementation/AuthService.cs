@@ -10,13 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace CophiPoint.Services
+namespace CophiPoint.Services.Implementation
 {
     public class AuthService
     {
-        private ApiConnectionService _connectionService;
+        private IHttpRestService _connectionService;
 
-        public AuthService(ApiConnectionService initService)
+        public AuthService(IHttpRestService initService)
         {
             this._connectionService = initService;
         }
@@ -62,31 +62,6 @@ namespace CophiPoint.Services
         }
 
         public async Task<AuthenticationHeaderValue> GetAccessToken() => new AuthenticationHeaderValue("Bearer", (await GetToken()).accessToken);
-
-        public async Task<TResponse> GetAuthorizedAsync<TResponse>(Func<Urls,string> relativePathSelector)
-        {
-            var token = await GetAccessToken();
-
-            var response = await _connectionService.SendAsync(HttpMethod.Get, relativePathSelector, message =>
-            {
-                message.Headers.Authorization = token;
-            });
-            return await response.ParseResultOrFail<TResponse>();
-        }
-
-        public async Task<HttpResponseMessage> PostAuthorizedAsync<T>(T contentObject, Func<Urls, string> relativePathSelector)
-        {
-
-            var token = await GetAccessToken();
-            var json = JsonConvert.SerializeObject(contentObject);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            return await _connectionService.SendAsync(HttpMethod.Post, relativePathSelector, message =>
-            {
-                message.Headers.Authorization = token;
-                message.Content = content;
-             });
-        }
 
     }
 }

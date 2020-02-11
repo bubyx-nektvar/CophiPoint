@@ -1,13 +1,14 @@
 ﻿using CophiPoint.Api;
 using CophiPoint.Pages;
 using CophiPoint.Services;
+using CophiPoint.Services.Implementation;
 using CophiPoint.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using TinyIoC;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -32,8 +33,8 @@ namespace CophiPoint.Views
         {
             InitializeComponent();
 
-            OrderManager = ((App)Application.Current).OrderManager;
-            ConnectionService = ((App)Application.Current).ConnectionService;
+            OrderManager = TinyIoCContainer.Current.Resolve<OrderManager>();
+            ConnectionService = TinyIoCContainer.Current.Resolve<ApiConnectionService>();
             BindingContext = OrderManager.Info;
         }
 
