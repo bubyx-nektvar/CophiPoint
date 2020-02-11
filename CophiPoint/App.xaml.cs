@@ -36,6 +36,8 @@ namespace CophiPoint
                 container.Register<IProductService, ProductsApi>().AsSingleton();
                 container.Register<IOrderService, UserApi>().AsSingleton();
             }
+            container.Register<ICacheService,CacheService>();
+            container.Register<HtmlManager>();
             container.Register<ProductManager>().AsSingleton();
             container.Register<OrderManager>().AsSingleton();
 

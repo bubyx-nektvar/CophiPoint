@@ -21,7 +21,7 @@ namespace CophiPoint.Views
         public static readonly BindableProperty ShownProperty = BindableProperty.Create(nameof(Shown), typeof(bool?), typeof(HistoryHeaderView), false, BindingMode.TwoWay);
 
         private readonly OrderManager OrderManager;
-        private readonly ApiConnectionService ConnectionService;
+        private readonly HtmlManager HtmlService;
 
         public bool? Shown
         {
@@ -34,14 +34,14 @@ namespace CophiPoint.Views
             InitializeComponent();
 
             OrderManager = TinyIoCContainer.Current.Resolve<OrderManager>();
-            ConnectionService = TinyIoCContainer.Current.Resolve<ApiConnectionService>();
+            HtmlService = TinyIoCContainer.Current.Resolve<HtmlManager>();
             BindingContext = OrderManager.Info;
         }
 
         private async void OpenPaymentInfo(object sender, EventArgs e)
         {
-            var urls = await ConnectionService.GetUrls();
-            var page = await HtmlPage.GetPaymentPage(urls.GetInfoFullPathUrls());
+            var page = await HtmlService.GetPageAsync(GeneralResources.PayInfoTitle, urls => urls.Payment);
+
             await Navigation.PushAsync(page);
         }
 

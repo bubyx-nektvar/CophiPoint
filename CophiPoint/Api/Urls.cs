@@ -17,7 +17,6 @@ namespace CophiPoint.Api
         {
             public string Products { get; set; }
             public string User { get; set; }
-            public string Orders { get; set; }
         }
 
         public class InfoUrls

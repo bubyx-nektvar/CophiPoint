@@ -20,16 +20,12 @@ namespace CophiPoint.Api
             _connectionService = connectionService;
         }
 
-        
-        public async Task<List<PurchasedItem>> GetPurchases()
-            => await _connectionService.GetAuthorizedAsync<List<PurchasedItem>>(u => u.Shop.Orders);
-
         public async Task<AccountInfo> GetAccountInfo()
-            => await _connectionService.GetAuthorizedAsync<AccountInfo>(u => u.Shop.User);
+            => await _connectionService.GetAuthorizedAsync<AccountInfo>(u => u.Shop.User, cache: false);
 
         public async Task<PurchasedItem> AddPuchase(PurchaseOrder purchase)
         {
-            using (var result = await _connectionService.PostAuthorizedAsync(purchase, u => u.Shop.Orders))
+            using (var result = await _connectionService.PostAuthorizedAsync(purchase, u => u.Shop.User))
             {
                 if (result.IsSuccessStatusCode)
                 {

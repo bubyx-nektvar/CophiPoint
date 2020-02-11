@@ -6,8 +6,7 @@
   },
   "shop": {
     "products": "products.json",
-    "user": "account.php",
-    "orders": "account/orders.php"
+    "user": "account.php"
   },
   "oidc": {
     "authorization": "oidc/authorization.php",

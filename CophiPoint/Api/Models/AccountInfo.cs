@@ -6,8 +6,12 @@ namespace CophiPoint.Api.Models
 {
     public class AccountInfo
     {
+        public string DataVersion { get; set; }
+
         public string Email { get; set; }
 
         public decimal Balance { get; set; }
+
+        public List<PurchasedItem> Orders { get; set; }
     }
 }

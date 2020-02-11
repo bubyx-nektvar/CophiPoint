@@ -14,7 +14,7 @@ namespace CophiPoint.Services.Implementation
 {
     public class AuthService
     {
-        private IHttpRestService _connectionService;
+        private readonly IHttpRestService _connectionService;
 
         public AuthService(IHttpRestService initService)
         {

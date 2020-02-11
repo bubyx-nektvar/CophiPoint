@@ -18,6 +18,7 @@ class OrdersController
     private $method;
 
     private $orderDb;
+    private $userDb;
     private $oidc;
 
     function  __construct($requestMethod)
@@ -27,16 +28,17 @@ class OrdersController
         $connector = DatabaseConnector::create();
         $dbConnection = $connector->getConnection();
 
+        $this->userDb = new UserDatabase($dbConnection);
         $this->orderDb= new OrderDatabase($dbConnection);
         $this->oidc = new OIDCController($connector);
     }
 
-    public  function  process(){
+    public function process(){
         $this->tokenInfo = $this->oidc->authorize();
 
         switch ($this->method) {
             case 'GET':
-                $response = $this->getOrders();
+                $response = $this->getUserInfo();
                 break;
             case 'POST':
                 $response = $this->addOrder();
@@ -51,9 +53,19 @@ class OrdersController
             echo json_encode($response);
         }
     }
+    private function  getUserInfo(){
+        $uid = $this->tokenInfo->getUserId();
 
-    private function getOrders(){
-        return $this->orderDb->findAll($this->tokenInfo->getUserId() );
+        $userInfo = $this->userDb->getUserById($uid);
+        $balance = $this->orderDb->balance($uid);
+        $orders = $this->orderDb->findAll($uid);
+
+        return array(
+            "balance" => $balance,
+            "email" => $userInfo['email'],
+            "orders" => $orders,
+            "dataVersion" => '1'
+        );
     }
 
     private function addOrder(){
