@@ -25,6 +25,7 @@ namespace CophiPoint.Services.Implementation
 
         public async Task Load()
         {
+            Console.WriteLine("Loading Products");
             var items = await _restService.GetProducts();
             Products.Clear();
             var favorite = Preferences.Get(nameof(ProductViewModel.Favorite), 0, nameof(ProductManager));
@@ -40,6 +41,7 @@ namespace CophiPoint.Services.Implementation
                     _favorite = model;
                 }
             }
+            Console.WriteLine("Loading Products Done");
         }
 
         public void SetFavorite(ProductViewModel product, bool favorite)

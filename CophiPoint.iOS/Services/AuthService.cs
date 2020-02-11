@@ -13,8 +13,9 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(CophiPoint.iOS.Services.AuthService))]
 namespace CophiPoint.iOS.Services
 {
-    public class AuthService : INativAuthService
+    public class AuthService : INativAuthService, IAuthStateChangeDelegate
     {
+        public IntPtr Handle { get; }
 
         public bool IsLogged
         {
@@ -24,8 +25,12 @@ namespace CophiPoint.iOS.Services
                 return state.IsAuthorized 
                     && (
                         (!string.IsNullOrWhiteSpace(state.RefreshToken)) 
-                        || 
-                        (state.LastTokenResponse.AccessTokenExpirationDate.Compare(NSDate.Now) == NSComparisonResult.Descending)
+                        ||
+                        (
+                            state.LastTokenResponse != null
+                            &&
+                            state.LastTokenResponse.AccessTokenExpirationDate.Compare(NSDate.Now) == NSComparisonResult.Descending
+                        )
                 );
             }
         }
@@ -52,14 +57,8 @@ namespace CophiPoint.iOS.Services
 
         public async Task<(bool IsSucessful, string Error)> Login(Api.Urls.OIDCUrls urls)
         {
-            rootViewController = UIApplication.SharedApplication.KeyWindow.RootViewController;
-            var authController = new ViewController();
-            var tsc = new TaskCompletionSource<object>();
-            rootViewController.PresentViewController(authController, false, ()=> {
-                tsc.SetResult(null);
-            });
-            await tsc.Task;
-            return await authController.AuthWithAutoCodeExchange(urls);
+            Console.WriteLine(nameof(Login));
+            return await AuthWithAutoCodeExchange();
         }
 
         public Task LogOut()
@@ -69,6 +68,8 @@ namespace CophiPoint.iOS.Services
         }
         private async Task<AuthState> PerformRefresh(AuthState authState)
         {
+            Console.WriteLine(nameof(PerformRefresh));
+
             var request = authState.TokenRefreshRequest();
             try
             {
@@ -86,12 +87,124 @@ namespace CophiPoint.iOS.Services
             return authState;
         }
 
+        public async Task<(bool, string)> AuthWithAutoCodeExchange()
+        {
+            Console.WriteLine(nameof(AuthWithAutoCodeExchange));
+            var discoveryUri = new NSUrl(AuthConstants.ConfigUrl);
+            var redirectURI = new NSUrl(AuthConstants.RedirectUri);
+
+            Console.WriteLine($"Fetching configuration for issuer: {discoveryUri}");
+
+            try
+            {
+                // discovers endpoints
+                var configuration = await AuthorizationService.DiscoverServiceConfigurationForDiscoveryAsync(discoveryUri);
+
+                Console.WriteLine($"Got configuration: {configuration}");
+
+                // builds authentication request
+                var request = new AuthorizationRequest(configuration, AuthConstants.ClientId, AuthConstants.ClientSecret, AuthConstants.ScopesArray, redirectURI, ResponseType.Code, null);
+                // performs authentication request
+                var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
+                Console.WriteLine($"Initiating authorization request with scope: {request.Scope}");
+
+                var tcl = new TaskCompletionSource<(bool, string)>();
+
+                appDelegate.CurrentAuthorizationFlow = AuthState
+                    .PresentAuthorizationRequest(request, appDelegate.Window.RootViewController, (authState, error) =>
+                    {
+                        Console.WriteLine(nameof(AuthState.PresentAuthorizationRequest) + "Done");
+                        if (authState != null)
+                        {
+                            AuthService.SaveState(authState);
+                            Console.WriteLine($"Got authorization tokens. Access token: {authState.LastTokenResponse.AccessToken}");
+                            tcl.SetResult((true, null));
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Authorization error: {error.LocalizedDescription}");
+                            AuthService.ClearState();
+                            tcl.SetResult((false, error.LocalizedDescription));
+                        }
+                    });
+                return await tcl.Task;
+                //return (false, "test");
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error retrieving discovery document: {ex}");
+                AuthService.ClearState();
+                return (false, ex.Message);
+            }
+        }
+
+
+        // Authorization code flow without a the code exchange (need to call codeExchange manually)
+        async Task<(bool, string)> AuthNoCodeExchange()
+        {
+            var discoveryUri = new NSUrl(AuthConstants.ConfigUrl);
+            var redirectURI = new NSUrl(AuthConstants.RedirectUri);
+
+            Console.WriteLine($"Fetching configuration for issuer: {discoveryUri}");
+
+            try
+            {
+                // discovers endpoints
+                var configuration = await AuthorizationService.DiscoverServiceConfigurationForDiscoveryAsync(discoveryUri);
+
+                Console.WriteLine($"Got configuration: {configuration}");
+
+                // builds authentication request
+                AuthorizationRequest request = new AuthorizationRequest(
+                    configuration,
+                    AuthConstants.ClientId,
+                    AuthConstants.ClientSecret,
+                    AuthConstants.ScopesArray,
+                    redirectURI,
+                    ResponseType.Code,
+                    null);
+                // performs authentication request
+                var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
+
+                var tcl = new TaskCompletionSource<(bool, string)>();
+                Console.WriteLine($"Initiating authorization request: {request}");
+                appDelegate.CurrentAuthorizationFlow = AuthorizationService.PresentAuthorizationRequest(request, appDelegate.Window.RootViewController,
+                    (authorizationResponse, error) =>
+                    {
+                        Console.WriteLine(nameof(AuthorizationService.PresentAuthorizationRequest) + "Done");
+                        if (authorizationResponse != null)
+                        {
+                            var authState = new AuthState(authorizationResponse);
+                            AuthService.SaveState(authState);
+                            Console.WriteLine($"Got authorization tokens. Access token: {authState.LastTokenResponse.AccessToken}");
+                            tcl.SetResult((true, null));
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Authorization error: {error.LocalizedDescription}");
+                            AuthService.ClearState();
+                            tcl.SetResult((false, error.LocalizedDescription));
+                        }
+                    });
+                return await tcl.Task;
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error retrieving discovery document: {ex}");
+                AuthService.ClearState();
+                return (false, ex.Message);
+            }
+        }
+
+
         // NSCoding key for the authState property.
         public static NSString kAppAuthExampleAuthStateKey = (NSString)"authState";
-        private UIViewController rootViewController;
-
+        
         internal static void SaveState(AuthState state)
         {
+            Console.WriteLine(nameof(SaveState));
             // for production usage consider using the OS Keychain instead
             if (state != null)
             {
@@ -103,11 +216,14 @@ namespace CophiPoint.iOS.Services
                 NSUserDefaults.StandardUserDefaults.RemoveObject(kAppAuthExampleAuthStateKey);
             }
             NSUserDefaults.StandardUserDefaults.Synchronize();
+
+            Console.WriteLine(nameof(SaveState) + "Done");
         }
 
         // Loads the OIDAuthState from NSUSerDefaults.
         internal static AuthState LoadState()
         {
+            Console.WriteLine(nameof(LoadState));
             // loads OIDAuthState from NSUSerDefaults
             var archivedAuthState = (NSData)NSUserDefaults.StandardUserDefaults[kAppAuthExampleAuthStateKey];
             if (archivedAuthState != null)
@@ -119,6 +235,23 @@ namespace CophiPoint.iOS.Services
         internal static void ClearState()
         {
             SaveState(null);
+        }
+
+        public void DidChangeState(AuthState state)
+        {
+            Console.WriteLine(nameof(DidChangeState));
+            SaveState(state);
+        }
+  
+        public void DidEncounterAuthorizationError(AuthState state, NSError error)
+        {
+            Console.WriteLine(nameof(DidEncounterAuthorizationError));
+            Console.WriteLine($"Received authorization error: {error}.");
+        }
+  
+        public void Dispose()
+        {
+            Console.WriteLine(nameof(Dispose));
         }
     }
 }

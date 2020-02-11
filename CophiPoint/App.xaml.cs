@@ -46,6 +46,7 @@ namespace CophiPoint
 
         public async Task Reload()
         {
+            Console.WriteLine("Reloading data sets from Server");
             await TinyIoCContainer.Current.Resolve<ProductManager>().Load();
             await TinyIoCContainer.Current.Resolve<OrderManager>().Load();
         }
