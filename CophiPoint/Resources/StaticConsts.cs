@@ -7,15 +7,18 @@ namespace CophiPoint.Resources
 {
     public class StaticConsts
     {
-        public static float[][] MakeBlue =
-            new float[][]
+        static StaticConsts()
+        {
+            var primary = (Xamarin.Forms.Color)Xamarin.Forms.Application.Current.Resources["primary"];
+            MakePrimary = new float[][]
             {
-                new [] { 0f, 0f, 0f, 0f, 0f },
-                new [] { 0f, 109f/255f, 0f, 0f, 0f },
-                new [] { 0f, 0f, 240f/255f, 0f, 0f },
-                new [] { 0f, 0f, 0f, 1f, 0f },
+                new [] { (float)primary.R, 0f, 0f, 0f, 0f },
+                new [] { 0f, (float)primary.G, 0f, 0f, 0f },
+                new [] { 0f, 0f, (float)primary.B , 0f, 0f },
+                new [] { 0f, 0f, 0f, (float)primary.A, 0f },
                 new [] { 0f, 0f, 0f, 0f, 1f },
-            }; //#006df0
-
+            };
+        }
+        public static float[][] MakePrimary;
     }
 }
