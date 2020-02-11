@@ -1,4 +1,5 @@
 ﻿using CophiPoint.Api.Models;
+using CophiPoint.Extensions;
 using CophiPoint.Services;
 using Newtonsoft.Json;
 using System;
@@ -12,55 +13,39 @@ namespace CophiPoint.Api
 {
     public class UserApi : IOrderService
     {
-        private readonly AuthService _auth;
-        private readonly HttpClient _client;
+        private readonly IHttpRestService _connectionService;
 
-        public UserApi(AuthService auth)
+        public UserApi(IHttpRestService connectionService)
         {
-            _auth = auth;
-            _client = new HttpClient();
-            _client.BaseAddress = Urls.BaseUrl;
+            _connectionService = connectionService;
         }
+
         
         public async Task<List<PurchasedItem>> GetPurchases()
-        {
-            _client.DefaultRequestHeaders.Authorization = await _auth.GetAccessToken();
-            var response = await _client.GetAsync(Urls.UserOrdersApi);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<PurchasedItem>>(content);
-            }
-            return null;
-        }
+            => await _connectionService.GetAuthorizedAsync<List<PurchasedItem>>(u => u.Shop.Orders);
 
         public async Task<AccountInfo> GetAccountInfo()
-        {
-            _client.DefaultRequestHeaders.Authorization = await _auth.GetAccessToken();
-            var response = await _client.GetAsync(Urls.UserApi);
-            if (response.IsSuccessStatusCode)
-            {
-                var result = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<AccountInfo>(result);
-            }
-            //TODO nedostupne
-            return null;
-        }
+            => await _connectionService.GetAuthorizedAsync<AccountInfo>(u => u.Shop.User);
+
         public async Task<PurchasedItem> AddPuchase(PurchaseOrder purchase)
         {
-            _client.DefaultRequestHeaders.Authorization = await _auth.GetAccessToken();
-
-            var json = JsonConvert.SerializeObject(purchase);
-            var content = new StringContent(json,Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync(Urls.UserOrdersApi, content);
-            if (response.IsSuccessStatusCode)
+            using (var result = await _connectionService.PostAuthorizedAsync(purchase, u => u.Shop.Orders))
             {
-                var result = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<PurchasedItem>(result);
+                if (result.IsSuccessStatusCode)
+                {
+                    return await result.ParseResponseBody<PurchasedItem>();
+                }
+                else if (result.StatusCode == System.Net.HttpStatusCode.Conflict)
+                {
+                    var proposal = await result.ReadAsJson<PurchaseOrder>();
+                    throw new DataConflictException(proposal);
+                }
+                else
+                {
+                    throw new HttpRequestException(GeneralResources.StatusCodeError);
+                }
             }
-            //TODO badrequests etc.
-            return null;
+
         }
     }
 }

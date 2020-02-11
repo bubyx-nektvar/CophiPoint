@@ -6,28 +6,39 @@
  * Time: 2:15
  */
 
+require_once __DIR__.'/../config/DB.php';
+
 class DatabaseConnector
 {
+    /**
+     * @var DatabaseConnector
+     */
+    private static $connector;
 
     private $dbConnection = null;
 
-    public function __construct()
+    private function __construct()
     {
-        $host = 'wm112.wedos.net';
-        $db   = 'd167694_cophi';
-        $user = 'w167694_cophi';
-        $pass = 'rLX_j4_24';
-
         try {
-            $this->dbConnection = new \PDO(
-                "mysql:host=$host;dbname=$db",
-                $user,
-                $pass
+            $this->dbConnection = new PDO(
+                'mysql:host='.DB::Host.';dbname='.DB::Db,
+                DB::User,
+                DB::Password
             );
             $this->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             exit($e->getMessage());
         }
+    }
+
+    /**
+     * @return DatabaseConnector
+     */
+    public static function create(){
+        if(!isset(DatabaseConnector::$connector)){
+            DatabaseConnector::$connector = new DatabaseConnector();
+        }
+        return DatabaseConnector::$connector;
     }
 
     public function getConnection()

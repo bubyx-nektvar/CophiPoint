@@ -6,28 +6,22 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using CophiPoint.Services;
+using CophiPoint.Extensions;
 
 namespace CophiPoint.Api
 {
     public class ProductsApi : IProductService
     {
-        private readonly HttpClient _client;
+        private readonly IHttpRestService _connectionService;
 
-        public ProductsApi()
+        public ProductsApi(IHttpRestService urlService)
         {
-            _client = new HttpClient();
-            _client.BaseAddress = Urls.BaseUrl;
+            _connectionService = urlService;
         }
         
         public async Task<List<Product>> GetProducts()
         {
-            var response = await _client.GetAsync(Urls.Products);
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<Product>>(content);
-            }
-            return null;
+            return await _connectionService.GetAsync<List<Product>>(urls => urls.Shop.Products);
         }
     }
 }

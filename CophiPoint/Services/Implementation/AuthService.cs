@@ -1,16 +1,26 @@
 ﻿using CophiPoint.Api;
+using CophiPoint.Extensions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace CophiPoint.Services
+namespace CophiPoint.Services.Implementation
 {
     public class AuthService
     {
+        private IHttpRestService _connectionService;
+
+        public AuthService(IHttpRestService initService)
+        {
+            this._connectionService = initService;
+        }
+
         public bool IsLoggedIn
         {
             get
@@ -39,7 +49,12 @@ namespace CophiPoint.Services
             }
         }
 
-        public Task<(bool IsSucessful, string Error)> Login() => DependencyService.Get<INativAuthService>().Login();
+        public async Task<(bool IsSucessful, string Error)> Login()
+        {
+            var urls = await _connectionService.GetUrls();
+            return await DependencyService.Get<INativAuthService>()
+                .Login(urls.GetOIDCFullPathUrls());
+        }
 
         public async Task Logout()
         {
@@ -47,5 +62,6 @@ namespace CophiPoint.Services
         }
 
         public async Task<AuthenticationHeaderValue> GetAccessToken() => new AuthenticationHeaderValue("Bearer", (await GetToken()).accessToken);
+
     }
 }

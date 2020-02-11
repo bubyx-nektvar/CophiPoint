@@ -1,6 +1,7 @@
 ﻿using CophiPoint.Api;
 using CophiPoint.Api.Models;
 using CophiPoint.Services;
+using CophiPoint.Services.Implementation;
 using CophiPoint.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,18 @@ namespace CophiPoint.Pages
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
-        public MainPage()
+        private readonly IHttpRestService ConnectionService;
+
+        public MainPage(IHttpRestService connectionService)
         {
+            ConnectionService = connectionService;
             InitializeComponent();
         }
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            var page = await HtmlPage.GetInfoPage();
+            var urls = await ConnectionService.GetUrls();
+            var page = await HtmlPage.GetInfoPage(urls.GetInfoFullPathUrls());
             await Navigation.PushAsync(page);
         }
     }

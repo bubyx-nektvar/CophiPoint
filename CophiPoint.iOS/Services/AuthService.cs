@@ -7,36 +7,34 @@ using CophiPoint.Api;
 using CophiPoint.Services;
 using Foundation;
 using OpenId.AppAuth;
-using SafariServices;
 using UIKit;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(CophiPoint.iOS.AuthService))]
-namespace CophiPoint.iOS
+[assembly: Dependency(typeof(CophiPoint.iOS.Services.AuthService))]
+namespace CophiPoint.iOS.Services
 {
-    public class AuthService : INativAuthService, IAuthStateChangeDelegate, IAuthStateErrorDelegate
+    public class AuthService : INativAuthService, IAuthStateChangeDelegate
     {
+        public IntPtr Handle { get; }
 
         public bool IsLogged
         {
             get
             {
                 var state = LoadState();
-                return state != null 
-                    && state.IsAuthorized 
+                return state.IsAuthorized 
                     && (
                         (!string.IsNullOrWhiteSpace(state.RefreshToken)) 
-                        || 
+                        ||
                         (
-                            state.LastTokenResponse != null 
-                            && 
+                            state.LastTokenResponse != null
+                            &&
                             state.LastTokenResponse.AccessTokenExpirationDate.Compare(NSDate.Now) == NSComparisonResult.Descending
                         )
                 );
             }
         }
 
-        public IntPtr Handle { get; }
 
         public async Task<(string accessToken, string idToken)> GetTokens()
         {
@@ -57,7 +55,7 @@ namespace CophiPoint.iOS
             return (authState.LastTokenResponse.AccessToken, authState.LastTokenResponse.IdToken);
         }
 
-        public async Task<(bool IsSucessful, string Error)> Login()
+        public async Task<(bool IsSucessful, string Error)> Login(Api.Urls.OIDCUrls urls)
         {
             Console.WriteLine(nameof(Login));
             return await AuthWithAutoCodeExchange();
@@ -71,6 +69,7 @@ namespace CophiPoint.iOS
         private async Task<AuthState> PerformRefresh(AuthState authState)
         {
             Console.WriteLine(nameof(PerformRefresh));
+
             var request = authState.TokenRefreshRequest();
             try
             {
@@ -155,39 +154,39 @@ namespace CophiPoint.iOS
                 var configuration = await AuthorizationService.DiscoverServiceConfigurationForDiscoveryAsync(discoveryUri);
 
                 Console.WriteLine($"Got configuration: {configuration}");
-                
+
                 // builds authentication request
                 AuthorizationRequest request = new AuthorizationRequest(
-                    configuration, 
-                    AuthConstants.ClientId, 
-                    AuthConstants.ClientSecret, 
-                    AuthConstants.ScopesArray, 
-                    redirectURI, 
-                    ResponseType.Code, 
+                    configuration,
+                    AuthConstants.ClientId,
+                    AuthConstants.ClientSecret,
+                    AuthConstants.ScopesArray,
+                    redirectURI,
+                    ResponseType.Code,
                     null);
                 // performs authentication request
                 var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
 
                 var tcl = new TaskCompletionSource<(bool, string)>();
                 Console.WriteLine($"Initiating authorization request: {request}");
-                appDelegate.CurrentAuthorizationFlow = AuthorizationService.PresentAuthorizationRequest(request, appDelegate.Window.RootViewController, 
+                appDelegate.CurrentAuthorizationFlow = AuthorizationService.PresentAuthorizationRequest(request, appDelegate.Window.RootViewController,
                     (authorizationResponse, error) =>
-                {
-                    Console.WriteLine(nameof(AuthorizationService.PresentAuthorizationRequest) + "Done");
-                    if (authorizationResponse != null)
                     {
-                        var authState = new AuthState(authorizationResponse);
-                        AuthService.SaveState(authState);
-                        Console.WriteLine($"Got authorization tokens. Access token: {authState.LastTokenResponse.AccessToken}");
-                        tcl.SetResult((true, null));
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Authorization error: {error.LocalizedDescription}");
-                        AuthService.ClearState();
-                        tcl.SetResult((false, error.LocalizedDescription));
-                    }
-                });
+                        Console.WriteLine(nameof(AuthorizationService.PresentAuthorizationRequest) + "Done");
+                        if (authorizationResponse != null)
+                        {
+                            var authState = new AuthState(authorizationResponse);
+                            AuthService.SaveState(authState);
+                            Console.WriteLine($"Got authorization tokens. Access token: {authState.LastTokenResponse.AccessToken}");
+                            tcl.SetResult((true, null));
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Authorization error: {error.LocalizedDescription}");
+                            AuthService.ClearState();
+                            tcl.SetResult((false, error.LocalizedDescription));
+                        }
+                    });
                 return await tcl.Task;
             }
             catch (Exception ex)
@@ -199,9 +198,10 @@ namespace CophiPoint.iOS
             }
         }
 
+
         // NSCoding key for the authState property.
         public static NSString kAppAuthExampleAuthStateKey = (NSString)"authState";
-
+        
         internal static void SaveState(AuthState state)
         {
             Console.WriteLine(nameof(SaveState));
@@ -217,7 +217,7 @@ namespace CophiPoint.iOS
             }
             NSUserDefaults.StandardUserDefaults.Synchronize();
 
-            Console.WriteLine(nameof(SaveState) +"Done");
+            Console.WriteLine(nameof(SaveState) + "Done");
         }
 
         // Loads the OIDAuthState from NSUSerDefaults.
@@ -236,18 +236,19 @@ namespace CophiPoint.iOS
         {
             SaveState(null);
         }
+
         public void DidChangeState(AuthState state)
         {
             Console.WriteLine(nameof(DidChangeState));
             SaveState(state);
         }
-
+  
         public void DidEncounterAuthorizationError(AuthState state, NSError error)
         {
             Console.WriteLine(nameof(DidEncounterAuthorizationError));
             Console.WriteLine($"Received authorization error: {error}.");
         }
-
+  
         public void Dispose()
         {
             Console.WriteLine(nameof(Dispose));

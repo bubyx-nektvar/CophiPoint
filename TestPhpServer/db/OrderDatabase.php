@@ -49,69 +49,16 @@ class OrderDatabase
         ";
 
         try {
-            //$this->db = new PDO();//TODO remove
+            //$this->DB = new PDO();//TODO remove
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
                 "uid" => $userId,
                 "id" => $id
             ));
-            $result = $statement->fetch(\PDO::FETCH_ASSOC);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
 
             return OrderDatabase::transform($result);
-        } catch (\PDOException $e) {
-            exit($e->getMessage());
-        }
-    }
-    public function getUser($userId){
-        $statement = "
-            SELECT 
-               user_id, email, full_name
-            FROM
-                users
-            WHERE
-              user_id = :uid
-        ";
-
-        try {
-            $statement = $this->db->prepare($statement);
-            $statement->execute(array(
-                "uid" => $userId
-            ));
-            $result = $statement->fetch(\PDO::FETCH_ASSOC);
-
-            return $result;
-        } catch (\PDOException $e) {
-            exit($e->getMessage());
-        }
-    }
-
-    public function updateUser($user){
-        $uid = Auth::getId($user);
-        $userDb = $this->getUser($uid);
-        if(!$userDb) {
-            $statement = "
-            INSERT INTO users 
-                (user_id, email, full_name)
-            VALUES
-                (:uid, :email, :full_name);";
-        }else{
-            $statement = "
-            UPDATE users
-            SET 
-                email = :email,
-                full_name  = :full_name
-            WHERE user_id = :uid;
-            ";
-        }
-
-        try {
-            $statement = $this->db->prepare($statement);
-            $statement->execute(array(
-                "uid" => $uid,
-                "email" => $user['email'],
-                "full_name" => $user['name']
-            ));
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }
@@ -129,15 +76,15 @@ class OrderDatabase
         ";
 
         try {
-            //$this->db = new PDO();//TODO remove
+            //$this->DB = new PDO();//TODO remove
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
                 "uid" => $userId
             ));
-            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             return array_map($this->transform,$result);
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }
@@ -154,15 +101,15 @@ class OrderDatabase
         ";
 
         try {
-            //$this->db = new PDO();//TODO remove
+            //$this->DB = new PDO();//TODO remove
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
                 "uid" => $userId
             ));
-            $result = $statement->fetch(\PDO::FETCH_ASSOC);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
 
             return $result['total'] ?? 0;
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }
@@ -178,7 +125,7 @@ class OrderDatabase
         ";
 
         try {
-            //$this->db = new PDO();//TODO remove
+            //$this->DB = new PDO();//TODO remove
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
                 'uid' => $userId,
@@ -187,7 +134,7 @@ class OrderDatabase
                 'price' => ( -$order->Size->TotalPrice),
             ));
             return $this->db->lastInsertId();
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             exit($e->getMessage());
         }
     }

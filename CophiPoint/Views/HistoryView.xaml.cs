@@ -1,4 +1,5 @@
 ﻿using CophiPoint.Services;
+using CophiPoint.Services.Implementation;
 using CophiPoint.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using TinyIoC;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -30,7 +31,7 @@ namespace CophiPoint.Views
         public HistoryView()
         {
             InitializeComponent();
-            History = ((App)Application.Current).OrderManager.Items;
+            History = TinyIoCContainer.Current.Resolve<OrderManager>().Items;
 
             BindingContext = History;
         }

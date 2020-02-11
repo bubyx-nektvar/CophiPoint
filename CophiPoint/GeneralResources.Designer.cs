@@ -124,6 +124,15 @@ namespace CophiPoint {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unsupported media type.
+        /// </summary>
+        public static string MediaTypeError {
+            get {
+                return ResourceManager.GetString("MediaTypeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login with MojeID.
         /// </summary>
         public static string MojeIdBtn {
@@ -169,6 +178,24 @@ namespace CophiPoint {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to process order due to product conflict. Please try again..
+        /// </summary>
+        public static string OrderFailedMsg {
+            get {
+                return ResourceManager.GetString("OrderFailedMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product error.
+        /// </summary>
+        public static string OrderFailedTitle {
+            get {
+                return ResourceManager.GetString("OrderFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to How to pay.
         /// </summary>
         public static string PayInfoBtn {
@@ -183,6 +210,42 @@ namespace CophiPoint {
         public static string PayInfoTitle {
             get {
                 return ResourceManager.GetString("PayInfoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product price has chaged. Do you want to add {0} ({1}) with new price {2}..
+        /// </summary>
+        public static string ProductPriceChangedAlert {
+            get {
+                return ResourceManager.GetString("ProductPriceChangedAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error occured while requesting server. Please try again later..
+        /// </summary>
+        public static string ServerErrorMsg {
+            get {
+                return ResourceManager.GetString("ServerErrorMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comunnication error.
+        /// </summary>
+        public static string ServerErrorTitle {
+            get {
+                return ResourceManager.GetString("ServerErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unexpected HTTP response code.
+        /// </summary>
+        public static string StatusCodeError {
+            get {
+                return ResourceManager.GetString("StatusCodeError", resourceCulture);
             }
         }
         

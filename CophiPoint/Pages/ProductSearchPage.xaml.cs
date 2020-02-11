@@ -1,4 +1,5 @@
 ﻿using CophiPoint.Services;
+using CophiPoint.Services.Implementation;
 using CophiPoint.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-
+using TinyIoC;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,16 +18,18 @@ namespace CophiPoint.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProductSearchPage : ContentPage
     {
+        private readonly ProductManager manager;
 
         public ObservableCollection<ProductViewModel> Products { get; }
         public ObservableCollection<ProductViewModel> Hidden { get; }
+
         private SemaphoreSlim _lock = new SemaphoreSlim(1);
 
-        public ProductSearchPage()
+        public ProductSearchPage(ProductManager productManager)
         {
             InitializeComponent();
-
-            Products = new ObservableCollection<ProductViewModel>( ((App)Application.Current).ProductManager.Products);
+            manager = productManager;
+            Products = new ObservableCollection<ProductViewModel>(manager.Products);
             Hidden = new ObservableCollection<ProductViewModel>();
             BindingContext = Products;
         }
