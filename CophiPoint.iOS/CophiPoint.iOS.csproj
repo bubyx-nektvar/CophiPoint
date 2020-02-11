@@ -70,7 +70,6 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\CarouselLayoutRenderer.cs" />
     <Compile Include="Services\NativeHttpService.cs" />
-    <Compile Include="ViewController.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
