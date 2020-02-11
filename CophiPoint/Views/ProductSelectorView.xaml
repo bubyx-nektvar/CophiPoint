@@ -7,6 +7,8 @@
              xmlns:view="clr-namespace:CophiPoint.Views"
              mc:Ignorable="d"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:fftran="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:ffstatic="clr-namespace:CophiPoint.Resources"
              x:Class="CophiPoint.Views.ProductSelectorView">
   <ContentView.Content>
         <RelativeLayout BackgroundColor="White" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
@@ -33,6 +35,9 @@
                 <ffsvg:SvgCachedImage.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OpenProductSearch"/>
                 </ffsvg:SvgCachedImage.GestureRecognizers>
+                <ffsvg:SvgCachedImage.Transformations>
+                    <fftran:ColorSpaceTransformation RGBAWMatrix="{x:Static ffstatic:StaticConsts.MakePrimary}"/>
+                </ffsvg:SvgCachedImage.Transformations>
             </ffsvg:SvgCachedImage>
         </RelativeLayout>
     </ContentView.Content>

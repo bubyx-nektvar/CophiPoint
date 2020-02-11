@@ -53,6 +53,9 @@
                 <ffsvg:SvgCachedImage.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SwitchFavorite"/>
                 </ffsvg:SvgCachedImage.GestureRecognizers>
+                <ffsvg:SvgCachedImage.Transformations>
+                    <fftran:ColorSpaceTransformation RGBAWMatrix="{x:Static ffstatic:StaticConsts.MakePrimary}"/>
+                </ffsvg:SvgCachedImage.Transformations>
             </ffsvg:SvgCachedImage>
 
             <ffsvg:SvgCachedImage
@@ -67,6 +70,9 @@
                 <ffsvg:SvgCachedImage.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SwitchFavorite"/>
                 </ffsvg:SvgCachedImage.GestureRecognizers>
+                <ffsvg:SvgCachedImage.Transformations>
+                    <fftran:ColorSpaceTransformation RGBAWMatrix="{x:Static ffstatic:StaticConsts.MakePrimary}"/>
+                </ffsvg:SvgCachedImage.Transformations>
             </ffsvg:SvgCachedImage>
             <ListView  
                     x:Name="Root"
@@ -91,7 +97,7 @@
                                         HorizontalOptions="Center"
                                         >
                                         <ffsvg:SvgCachedImage.Transformations>
-                                            <fftran:ColorSpaceTransformation RGBAWMatrix="{x:Static ffstatic:StaticConsts.MakeBlue}"/>
+                                            <fftran:ColorSpaceTransformation RGBAWMatrix="{x:Static ffstatic:StaticConsts.MakePrimary}"/>
                                         </ffsvg:SvgCachedImage.Transformations>
                                     </ffsvg:SvgCachedImage>
                                     <Label

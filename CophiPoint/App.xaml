@@ -8,9 +8,9 @@
              x:Class="CophiPoint.App">
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="primary">#006df0</Color>
+            <Color x:Key="primary">#d03145</Color>
             <Color x:Key="primaryComplement">White</Color>
-            <Color x:Key="secondary">#dfdfff</Color>
+            <Color x:Key="secondary">#faeaec</Color>
         </ResourceDictionary>
 
         <converters:InverseBoolConverter x:Key="inverter"/>

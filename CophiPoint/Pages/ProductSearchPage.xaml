@@ -9,7 +9,7 @@
             xmlns:fftran="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              x:Class="CophiPoint.Pages.ProductSearchPage">
     <NavigationPage.TitleView>
-        <SearchBar  HorizontalOptions="FillAndExpand" 
+        <SearchBar  HorizontalOptions="FillAndExpand"
                     TextColor="{StaticResource primaryComplement}" PlaceholderColor="{StaticResource primaryComplement}" CancelButtonColor="{StaticResource primaryComplement}"
                     TextChanged="SearchBar_TextChanged"/>
     </NavigationPage.TitleView>
@@ -65,7 +65,7 @@
                             </StackLayout>
                             <StackLayout Orientation="Vertical" HorizontalOptions="End">
                                 <Label Text="{Binding Sizes, Converter={StaticResource minMax}, ConverterParameter='Price|group|| - '}" 
-                                        FontSize="Small" TextColor="LimeGreen" HorizontalOptions="End"/>
+                                        FontSize="Small" TextColor="{StaticResource primary}" HorizontalOptions="End"/>
                                 <Label Text="{Binding AvgPricePerUnit}"
                                        FontSize="Micro" HorizontalOptions="End"/>
                             </StackLayout>
