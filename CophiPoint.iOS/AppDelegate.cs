@@ -28,7 +28,7 @@ namespace CophiPoint.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Forms.SetFlags("CarouselView_Experimental");
+            Forms.SetFlags("CarouselView_Experimental", "IndicatorView_Experimental");
 
             Forms.Init();
 

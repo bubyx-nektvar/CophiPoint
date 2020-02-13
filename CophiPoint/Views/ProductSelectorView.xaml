@@ -15,7 +15,7 @@
             <ContentView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
                         RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X}"
                         RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y}"
-                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
+                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-10}"
                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
                     >
                 <CarouselView ItemsSource="{Binding .}" x:Name="ProductCarousel">
@@ -26,6 +26,14 @@
                     </CarouselView.ItemTemplate>
                 </CarouselView>
             </ContentView>
+            <IndicatorView ItemsSourceBy="ProductCarousel"
+                IndicatorColor="{StaticResource secondary}"
+                SelectedIndicatorColor="{StaticResource primary}"
+                HorizontalOptions="Center"
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X, Constant=0}"
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-10}"
+            />
             <ffsvg:SvgCachedImage
                 Source="resource://CophiPoint.Resources.gallery.svg"
                 HeightRequest="30"

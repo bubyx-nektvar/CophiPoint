@@ -26,13 +26,13 @@ namespace CophiPoint.Views
 
             _productManager = TinyIoCContainer.Current.Resolve<ProductManager>();
             BindingContext = _productManager.Products;
-            ProductCarousel.SelectedItem = _productManager.Favorite;
+            ProductCarousel.CurrentItem = _productManager.Favorite;
         }
 
         private void OpenProductSearch(object sender, EventArgs e)
         {
             var page = TinyIoCContainer.Current.Resolve<ProductSearchPage>();
-            page.SetBinding(new Binding(CarouselViewLayout.SelectedItemProperty.PropertyName, source: ProductCarousel, mode: BindingMode.OneWayToSource));
+            page.SetBinding(new Binding(CarouselView.CurrentItemProperty.PropertyName, source: ProductCarousel, mode: BindingMode.OneWayToSource));
             Navigation.PushAsync(page, true);
         }
     }

@@ -27,7 +27,7 @@ namespace CophiPoint.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-            Forms.SetFlags("CarouselView_Experimental");
+            Forms.SetFlags("CarouselView_Experimental", "IndicatorView_Experimental");
 
             base.OnCreate(savedInstanceState);
             InitControls();
