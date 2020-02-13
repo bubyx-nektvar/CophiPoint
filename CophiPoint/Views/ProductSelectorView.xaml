@@ -18,13 +18,13 @@
                         RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}"
                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
                     >
-                <controls:CarouselViewLayout ItemsSource="{Binding .}" x:Name="ProductCarousel">
-                    <controls:CarouselViewLayout.ItemTemplate>
+                <CarouselView ItemsSource="{Binding .}" x:Name="ProductCarousel">
+                    <CarouselView.ItemTemplate>
                         <DataTemplate>
                             <view:ProductBigView Product="{Binding}"/>
                         </DataTemplate>
-                    </controls:CarouselViewLayout.ItemTemplate>
-                </controls:CarouselViewLayout>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
             </ContentView>
             <ffsvg:SvgCachedImage
                 Source="resource://CophiPoint.Resources.gallery.svg"
