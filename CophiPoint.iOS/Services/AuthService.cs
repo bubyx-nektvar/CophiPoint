@@ -58,7 +58,7 @@ namespace CophiPoint.iOS.Services
         public async Task<(bool IsSucessful, string Error)> Login(Api.Urls.OIDCUrls urls)
         {
             Console.WriteLine(nameof(Login));
-            return await AuthWithAutoCodeExchange();
+            return await AuthWithAutoCodeExchange(urls);
         }
 
         public Task LogOut()
@@ -86,19 +86,18 @@ namespace CophiPoint.iOS.Services
             }
             return authState;
         }
+        
+        private NSUrl ToUrl(string url) =>new NSUrl(url);
 
-        public async Task<(bool, string)> AuthWithAutoCodeExchange()
+        public async Task<(bool, string)> AuthWithAutoCodeExchange(Urls.OIDCUrls urls)
         {
             Console.WriteLine(nameof(AuthWithAutoCodeExchange));
-            var discoveryUri = new NSUrl(AuthConstants.ConfigUrl);
             var redirectURI = new NSUrl(AuthConstants.RedirectUri);
-
-            Console.WriteLine($"Fetching configuration for issuer: {discoveryUri}");
 
             try
             {
                 // discovers endpoints
-                var configuration = await AuthorizationService.DiscoverServiceConfigurationForDiscoveryAsync(discoveryUri);
+                var configuration = new ServiceConfiguration(ToUrl(urls.Authorization), ToUrl(urls.Token));
 
                 Console.WriteLine($"Got configuration: {configuration}");
 
@@ -141,17 +140,15 @@ namespace CophiPoint.iOS.Services
 
 
         // Authorization code flow without a the code exchange (need to call codeExchange manually)
-        async Task<(bool, string)> AuthNoCodeExchange()
+        async Task<(bool, string)> AuthNoCodeExchange(Urls.OIDCUrls urls)
         {
-            var discoveryUri = new NSUrl(AuthConstants.ConfigUrl);
             var redirectURI = new NSUrl(AuthConstants.RedirectUri);
 
-            Console.WriteLine($"Fetching configuration for issuer: {discoveryUri}");
 
             try
             {
                 // discovers endpoints
-                var configuration = await AuthorizationService.DiscoverServiceConfigurationForDiscoveryAsync(discoveryUri);
+                var configuration = new ServiceConfiguration(ToUrl(urls.Authorization), ToUrl(urls.Token));
 
                 Console.WriteLine($"Got configuration: {configuration}");
 

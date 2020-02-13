@@ -8,7 +8,6 @@ namespace CophiPoint.Services
 {
     public interface IOrderService
     {
-        Task<List<PurchasedItem>> GetPurchases();
         Task<AccountInfo> GetAccountInfo();
         Task<PurchasedItem> AddPuchase(PurchaseOrder order);
     }

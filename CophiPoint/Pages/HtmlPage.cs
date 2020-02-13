@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using CophiPoint.Api;
+using CophiPoint.Services.Implementation;
 
 namespace CophiPoint.Pages
 {
     public class HtmlPage : ContentPage
     {
-        public HtmlPage(string url, string title)
+        public HtmlPage(string content, string title)
         {
             Title = title;
             Content = new StackLayout
@@ -21,26 +22,13 @@ namespace CophiPoint.Pages
 
                         VerticalOptions = LayoutOptions.FillAndExpand,
                         HorizontalOptions =LayoutOptions.FillAndExpand,
-                        Source = new UrlWebViewSource()
+                        Source = new HtmlWebViewSource()
                         {
-                            Url = url
+                            Html = content
                         }
                     }
                 }
             };
-        }
-
-        internal static Task<HtmlPage> FromUrl(string url, string title)
-        {
-            return Task.FromResult(new HtmlPage(url, title));
-        }
-        public static Task<HtmlPage> GetInfoPage(Urls.InfoUrls urls)
-        {
-            return HtmlPage.FromUrl(urls.General, GeneralResources.InfoTitle);
-        }
-        public static Task<HtmlPage> GetPaymentPage(Urls.InfoUrls urls)
-        {
-            return HtmlPage.FromUrl(urls.Payment, GeneralResources.PayInfoTitle);
         }
     }
 }

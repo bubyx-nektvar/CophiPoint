@@ -23,7 +23,7 @@ namespace CophiPoint.Pages
         public ObservableCollection<ProductViewModel> Products { get; }
         public ObservableCollection<ProductViewModel> Hidden { get; }
 
-        private SemaphoreSlim _lock = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _lock = new SemaphoreSlim(1);
 
         public ProductSearchPage(ProductManager productManager)
         {

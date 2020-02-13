@@ -15,13 +15,11 @@ namespace CophiPoint.Services.Implementation
 {
     public class ApiConnectionService: IHttpRestService
     {
-        private readonly HttpClient _client;
         private HttpClient _sharedClient;
         private Urls _result;
 
         public ApiConnectionService()
         {
-            _client = new HttpClient();
         }
 
         public async Task<Urls> GetUrls()
@@ -29,13 +27,20 @@ namespace CophiPoint.Services.Implementation
             if (_result != null)
                 return _result;
 
-            var response = await _client.GetAsync(Config.ApiConfigUrl);
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                _result = JsonConvert.DeserializeObject<Urls>(content);
-            }
+            var client = CreateHttpClient(x=>x);
+            var response = await client.GetAsync(Config.ApiConfigUrl);
+            _result = await response.ParseResultOrFail<Urls>();
+
             return _result;
+        }
+
+        private HttpClient CreateHttpClient(Func<HttpMessageHandler, HttpMessageHandler> addMiddleware)
+        {
+            var cacheService = TinyIoC.TinyIoCContainer.Current.Resolve<ICacheService>();
+
+            var handler = DependencyService.Get<INativeHttpService>().GetNativeHandler();
+            var middleware = addMiddleware(handler);
+            return new HttpClient(new UrlCacheHandler(middleware, cacheService));
         }
         
         private async Task<HttpClient> GetHttpClient()
@@ -43,17 +48,15 @@ namespace CophiPoint.Services.Implementation
             if (_sharedClient != null)
                 return _sharedClient;
 
-            var service = TinyIoC.TinyIoCContainer.Current.Resolve<AuthService>();
-            var handler = DependencyService.Get<INativeHttpService>().GetNativeHandler();
-            
-            _sharedClient = new HttpClient(new AuthorizationHandler(handler, service));
+            var authService = TinyIoC.TinyIoCContainer.Current.Resolve<AuthService>();
+            _sharedClient = CreateHttpClient(handler => new AuthorizationHandler(handler, authService));
+
             _sharedClient.BaseAddress = (await GetUrls()).GetBaseAddress();
-            _sharedClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             
             return _sharedClient;
         }
 
-        private async Task<HttpResponseMessage> SendAsync(HttpMethod method, Func<Urls, string> relativePathSelector, HttpContent content = null, bool authorize = false)
+        private async Task<HttpResponseMessage> SendAsync(HttpMethod method, Func<Urls, string> relativePathSelector, string mediaType, bool cache, HttpContent content = null, bool authorize = false)
         {
             var client = await GetHttpClient();
             var urls = await GetUrls();
@@ -62,6 +65,8 @@ namespace CophiPoint.Services.Implementation
 
             using (var message = new HttpRequestMessage(method, url))
             {
+                message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType));
+
                 if (authorize) {
                     AuthorizationHandler.SetDoAuthrozation(message);
                 }
@@ -71,6 +76,11 @@ namespace CophiPoint.Services.Implementation
                     message.Content = content;
                 }
 
+                message.Headers.CacheControl = new CacheControlHeaderValue
+                {
+                    NoCache = !cache
+                };
+
                 return await client.SendAsync(message);
             }
         }
@@ -78,21 +88,33 @@ namespace CophiPoint.Services.Implementation
         public async Task<HttpResponseMessage> PostAuthorizedAsync<T>(T contentObject, Func<Urls, string> relativePathSelector)
         {
             var json = JsonConvert.SerializeObject(contentObject);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var content = new StringContent(json, Encoding.UTF8, HttpExtension.JsonMediaType);
 
-            return await SendAsync(HttpMethod.Post, relativePathSelector, content, true);
+            return await SendAsync(HttpMethod.Post, relativePathSelector, HttpExtension.JsonMediaType, cache: false, content, authorize: true);
         }
 
-        public async Task<TResponse> GetAuthorizedAsync<TResponse>(Func<Urls, string> relativePathSelector)
+        public async Task<TResponse> GetAuthorizedAsync<TResponse>(Func<Urls, string> relativePathSelector, bool cache = true)
         {
-            var response = await SendAsync(HttpMethod.Get, relativePathSelector, authorize: true);
+            var response = await SendAsync(HttpMethod.Get, relativePathSelector, HttpExtension.JsonMediaType, cache, authorize: true);
             return await response.ParseResultOrFail<TResponse>();
         }
 
-        public async Task<TResponse> GetAsync<TResponse>(Func<Urls,string> relativePathSelector)
+        public async Task<TResponse> GetJsonAsync<TResponse>(Func<Urls,string> relativePathSelector)
         {
-            var response = await SendAsync(HttpMethod.Get, relativePathSelector);
+            var response = await SendAsync(HttpMethod.Get, relativePathSelector, HttpExtension.JsonMediaType, cache: true);
             return await response.ParseResultOrFail<TResponse>();
+        }
+
+        public async Task<string> GetHtmlAsync(Func<Urls, string> relativePathSelector)
+        {
+            using (var response = await SendAsync(HttpMethod.Get, relativePathSelector, HttpExtension.HtmlMediaType, cache: true))
+            {
+                response.EnsureSuccessStatusCode();
+                if (response.Content.Headers.ContentType.MediaType != HttpExtension.HtmlMediaType)
+                    throw new HttpRequestException(GeneralResources.MediaTypeError);
+
+                return await response.Content.ReadAsStringAsync();
+            }
         }
     }
 }

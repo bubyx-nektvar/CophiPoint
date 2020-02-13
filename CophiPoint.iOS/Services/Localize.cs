@@ -34,21 +34,21 @@ namespace CophiPoint.iOS.Services
             System.Globalization.CultureInfo ci = null;
             try
             {
-                ci = new System.Globalization.CultureInfo(netLanguage);
+                ci = new CultureInfo(netLanguage);
             }
-            catch (CultureNotFoundException e1)
+            catch (CultureNotFoundException)
             {
                 // iOS locale not valid .NET culture (eg. "en-ES" : English in Spain)
                 // fallback to first characters, in this case "en"
                 try
                 {
                     var fallback = ToDotnetFallbackLanguage(new PlatformCulture(netLanguage));
-                    ci = new System.Globalization.CultureInfo(fallback);
+                    ci = new CultureInfo(fallback);
                 }
-                catch (CultureNotFoundException e2)
+                catch (CultureNotFoundException)
                 {
                     // iOS language not valid .NET culture, falling back to English
-                    ci = new System.Globalization.CultureInfo("en");
+                    ci = new CultureInfo("en");
                 }
             }
             return ci;

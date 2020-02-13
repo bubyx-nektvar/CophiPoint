@@ -21,7 +21,7 @@ namespace CophiPoint.Api
         
         public async Task<List<Product>> GetProducts()
         {
-            return await _connectionService.GetAsync<List<Product>>(urls => urls.Shop.Products);
+            return await _connectionService.GetJsonAsync<List<Product>>(urls => urls.Shop.Products);
         }
     }
 }

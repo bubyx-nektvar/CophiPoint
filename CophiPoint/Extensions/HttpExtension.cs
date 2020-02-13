@@ -9,6 +9,9 @@ namespace CophiPoint.Extensions
 {
     public static class HttpExtension
     {
+        public const string JsonMediaType = "application/json";
+        public const string HtmlMediaType = "text/html";
+
         public static async Task<TResult> ParseResultOrFail<TResult>(this HttpResponseMessage response)
         {
             using (response)
@@ -21,7 +24,7 @@ namespace CophiPoint.Extensions
 
         public static async Task<T> ParseResponseBody<T>(this HttpResponseMessage response)
         {
-            if (response.Content.Headers.ContentType.MediaType != "application/json")
+            if (response.Content.Headers.ContentType.MediaType != JsonMediaType)
                 throw new HttpRequestException(GeneralResources.MediaTypeError);
 
             return await response.ReadAsJson<T>();

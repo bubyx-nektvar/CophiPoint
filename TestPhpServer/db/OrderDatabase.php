@@ -37,7 +37,6 @@ class OrderDatabase
 
     public function get($id, $userId){
 
-        //columns: [id, user_id, product_id, purchuase_date, product, price]
         $statement = "
             SELECT 
                 product_id, purchuase_date, product, price
@@ -63,9 +62,12 @@ class OrderDatabase
         }
     }
 
+    /**
+     * @param $userId
+     * @return Purchase[]
+     */
     public function findAll($userId)
     {
-        //columns: [id, user_id, product_id, purchuase_date, product, price]
         $statement = "
             SELECT 
                 product_id, purchuase_date, product, price

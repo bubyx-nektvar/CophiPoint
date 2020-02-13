@@ -21,7 +21,7 @@ namespace CophiPoint.Droid.Services
         private readonly AuthorizationService authService;
         private TaskCompletionSource<AuthState> taskCompletitionSource;
 
-        private IClientAuthentication ClientAuthentication = new ClientSecretBasic(AuthConstants.ClientSecret);
+        private readonly IClientAuthentication ClientAuthentication = new ClientSecretBasic(AuthConstants.ClientSecret);
 
         public AuthService()
         {
@@ -54,15 +54,13 @@ namespace CophiPoint.Droid.Services
             }
             return (authState.AccessToken, authState.IdToken);
         }
-        private static global::Android.Net.Uri toUrl(string url)
-        {
-            return global::Android.Net.Uri.Parse(url);
-        }
-        public async Task<(bool IsSucessful, string Error)> Login(Api.Urls.OIDCUrls urls)
+        private static global::Android.Net.Uri ToUrl(string url) => global::Android.Net.Uri.Parse(url);
+
+        public async Task<(bool IsSucessful, string Error)> Login(Urls.OIDCUrls urls)
         {
             var configuration = new AuthorizationServiceConfiguration(
-                toUrl(urls.Authorization), 
-                toUrl(urls.Token)
+                ToUrl(urls.Authorization), 
+                ToUrl(urls.Token)
                 );
 
             var authRequestBuilder = new AuthorizationRequest.Builder(

@@ -9,8 +9,8 @@ namespace CophiPoint.Services.Implementation
 {
     public class TestRestService:IOrderService, IProductService
     {
-        private static List<PurchasedItem> Purchases = GetPurchases();
-        private static List<Product> Products = GetProducts();
+        private static readonly List<PurchasedItem> Purchases = GetPurchases();
+        private static readonly List<Product> Products = GetProducts();
 
         public Task<PurchasedItem> AddPuchase(PurchaseOrder order)
         {
@@ -29,11 +29,11 @@ namespace CophiPoint.Services.Implementation
         {
             Balance = Purchases.Sum(x=>x.TotalPrice),
             Email = "filip.havel@mojeaplikace.com",
+            DataVersion = "1",
+            Orders = Purchases,
         });
 
         Task<List<Product>> IProductService.GetProducts() => Task.FromResult(Products);
-
-        Task<List<PurchasedItem>> IOrderService.GetPurchases() => Task.FromResult(Purchases);
 
         private static List<Product> GetProducts()
         {

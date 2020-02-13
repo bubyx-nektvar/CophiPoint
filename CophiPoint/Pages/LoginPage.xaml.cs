@@ -15,19 +15,19 @@ namespace CophiPoint.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        private readonly AuthService _auth;
-        private readonly ApiConnectionService ConnectionService;
+        private readonly AuthService _authService;
+        private readonly HtmlManager _htmlService;
 
-        public LoginPage(AuthService authService, ApiConnectionService connectionService)
+        public LoginPage(AuthService authService, HtmlManager htmlService)
         {
-            _auth = authService;
-            ConnectionService = connectionService;
+            _authService = authService;
+            _htmlService = htmlService;
             InitializeComponent();
         }
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            if (_auth.IsLoggedIn)
+            if (_authService.IsLoggedIn)
             {
                 await Loading(OpenMain);
             }
@@ -35,17 +35,18 @@ namespace CophiPoint.Pages
 
         private async void ShowInfo(object sender, EventArgs e)
         {
-            var urls = await ConnectionService.GetUrls();
-            var page = await HtmlPage.GetInfoPage(urls.GetInfoFullPathUrls());
+            var page = await _htmlService.GetPageAsync(GeneralResources.InfoTitle, u => u.General);
             await Navigation.PushAsync(page);
         }
+
         private async void RequestLogin(object sender, EventArgs e)
         {
             await Loading(Login);
         }
+
         private async Task Login()
         {
-            var result = await _auth.Login();
+            var result = await _authService.Login();
             if (result.IsSucessful)
             {
                 await OpenMain();

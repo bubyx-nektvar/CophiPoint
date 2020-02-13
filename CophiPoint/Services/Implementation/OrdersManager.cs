@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TinyIoC;
 
 namespace CophiPoint.Services.Implementation
 {
@@ -16,15 +17,17 @@ namespace CophiPoint.Services.Implementation
         private readonly IOrderService _restService;
         private readonly AuthService _authService;
         private readonly ProductManager _productManager;
+        private readonly ICacheService _cache;
 
         public ObservableCollection<PurchasedItemViewModel> Items { get; } = new ObservableCollection<PurchasedItemViewModel>();
         public UserViewModel Info { get; } = new UserViewModel();
 
-        public OrderManager(IOrderService restService, ProductManager productManager, AuthService authService)
+        public OrderManager(IOrderService restService, ProductManager productManager, AuthService authService, ICacheService cache)
         {
             _restService = restService;
             _authService = authService;
             _productManager = productManager;
+            _cache = cache;
         }
         public async Task AddItem(ProductViewModel selected)
         {
@@ -76,7 +79,7 @@ namespace CophiPoint.Services.Implementation
             Info.Set(info);
 
             Console.WriteLine("Loading Purchases");
-            var items = await _restService.GetPurchases();
+            var items = info.Orders;
             Items.Clear();
 
             foreach (var item in items)
@@ -84,6 +87,11 @@ namespace CophiPoint.Services.Implementation
                 Items.Add(GetViewModel(item));
             }
             Console.WriteLine("Loading Orders Done");
+            
+            if(await _cache.SetRequiredVersionToAll(info.DataVersion))
+            {
+                await TinyIoCContainer.Current.Resolve<ProductManager>().Load();
+            }
         }
 
         public async Task Logout()
