@@ -6,6 +6,7 @@ using FFImageLoading.Svg.Forms;
 using Foundation;
 using OpenId.AppAuth;
 using UIKit;
+using Xamarin.Forms;
 
 namespace CophiPoint.iOS
 {
@@ -27,7 +28,10 @@ namespace CophiPoint.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            global::Xamarin.Forms.Forms.Init();
+            Forms.SetFlags("CarouselView_Experimental");
+
+            Forms.Init();
+
             InitControls();
             LoadApplication(new App());
 
