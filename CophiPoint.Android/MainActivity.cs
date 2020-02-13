@@ -13,6 +13,7 @@ using Android.Content;
 using Plugin.CurrentActivity;
 using CophiPoint.Api;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace CophiPoint.Droid
 {
@@ -26,13 +27,14 @@ namespace CophiPoint.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+            Forms.SetFlags("CarouselView_Experimental", "IndicatorView_Experimental");
 
             base.OnCreate(savedInstanceState);
             InitControls();
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Forms.Init(this, savedInstanceState);
 
             LoadApplication(new App());
         }

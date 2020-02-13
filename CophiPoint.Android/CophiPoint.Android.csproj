@@ -83,7 +83,6 @@
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\Localize.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Renderers\CarouselLayoutRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\NativeHttpService.cs" />
@@ -128,6 +127,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Renderers\" />
     <Folder Include="Resources\mipmap-hdpi\" />
     <Folder Include="Resources\mipmap-mdpi\" />
     <Folder Include="Resources\mipmap-xhdpi\" />

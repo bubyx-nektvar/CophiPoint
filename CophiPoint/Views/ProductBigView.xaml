@@ -23,15 +23,18 @@
                     RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"
                     RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}"
                                         >
-                <FlexLayout Direction="Column" AlignItems="Center" JustifyContent="SpaceEvenly" Margin="10">
+                <FlexLayout Direction="Column" AlignItems="Center" JustifyContent="SpaceBetween" Margin="10">
                     <Label Text="{Binding Name}" FontSize="Large" Margin="50,10"/>
-                    <ffsvg:SvgCachedImage x:Name="productImage"  FlexLayout.Grow="1"
-                            VerticalOptions="Center" WidthRequest="200" HeightRequest="200" 
+                    <ffsvg:SvgCachedImage x:Name="productImage" 
+                            VerticalOptions="Center" FlexLayout.Basis="50%"
                             Source="{Binding ImageUrl}"
                             />
-                    <Label Text="{Binding SelectedSize.Price, Converter={StaticResource formatPrice}}" 
-                                               FontSize="Large" TextColor="{StaticResource primary}" />
-                    <Label Text="{Binding SelectedSize.PricePerUnitText}" />
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="{Binding SelectedSize.Price, Converter={StaticResource formatPrice}}" 
+                                FontSize="Large" TextColor="{StaticResource primary}"
+                                HorizontalOptions="Center"/>
+                        <Label Text="{Binding SelectedSize.PricePerUnitText}"  HorizontalOptions="Center"/>
+                    </StackLayout>
                 </FlexLayout>
             </ContentView>
             <ImageButton 
