@@ -25,15 +25,15 @@ namespace CophiPoint.Helpers.HttpHandlers
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             if (request.Method != HttpMethod.Get
-                || request.Headers.CacheControl.NoCache)
+                || (request.Headers.CacheControl?.NoCache ?? false))
             {
                 return await base.SendAsync(request, cancellationToken);
             }
 
-            if (_cache.Contains(request.RequestUri))
+            if (await _cache.IsUpToDate(request.RequestUri))
             {
-                var cachedItem = _cache.Get(request.RequestUri);
-                return CreateResponse(cachedItem, request, HttpStatusCode.OK);
+                var cachedItem = await _cache.GetValue(request.RequestUri);
+                return CreateResponse(cachedItem.content, cachedItem.mediaType, request, HttpStatusCode.OK);
                 
             }
             else
@@ -43,19 +43,13 @@ namespace CophiPoint.Helpers.HttpHandlers
                 {
                     using (result)
                     {
-                        var value = await result.Content.ReadAsStringAsync();
+                        var content = await result.Content.ReadAsStringAsync();
                         var version = result.Headers.GetValues(VersionHeader).First();
+                        var mediaType = result.Content.Headers.ContentType.MediaType;
 
-                        var cachedItem = new CachedItem()
-                        {
-                            Content = value,
-                            Version = version,
-                            MediaType = result.Content.Headers.ContentType.MediaType
-                        };
+                        await _cache.SetValue(request.RequestUri, version, content, mediaType);
 
-                        await _cache.Set(request.RequestUri, cachedItem);
-
-                        return CreateResponse(cachedItem, request, result.StatusCode);
+                        return CreateResponse(content, mediaType, request, result.StatusCode);
                     }
                 }
                 else
@@ -65,13 +59,13 @@ namespace CophiPoint.Helpers.HttpHandlers
             }
         }
 
-        private HttpResponseMessage CreateResponse(CachedItem cachedItem,HttpRequestMessage request, HttpStatusCode status)
+        private HttpResponseMessage CreateResponse(string content, string mediaType, HttpRequestMessage request, HttpStatusCode status)
         {
             var response = new HttpResponseMessage(status)
             {
                 RequestMessage = request,
 
-                Content = new StringContent(cachedItem.Content, Encoding.UTF8, cachedItem.MediaType)
+                Content = new StringContent(content, Encoding.UTF8, mediaType)
             };
 
             return response;

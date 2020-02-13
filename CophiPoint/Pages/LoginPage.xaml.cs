@@ -38,10 +38,12 @@ namespace CophiPoint.Pages
             var page = await _htmlService.GetPageAsync(GeneralResources.InfoTitle, u => u.General);
             await Navigation.PushAsync(page);
         }
+
         private async void RequestLogin(object sender, EventArgs e)
         {
             await Loading(Login);
         }
+
         private async Task Login()
         {
             var result = await _authService.Login();

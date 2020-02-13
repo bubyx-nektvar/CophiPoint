@@ -15,13 +15,11 @@ namespace CophiPoint.Services.Implementation
 {
     public class ApiConnectionService: IHttpRestService
     {
-        private readonly HttpClient _client;
         private HttpClient _sharedClient;
         private Urls _result;
 
         public ApiConnectionService()
         {
-            _client = new HttpClient();
         }
 
         public async Task<Urls> GetUrls()
@@ -29,10 +27,20 @@ namespace CophiPoint.Services.Implementation
             if (_result != null)
                 return _result;
 
-            var response = await _client.GetAsync(Config.ApiConfigUrl);
+            var client = CreateHttpClient(x=>x);
+            var response = await client.GetAsync(Config.ApiConfigUrl);
             _result = await response.ParseResultOrFail<Urls>();
 
             return _result;
+        }
+
+        private HttpClient CreateHttpClient(Func<HttpMessageHandler, HttpMessageHandler> addMiddleware)
+        {
+            var cacheService = TinyIoC.TinyIoCContainer.Current.Resolve<ICacheService>();
+
+            var handler = DependencyService.Get<INativeHttpService>().GetNativeHandler();
+            var middleware = addMiddleware(handler);
+            return new HttpClient(new UrlCacheHandler(middleware, cacheService));
         }
         
         private async Task<HttpClient> GetHttpClient()
@@ -41,11 +49,7 @@ namespace CophiPoint.Services.Implementation
                 return _sharedClient;
 
             var authService = TinyIoC.TinyIoCContainer.Current.Resolve<AuthService>();
-            var cacheService = TinyIoC.TinyIoCContainer.Current.Resolve<ICacheService>();
-
-            var handler = DependencyService.Get<INativeHttpService>().GetNativeHandler();
-            var authHandler = new AuthorizationHandler(handler, authService);
-            _sharedClient = new HttpClient(new UrlCacheHandler(authHandler, cacheService));
+            _sharedClient = CreateHttpClient(handler => new AuthorizationHandler(handler, authService));
 
             _sharedClient.BaseAddress = (await GetUrls()).GetBaseAddress();
             

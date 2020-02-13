@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -12,77 +14,117 @@ namespace CophiPoint.Services.Implementation
     {
         private class PropertiesObject
         {
+            public string UrlPath { get; set; }
+
             public string MediaType { get; set; }
-            public string Version { get; set; }
-        }
 
-        public CacheService()
-        {
-            Version = Application.Current.Properties.Values
-                .Where(x => x is PropertiesObject)
-                .Select(x => x as PropertiesObject)
-                .Min(x => x.Version);
-        }
+            public string ContentVersion { get; set; }
 
-        public string Version { get; private set; }
-
-        public async Task Clear()
-        {
-            foreach(var value in Application.Current.Properties)
-            {
-                if(value.Value is PropertiesObject)
-                {
-                    File.Delete(GetFileName(value.Key));
-                }
-            }
-            Application.Current.Properties.Clear();
-            await Application.Current.SavePropertiesAsync();
+            public string RequiredVersion { get; set; }
+            public string FileName { get; set; }
         }
         
-        private string GetFileName(Uri requestUri) => GetFileName(requestUri.AbsolutePath);
+        private const string CachePropretyInfoKey = "CachePropertyInfosStore";
 
-        private string GetFileName(string requestUri)
-        {
-            var localFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            return Path.Combine(localFolder, requestUri.Substring(1));
-        }
+        private Dictionary<string, PropertiesObject> _propertiesInfo = null;
 
-        public bool Contains(Uri requestUri)
+        private string GetFileName(PropertiesObject property) => Path.Combine(Xamarin.Essentials.FileSystem.CacheDirectory, property.FileName);
+        
+        private IDictionary<string, PropertiesObject> GetProperties()
         {
-            return Application.Current.Properties.ContainsKey(requestUri.AbsolutePath)
-                && File.Exists(GetFileName(requestUri));
-        }
-
-        public CachedItem Get(Uri key)
-        {
-            if(Application.Current.Properties.TryGetValue(key.AbsolutePath, out var value))
+            if(_propertiesInfo == null)
             {
-                var propValue = (PropertiesObject)value;
-                var content = File.ReadAllText(GetFileName(key), Encoding.UTF8);
-
-                return new CachedItem
+                if(Application.Current.Properties.TryGetValue(CachePropretyInfoKey, out var json))
                 {
-                    MediaType = propValue.MediaType,
-                    Version = propValue.Version,
-                    Content = content
-                };
+                    var values = JsonConvert.DeserializeObject<List<PropertiesObject>>((string)json);
+                    _propertiesInfo = values.ToDictionary(x => x.UrlPath);
+                }
+                else
+                {
+                    _propertiesInfo = new Dictionary<string, PropertiesObject>();
+                }
             }
-            return null;
+            return _propertiesInfo;
+        }
+        private async Task StoreProperties()
+        {
+            var json = JsonConvert.SerializeObject(_propertiesInfo.Values.ToList());
+            Application.Current.Properties[CachePropretyInfoKey] = json;
+            await Application.Current.SavePropertiesAsync();
         }
 
-        public async Task Set(Uri key, CachedItem value)
+        public async Task<bool> SetRequiredVersionToAll(string newVersion)
         {
-            Application.Current.Properties.Add(key.AbsolutePath, new PropertiesObject
+            var result = false;
+            foreach (var value in GetProperties())
             {
-                MediaType = value.MediaType,
-                Version = value.Version
-            });
+                if (value.Value.RequiredVersion != newVersion)
+                {
+                    value.Value.RequiredVersion = newVersion;
 
-            var fileName = GetFileName(key);
-            Directory.CreateDirectory(Path.GetDirectoryName(fileName));
-            File.WriteAllText(fileName, value.Content, Encoding.UTF8);
+                    result = true;
+                    File.Delete(GetFileName(value.Value));
+                }
+            }
 
-            await Application.Current.SavePropertiesAsync();
+            if (result)
+            {
+                await StoreProperties();
+            }
+            return result;
+        }
+
+        public Task<bool> IsUpToDate(Uri requestUri)
+        {
+            var result = GetProperties().TryGetValue(requestUri.AbsolutePath, out var value)
+                && value.RequiredVersion == value.ContentVersion
+                && File.Exists(GetFileName(value));
+            
+            return Task.FromResult(result);
+        }
+
+        public Task<(string content, string mediaType)> GetValue(Uri requestUri)
+        {
+            if(GetProperties().TryGetValue(requestUri.AbsolutePath, out var value))
+            {
+                var content = File.ReadAllText(GetFileName(value), Encoding.UTF8);
+
+                return Task.FromResult((content, value.MediaType));
+            }
+            throw new KeyNotFoundException();
+        }
+
+        public async Task SetValue(Uri requestUri, string version, string content, string mediaType)
+        {
+            var properties = GetProperties();
+
+            if (properties.TryGetValue(requestUri.AbsolutePath, out var value))
+            {
+                if (value.RequiredVersion != value.ContentVersion)
+                {
+                    value.ContentVersion = version;
+                    value.MediaType = mediaType;
+
+                    File.WriteAllText(GetFileName(value), content);
+                }
+                else Console.WriteLine("Cache same version error");
+            }
+            else
+            {
+                value = new PropertiesObject
+                {
+                    UrlPath = requestUri.AbsolutePath,
+                    MediaType = mediaType,
+                    ContentVersion = version,
+                    RequiredVersion = version,
+                    FileName = Path.GetRandomFileName()
+                };
+                properties.Add(requestUri.AbsolutePath, value);
+
+                File.WriteAllText(GetFileName(value), content);
+            }
+
+            await StoreProperties();
         }
     }
 }

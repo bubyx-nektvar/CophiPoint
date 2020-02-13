@@ -88,12 +88,10 @@ namespace CophiPoint.Services.Implementation
             }
             Console.WriteLine("Loading Orders Done");
             
-            if (_cache.Version != info.DataVersion)
+            if(await _cache.SetRequiredVersionToAll(info.DataVersion))
             {
-                await _cache.Clear();
                 await TinyIoCContainer.Current.Resolve<ProductManager>().Load();
             }
-            //TODO reload data
         }
 
         public async Task Logout()

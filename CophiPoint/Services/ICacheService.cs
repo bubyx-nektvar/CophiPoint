@@ -5,19 +5,19 @@ using System.Threading.Tasks;
 
 namespace CophiPoint.Services
 {
-    public class CachedItem
-    {
-        public string Content { get; set; }
-        public string MediaType { get; set; }
-        public string Version { get; set; }
-    }
-
     public interface ICacheService
     {
-        string Version { get; }
-        CachedItem Get(Uri key);
-        Task Set(Uri key, CachedItem value);
-        Task Clear();
-        bool Contains(Uri requestUri);
+        Task<bool> IsUpToDate(Uri requestUri);
+
+        Task SetValue(Uri requestUri, string version, string Content, string mediaType);
+        
+        Task<(string content, string mediaType)> GetValue(Uri requestUri);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="newVersion"></param>
+        /// <returns>ture if for some endpoint required version changed</returns>
+        Task<bool> SetRequiredVersionToAll(string newVersion);
     }
 }
