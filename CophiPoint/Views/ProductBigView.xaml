@@ -84,8 +84,9 @@
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-60}"
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Constant=70}"
                     RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height, Factor=1, Constant=-160}"
-                    WidthRequest="50" RowHeight="50" SeparatorVisibility="None"
+                    WidthRequest="50" RowHeight="51" SeparatorVisibility="None"
                     SelectionMode="None" ItemTapped="SizeSelected"
+                    VerticalOptions="End"
                 >
                 <ListView.ItemTemplate>
                     <DataTemplate>

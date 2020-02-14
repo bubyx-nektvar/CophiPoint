@@ -16,6 +16,31 @@
       {
         "unitsCount": 300,
         "totalPrice": 30
+      },
+
+      {
+        "unitsCount": 350,
+        "totalPrice": 20
+      },
+      {
+        "unitsCount": 400,
+        "totalPrice": 25
+      },
+      {
+        "unitsCount": 500,
+        "totalPrice": 30
+      },
+      {
+        "unitsCount": 15,
+        "totalPrice": 20
+      },
+      {
+        "unitsCount": 20,
+        "totalPrice": 25
+      },
+      {
+        "unitsCount": 30,
+        "totalPrice": 30
       }
     ]
   },
