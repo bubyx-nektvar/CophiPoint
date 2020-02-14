@@ -9,9 +9,9 @@ namespace CophiPoint.Services
 {
     public interface IHttpRestService
     {
-        Task<HttpResponseMessage> PostAuthorizedAsync<T>(T contentObject, Func<Urls, string> relativePathSelector);
-        
-        Task<TResponse> GetAuthorizedAsync<TResponse>(Func<Urls, string> relativePathSelector, bool cache = true);
+        Task<TResponse> PostJsonAuthorizedAsync<T, TResponse>(T contentObject, Func<Urls, string> relativePathSelector);
+
+        Task<TResponse> GetJsonAuthorizedAsync<TResponse>(Func<Urls, string> relativePathSelector, bool cache = true);
         
         Task<TResponse> GetJsonAsync<TResponse>(Func<Urls, string> relativePathSelector);
         

@@ -1,9 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using CophiPoint.Helpers;
+using CophiPoint.Helpers.HttpHandlers.HttpExceptions;
+using CophiPoint.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace CophiPoint.Extensions
 {
@@ -11,29 +15,56 @@ namespace CophiPoint.Extensions
     {
         public const string JsonMediaType = "application/json";
         public const string HtmlMediaType = "text/html";
+        private const int MaxRetries = 3;
 
-        public static async Task<TResult> ParseResultOrFail<TResult>(this HttpResponseMessage response)
+        public static Task<T> ParseJsonResponseBody<T>(this HttpResponseMessage response)
+            => ParseXResponseBody(response, JsonMediaType, JsonConvert.DeserializeObject<T>);
+
+        public static Task<string> ParseHtmlResponseBody(this HttpResponseMessage response)
+            => ParseXResponseBody(response, HtmlMediaType, x => x);
+
+        private static async Task<T> ParseXResponseBody<T>(HttpResponseMessage response, string requiredMediaType, Func<string, T> parse)
         {
+
             using (response)
             {
-                response.EnsureSuccessStatusCode();
+                if (response.Content.Headers.ContentType.MediaType != requiredMediaType)
+                    throw new InvalidMediaTypeException(response.Content.Headers.ContentType.MediaType, requiredMediaType, GeneralResources.MediaTypeError);
 
-                return await response.ParseResponseBody<TResult>();
+                var result = await response.Content.ReadAsStringAsync();
+                return parse(result);
             }
         }
+        
+        public static Task<TResult> AskRetryOnHttpStatusFail<TResult>(Func<Task<TResult>> requestFunction)
+            where TResult : new() 
+            => AskRetryOnHttpStatusFail(requestFunction, 0);
 
-        public static async Task<T> ParseResponseBody<T>(this HttpResponseMessage response)
+
+        private static async Task<TResult> AskRetryOnHttpStatusFail<TResult>(Func<Task<TResult>> requestFunction, int retryCounter)
+            where TResult:new()
         {
-            if (response.Content.Headers.ContentType.MediaType != JsonMediaType)
-                throw new HttpRequestException(GeneralResources.MediaTypeError);
+            try
+            {
+                return await requestFunction();
+            }
+            catch (HttpStatusCodeException ex)
+            {
+                MicroLogger.LogError(ex.Message);
 
-            return await response.ReadAsJson<T>();
-        }
+                if (retryCounter < MaxRetries)
+                {
+                    await App.Current.MainPage.DisplayAlert(GeneralResources.ServerRequestFailedTitle, GeneralResources.ServerRequestFailedRetryMsg, GeneralResources.AlertRetry);
 
-        public static async Task<T> ReadAsJson<T>(this HttpResponseMessage response)
-        {
-            var result = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(result);
+                    return await AskRetryOnHttpStatusFail(requestFunction, retryCounter + 1);
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert(GeneralResources.ServerRequestFailedTitle, GeneralResources.ServerRequestFailedRetryMsg, GeneralResources.AlertExit);
+                    DependencyService.Get<INativeAppService>().ExitApp();
+                    return new TResult();
+                }
+            }
         }
     }
 }

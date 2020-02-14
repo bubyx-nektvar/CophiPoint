@@ -28,8 +28,13 @@ namespace CophiPoint.Services.Implementation
                 return _result;
 
             var client = CreateHttpClient(x=>x);
-            var response = await client.GetAsync(Config.ApiConfigUrl);
-            _result = await response.ParseResultOrFail<Urls>();
+
+            _result = await HttpExtension.AskRetryOnHttpStatusFail(
+                async () =>
+                {
+                    var response = await client.GetAsync(Config.ApiConfigUrl);
+                    return await response.ParseJsonResponseBody<Urls>();
+                });
 
             return _result;
         }
@@ -39,7 +44,8 @@ namespace CophiPoint.Services.Implementation
             var cacheService = TinyIoC.TinyIoCContainer.Current.Resolve<ICacheService>();
 
             var handler = DependencyService.Get<INativeHttpService>().GetNativeHandler();
-            var middleware = addMiddleware(handler);
+            var exceptionHandler = new HttpExceptionThrowHandler(handler);
+            var middleware = addMiddleware(exceptionHandler);
             return new HttpClient(new UrlCacheHandler(middleware, cacheService));
         }
         
@@ -85,36 +91,32 @@ namespace CophiPoint.Services.Implementation
             }
         }
 
-        public async Task<HttpResponseMessage> PostAuthorizedAsync<T>(T contentObject, Func<Urls, string> relativePathSelector)
+        public async Task<TResponse> PostJsonAuthorizedAsync<T, TResponse>(T contentObject, Func<Urls, string> relativePathSelector)
         {
             var json = JsonConvert.SerializeObject(contentObject);
             var content = new StringContent(json, Encoding.UTF8, HttpExtension.JsonMediaType);
 
-            return await SendAsync(HttpMethod.Post, relativePathSelector, HttpExtension.JsonMediaType, cache: false, content, authorize: true);
+            var response = await SendAsync(HttpMethod.Post, relativePathSelector, HttpExtension.JsonMediaType, cache: false, content, authorize: true);
+            
+            return await response.ParseJsonResponseBody<TResponse>();
         }
 
-        public async Task<TResponse> GetAuthorizedAsync<TResponse>(Func<Urls, string> relativePathSelector, bool cache = true)
+        public async Task<TResponse> GetJsonAuthorizedAsync<TResponse>(Func<Urls, string> relativePathSelector, bool cache = true)
         {
             var response = await SendAsync(HttpMethod.Get, relativePathSelector, HttpExtension.JsonMediaType, cache, authorize: true);
-            return await response.ParseResultOrFail<TResponse>();
+            return await response.ParseJsonResponseBody<TResponse>();
         }
 
         public async Task<TResponse> GetJsonAsync<TResponse>(Func<Urls,string> relativePathSelector)
         {
             var response = await SendAsync(HttpMethod.Get, relativePathSelector, HttpExtension.JsonMediaType, cache: true);
-            return await response.ParseResultOrFail<TResponse>();
+            return await response.ParseJsonResponseBody<TResponse>();
         }
 
         public async Task<string> GetHtmlAsync(Func<Urls, string> relativePathSelector)
         {
-            using (var response = await SendAsync(HttpMethod.Get, relativePathSelector, HttpExtension.HtmlMediaType, cache: true))
-            {
-                response.EnsureSuccessStatusCode();
-                if (response.Content.Headers.ContentType.MediaType != HttpExtension.HtmlMediaType)
-                    throw new HttpRequestException(GeneralResources.MediaTypeError);
-
-                return await response.Content.ReadAsStringAsync();
-            }
+            var response = await SendAsync(HttpMethod.Get, relativePathSelector, HttpExtension.HtmlMediaType, cache: true);
+            return await response.ParseHtmlResponseBody();
         }
     }
 }

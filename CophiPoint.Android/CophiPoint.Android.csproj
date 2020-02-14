@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthActivity.cs" />
+    <Compile Include="Services\AppService.cs" />
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\Localize.cs" />
     <Compile Include="MainActivity.cs" />

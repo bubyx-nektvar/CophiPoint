@@ -69,8 +69,8 @@ class OrdersController
     }
 
     private function addOrder(){
-        if(true && http_response_code(409))
-        {//test
+        if(false && http_response_code(409))//test
+        {
             $result = new Order();
             $result->ProductId = 1;
             $result->Size = new Size();

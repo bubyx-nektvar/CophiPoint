@@ -1,4 +1,5 @@
-﻿using CophiPoint.Services;
+﻿using CophiPoint.Helpers.HttpHandlers.HttpExceptions;
+using CophiPoint.Services;
 using CophiPoint.Services.Implementation;
 using System;
 using System.Collections.Generic;
@@ -21,26 +22,20 @@ namespace CophiPoint.Helpers.HttpHandlers
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            if (!request.Properties.ContainsKey(AuthorizeProperty))
+            {
+                return await base.SendAsync(request, cancellationToken);
+            }
+
+            request.Headers.Authorization = await _authService.GetAccessToken();
             try
             {
-                if (!request.Properties.ContainsKey(AuthorizeProperty))
-                {
-                    return await base.SendAsync(request, cancellationToken);
-                }
-
-                request.Headers.Authorization = await _authService.GetAccessToken();
-
-                var response = await base.SendAsync(request, cancellationToken);
-                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                {
-                    request.Headers.Authorization = await _authService.GetAccessToken();
-                    return await base.SendAsync(request, cancellationToken);
-                }
-                return response;
-            }catch(Exception ex)
+                return await base.SendAsync(request, cancellationToken);
+            }
+            catch(HttpStatusCodeException ex) when (ex.Status == System.Net.HttpStatusCode.Unauthorized)
             {
-                Console.WriteLine(ex.Message);
-                throw;
+                request.Headers.Authorization = await _authService.GetAccessToken();
+                return await base.SendAsync(request, cancellationToken);
             }
         }
         

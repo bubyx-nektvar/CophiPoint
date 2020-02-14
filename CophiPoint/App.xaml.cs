@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CophiPoint.Api;
 using TinyIoC;
 using CophiPoint.Services.Implementation;
+using CophiPoint.Helpers;
 
 namespace CophiPoint
 {
@@ -48,9 +49,9 @@ namespace CophiPoint
 
         public async Task Reload()
         {
-            Console.WriteLine("Reloading data sets from Server");
-            await TinyIoCContainer.Current.Resolve<ProductManager>().Load();
+            MicroLogger.LogDebug("Reloading data sets from Server");
             await TinyIoCContainer.Current.Resolve<OrderManager>().Load();
+            await TinyIoCContainer.Current.Resolve<ProductManager>().Load();
         }
 
         protected override async void OnStart()

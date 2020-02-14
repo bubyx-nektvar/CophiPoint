@@ -27,7 +27,7 @@ class TokenDatabase
             WHERE
               token = :token
               AND token_type = :token_type
-              AND CURRENT_TIMESTAMP() > created_at 
+              AND CURRENT_TIMESTAMP() >= created_at 
               AND expires_at > CURRENT_TIMESTAMP()
         ";
 

@@ -12,6 +12,6 @@ namespace CophiPoint.Api.Models
 
         public decimal Balance { get; set; }
 
-        public List<PurchasedItem> Orders { get; set; }
+        public List<PurchasedItem> Orders { get; set; } = new List<PurchasedItem>();
     }
 }

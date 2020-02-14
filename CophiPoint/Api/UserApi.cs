@@ -1,9 +1,11 @@
 ﻿using CophiPoint.Api.Models;
 using CophiPoint.Extensions;
+using CophiPoint.Helpers.HttpHandlers.HttpExceptions;
 using CophiPoint.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -21,27 +23,32 @@ namespace CophiPoint.Api
         }
 
         public async Task<AccountInfo> GetAccountInfo()
-            => await _connectionService.GetAuthorizedAsync<AccountInfo>(u => u.Shop.User, cache: false);
+        { 
+            return await HttpExtension.AskRetryOnHttpStatusFail(
+                () => _connectionService.GetJsonAuthorizedAsync<AccountInfo>(u => u.Shop.User, cache: false)
+            );
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="purchase"></param>
+        /// <returns></returns>
+        /// <exception cref="DataConflictException">When product definition has changed on server</exception>
         public async Task<PurchasedItem> AddPuchase(PurchaseOrder purchase)
         {
-            using (var result = await _connectionService.PostAuthorizedAsync(purchase, u => u.Shop.User))
-            {
-                if (result.IsSuccessStatusCode)
-                {
-                    return await result.ParseResponseBody<PurchasedItem>();
-                }
-                else if (result.StatusCode == System.Net.HttpStatusCode.Conflict)
-                {
-                    var proposal = await result.ReadAsJson<PurchaseOrder>();
-                    throw new DataConflictException(proposal);
-                }
-                else
-                {
-                    throw new HttpRequestException(GeneralResources.StatusCodeError);
-                }
-            }
-
+            return await HttpExtension.AskRetryOnHttpStatusFail(
+                async () => {
+                    try
+                    {
+                        return await _connectionService.PostJsonAuthorizedAsync<PurchaseOrder, PurchasedItem>(purchase, u => u.Shop.User);
+                    }
+                    catch (HttpStatusCodeException ex) when (ex.Status == HttpStatusCode.Conflict)
+                    {
+                        var proposal = JsonConvert.DeserializeObject<PurchaseOrder>(ex.Content);
+                        throw new DataConflictException(proposal);
+                    }
+                });
         }
     }
 }

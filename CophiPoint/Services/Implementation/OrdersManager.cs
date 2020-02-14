@@ -1,6 +1,7 @@
 ﻿using CophiPoint.Api;
 using CophiPoint.Api.Models;
 using CophiPoint.Extensions;
+using CophiPoint.Helpers;
 using CophiPoint.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -74,11 +75,11 @@ namespace CophiPoint.Services.Implementation
 
         public async Task Load()
         {
-            Console.WriteLine("Loading Account");
+            MicroLogger.LogDebug("Loading Account");
             var info = await _restService.GetAccountInfo();
             Info.Set(info);
 
-            Console.WriteLine("Loading Purchases");
+            MicroLogger.LogDebug("Loading Purchases");
             var items = info.Orders;
             Items.Clear();
 
@@ -86,7 +87,7 @@ namespace CophiPoint.Services.Implementation
             {
                 Items.Add(GetViewModel(item));
             }
-            Console.WriteLine("Loading Orders Done");
+            MicroLogger.LogDebug("Loading Orders Done");
             
             if(await _cache.SetRequiredVersionToAll(info.DataVersion))
             {

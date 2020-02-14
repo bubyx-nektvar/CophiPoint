@@ -4,6 +4,7 @@ using Android.Content;
 using Android.Support.CustomTabs;
 using CophiPoint.Api;
 using CophiPoint.Droid;
+using CophiPoint.Helpers;
 using CophiPoint.Services;
 using OpenId.AppAuth;
 using Plugin.CurrentActivity;
@@ -14,7 +15,7 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(CophiPoint.Droid.Services.AuthService))]
 namespace CophiPoint.Droid.Services
 {
-    public class AuthService : INativAuthService
+    public class AuthService : INativeAuthService
     {
         public static AuthService Instance;
         private readonly Context _context;
@@ -76,7 +77,7 @@ namespace CophiPoint.Droid.Services
             }
             var authRequest = authRequestBuilder.Build();
 
-            Console.WriteLine("Making auth request to " + configuration.AuthorizationEndpoint);
+            MicroLogger.LogDebug("Making auth request to " + configuration.AuthorizationEndpoint);
             var intent = authService.GetAuthorizationRequestIntent(authRequest);
 
             taskCompletitionSource = new TaskCompletionSource<AuthState>();
@@ -107,27 +108,28 @@ namespace CophiPoint.Droid.Services
 
             if(resp != null)
             {
-                Console.WriteLine("Received AuthorizationResponse.");
+                MicroLogger.LogDebug("Received AuthorizationResponse.");
                 SetAuthState(authState);
                 PerformTokenRequest(resp.CreateTokenExchangeRequest())
                     .ContinueWith(t => taskCompletitionSource.SetResult(t.Result));
             }
             else
             {
-                Console.WriteLine("Auth failed: " + ex);
+                MicroLogger.LogError("Auth failed: " + ex);
                 taskCompletitionSource.SetResult(authState);
             }
         }
 
         private Task<AuthState> PerformTokenRequest(TokenRequest request)
         {
-            var tcs = new TaskCompletionSource<AuthState>();
+            MicroLogger.LogDebug($"Request token {request.AuthorizationCode}");
+               var tcs = new TaskCompletionSource<AuthState>();
             authService.PerformTokenRequest(request, ClientAuthentication,
                 (TokenResponse tokenResponse, AuthorizationException authException)=>
                 {
                     if (tokenResponse != null)
                     {
-                        Console.WriteLine("Token request complete");
+                        MicroLogger.LogDebug("Token request complete");
                         var authState = GetAuthState();
                         if (tokenResponse?.AccessTokenExpirationTime == null)
                         {
