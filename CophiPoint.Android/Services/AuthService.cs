@@ -78,7 +78,9 @@ namespace CophiPoint.Droid.Services
             var authRequest = authRequestBuilder.Build();
 
             MicroLogger.LogDebug("Making auth request to " + configuration.AuthorizationEndpoint);
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             var intent = authService.GetAuthorizationRequestIntent(authRequest);
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
 
             taskCompletitionSource = new TaskCompletionSource<AuthState>();
 

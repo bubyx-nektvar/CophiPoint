@@ -28,10 +28,10 @@ namespace CophiPoint.iOS.Services
             if (NSLocale.PreferredLanguages.Length > 0)
             {
                 var pref = NSLocale.PreferredLanguages[0];
-                netLanguage = iOSToDotnetLanguage(pref);
+                netLanguage = IOSToDotnetLanguage(pref);
             }
             // this gets called a lot - try/catch can be expensive so consider caching or something
-            System.Globalization.CultureInfo ci = null;
+            CultureInfo ci;
             try
             {
                 ci = new CultureInfo(netLanguage);
@@ -54,7 +54,7 @@ namespace CophiPoint.iOS.Services
             return ci;
         }
 
-        string iOSToDotnetLanguage(string iOSLanguage)
+        string IOSToDotnetLanguage(string iOSLanguage)
         {
             // .NET cultures don't support underscores
             string netLanguage = iOSLanguage.Replace("_", "-");

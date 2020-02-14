@@ -27,28 +27,27 @@ namespace CophiPoint.Droid.Services
         }
         public CultureInfo GetCurrentCultureInfo()
         {
-            var netLanguage = "en";
             var androidLocale = Java.Util.Locale.Default;
-            netLanguage = AndroidToDotnetLanguage(androidLocale.ToString().Replace("_", "-"));
+            var netLanguage = AndroidToDotnetLanguage(androidLocale.ToString().Replace("_", "-"));
             // this gets called a lot - try/catch can be expensive so consider caching or something
-            System.Globalization.CultureInfo ci = null;
+            CultureInfo ci;
             try
             {
-                ci = new System.Globalization.CultureInfo(netLanguage);
+                ci = new CultureInfo(netLanguage);
             }
             catch (CultureNotFoundException)
             {
                 // iOS locale not valid .NET culture (eg. "en-ES" : English in Spain)
-                // fallback to first characters, in this case "en"
+                // fall-back to first characters, in this case "en"
                 try
                 {
                     var fallback = ToDotnetFallbackLanguage(new PlatformCulture(netLanguage));
-                    ci = new System.Globalization.CultureInfo(fallback);
+                    ci = new CultureInfo(fallback);
                 }
                 catch (CultureNotFoundException)
                 {
                     // iOS language not valid .NET culture, falling back to English
-                    ci = new System.Globalization.CultureInfo("en");
+                    ci = new CultureInfo("en");
                 }
             }
             return ci;

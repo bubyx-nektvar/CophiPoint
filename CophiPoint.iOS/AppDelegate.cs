@@ -41,7 +41,9 @@ namespace CophiPoint.iOS
         private void InitControls()
         {
             CachedImageRenderer.Init();
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             var ignore = typeof(SvgCachedImage);
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
         }
 
         // Handles inbound URLs. Checks if the URL matches the redirect URI for a pending
