@@ -38,23 +38,15 @@ namespace CophiPoint.Helpers.HttpHandlers
             }
             else
             {
-                var result = await base.SendAsync(request, cancellationToken);
-                if (result.IsSuccessStatusCode)
+                using (var result = await base.SendAsync(request, cancellationToken))
                 {
-                    using (result)
-                    {
-                        var content = await result.Content.ReadAsStringAsync();
-                        var version = result.Headers.GetValues(VersionHeader).First();
-                        var mediaType = result.Content.Headers.ContentType.MediaType;
+                    var content = await result.Content.ReadAsStringAsync();
+                    var version = result.Headers.GetValues(VersionHeader).First();
+                    var mediaType = result.Content.Headers.ContentType.MediaType;
 
-                        await _cache.SetValue(request.RequestUri, version, content, mediaType);
+                    await _cache.SetValue(request.RequestUri, version, content, mediaType);
 
-                        return CreateResponse(content, mediaType, request, result.StatusCode);
-                    }
-                }
-                else
-                {
-                    return result;
+                    return CreateResponse(content, mediaType, request, result.StatusCode);
                 }
             }
         }

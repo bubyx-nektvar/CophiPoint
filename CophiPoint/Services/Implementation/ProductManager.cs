@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using System.Linq;
+using CophiPoint.Helpers;
 
 namespace CophiPoint.Services.Implementation
 {
@@ -25,7 +26,7 @@ namespace CophiPoint.Services.Implementation
 
         public async Task Load()
         {
-            Console.WriteLine("Loading Products");
+            MicroLogger.LogDebug("Loading Products");
             var items = await _restService.GetProducts();
             Products.Clear();
             var favorite = Preferences.Get(nameof(ProductViewModel.Favorite), 0, nameof(ProductManager));
@@ -41,7 +42,7 @@ namespace CophiPoint.Services.Implementation
                     _favorite = model;
                 }
             }
-            Console.WriteLine("Loading Products Done");
+            MicroLogger.LogDebug("Loading Products Done");
         }
 
         public void SetFavorite(ProductViewModel product, bool favorite)

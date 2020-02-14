@@ -28,33 +28,13 @@ namespace CophiPoint.iOS.Services
             if (NSLocale.PreferredLanguages.Length > 0)
             {
                 var pref = NSLocale.PreferredLanguages[0];
-                netLanguage = iOSToDotnetLanguage(pref);
+                netLanguage = IOSToDotnetLanguage(pref);
             }
-            // this gets called a lot - try/catch can be expensive so consider caching or something
-            System.Globalization.CultureInfo ci = null;
-            try
-            {
-                ci = new CultureInfo(netLanguage);
-            }
-            catch (CultureNotFoundException)
-            {
-                // iOS locale not valid .NET culture (eg. "en-ES" : English in Spain)
-                // fallback to first characters, in this case "en"
-                try
-                {
-                    var fallback = ToDotnetFallbackLanguage(new PlatformCulture(netLanguage));
-                    ci = new CultureInfo(fallback);
-                }
-                catch (CultureNotFoundException)
-                {
-                    // iOS language not valid .NET culture, falling back to English
-                    ci = new CultureInfo("en");
-                }
-            }
-            return ci;
+
+            return LocalizationHelper.BuildLocalization(netLanguage, ToDotnetFallbackLanguage);
         }
 
-        string iOSToDotnetLanguage(string iOSLanguage)
+        string IOSToDotnetLanguage(string iOSLanguage)
         {
             // .NET cultures don't support underscores
             string netLanguage = iOSLanguage.Replace("_", "-");

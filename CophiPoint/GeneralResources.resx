@@ -123,6 +123,12 @@
   <data name="AlertCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="AlertExit" xml:space="preserve">
+    <value>Exit app</value>
+  </data>
+  <data name="AlertRetry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
   <data name="HistoryAccountTitle" xml:space="preserve">
     <value>Account</value>
   </data>
@@ -178,6 +184,15 @@
   </data>
   <data name="ServerErrorTitle" xml:space="preserve">
     <value>Comunnication error</value>
+  </data>
+  <data name="ServerRequestFailedExitMsg" xml:space="preserve">
+    <value>Communication with remote server failed. Please try agin later.</value>
+  </data>
+  <data name="ServerRequestFailedRetryMsg" xml:space="preserve">
+    <value>Communication with remote server failed.</value>
+  </data>
+  <data name="ServerRequestFailedTitle" xml:space="preserve">
+    <value>Server error</value>
   </data>
   <data name="StatusCodeError" xml:space="preserve">
     <value>Unexpected HTTP response code</value>

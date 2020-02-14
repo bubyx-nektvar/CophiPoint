@@ -59,7 +59,7 @@ namespace CophiPoint.Components
             set => SetValue(PanelShownProperty, value);
         }
 
-        private TapGestureRecognizer ShowGesture = new TapGestureRecognizer();
+        private readonly TapGestureRecognizer ShowGesture = new TapGestureRecognizer();
 
         public SlideUpPanelLayout()
         {

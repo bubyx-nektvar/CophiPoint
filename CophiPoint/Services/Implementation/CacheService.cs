@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CophiPoint.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -107,7 +108,7 @@ namespace CophiPoint.Services.Implementation
 
                     File.WriteAllText(GetFileName(value), content);
                 }
-                else Console.WriteLine("Cache same version error");
+                else MicroLogger.LogWarning("Cache same version error");
             }
             else
             {

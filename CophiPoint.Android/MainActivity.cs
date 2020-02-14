@@ -49,7 +49,9 @@ namespace CophiPoint.Droid
         private void InitControls()
         {
             CachedImageRenderer.Init(true);
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             var ignore = typeof(SvgCachedImage);
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
         }
     }
 }

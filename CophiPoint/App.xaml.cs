@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CophiPoint.Api;
 using TinyIoC;
 using CophiPoint.Services.Implementation;
+using CophiPoint.Helpers;
 
 namespace CophiPoint
 {
@@ -27,15 +28,13 @@ namespace CophiPoint
             container.Register<IHttpRestService, ApiConnectionService>().AsSingleton();
             container.Register<AuthService>().AsSingleton();
 
-            if (false)
-            {
-                container.Register<TestRestService>().AsSingleton();
-            }
-            else
-            {
-                container.Register<IProductService, ProductsApi>().AsSingleton();
-                container.Register<IOrderService, UserApi>().AsSingleton();
-            }
+#if DEBUG_OFFLINE
+            container.Register<TestRestService>().AsSingleton();
+#else
+            container.Register<IProductService, ProductsApi>().AsSingleton();
+            container.Register<IOrderService, UserApi>().AsSingleton();
+#endif
+
             container.Register<ICacheService,CacheService>();
             container.Register<HtmlManager>();
             container.Register<ProductManager>().AsSingleton();
@@ -48,12 +47,14 @@ namespace CophiPoint
 
         public async Task Reload()
         {
-            Console.WriteLine("Reloading data sets from Server");
-            await TinyIoCContainer.Current.Resolve<ProductManager>().Load();
+            MicroLogger.LogDebug("Reloading data sets from Server");
             await TinyIoCContainer.Current.Resolve<OrderManager>().Load();
+            await TinyIoCContainer.Current.Resolve<ProductManager>().Load();
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         protected override async void OnStart()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             // Handle when your app starts
         }

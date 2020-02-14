@@ -8,6 +8,7 @@
 require_once __DIR__ . '/../services/Auth.php';
 require_once __DIR__.'/../db/OrderDatabase.php';
 require_once __DIR__.'/OIDCController.php';
+require_once __DIR__.'/../config/Version.php';
 
 class OrdersController
 {
@@ -64,13 +65,13 @@ class OrdersController
             "balance" => $balance,
             "email" => $userInfo['email'],
             "orders" => $orders,
-            "dataVersion" => '1'
+            "dataVersion" => Version::Current
         );
     }
 
     private function addOrder(){
-        if(true && http_response_code(409))
-        {//test
+        if(false && http_response_code(409))//test
+        {
             $result = new Order();
             $result->ProductId = 1;
             $result->Size = new Size();

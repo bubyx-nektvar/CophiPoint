@@ -17,7 +17,7 @@ namespace CophiPoint.Services
         /// 
         /// </summary>
         /// <param name="newVersion"></param>
-        /// <returns>ture if for some endpoint required version changed</returns>
+        /// <returns>true if for some endpoint required version changed</returns>
         Task<bool> SetRequiredVersionToAll(string newVersion);
     }
 }

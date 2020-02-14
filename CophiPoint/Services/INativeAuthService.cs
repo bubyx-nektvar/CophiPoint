@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CophiPoint.Services
 {
-    public interface INativAuthService
+    public interface INativeAuthService
     {
         bool IsLogged { get; }
         Task<(bool IsSucessful, string Error)> Login(Api.Urls.OIDCUrls urls);

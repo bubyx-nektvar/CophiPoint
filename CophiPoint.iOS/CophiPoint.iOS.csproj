@@ -64,6 +64,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Services\AppService.cs" />
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\Localize.cs" />
     <Compile Include="Main.cs" />

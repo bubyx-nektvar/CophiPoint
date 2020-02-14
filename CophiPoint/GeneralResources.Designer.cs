@@ -79,6 +79,24 @@ namespace CophiPoint {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit app.
+        /// </summary>
+        public static string AlertExit {
+            get {
+                return ResourceManager.GetString("AlertExit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retry.
+        /// </summary>
+        public static string AlertRetry {
+            get {
+                return ResourceManager.GetString("AlertRetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account.
         /// </summary>
         public static string HistoryAccountTitle {
@@ -237,6 +255,33 @@ namespace CophiPoint {
         public static string ServerErrorTitle {
             get {
                 return ResourceManager.GetString("ServerErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Communication with remote server failed. Please try agin later..
+        /// </summary>
+        public static string ServerRequestFailedExitMsg {
+            get {
+                return ResourceManager.GetString("ServerRequestFailedExitMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Communication with remote server failed..
+        /// </summary>
+        public static string ServerRequestFailedRetryMsg {
+            get {
+                return ResourceManager.GetString("ServerRequestFailedRetryMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server error.
+        /// </summary>
+        public static string ServerRequestFailedTitle {
+            get {
+                return ResourceManager.GetString("ServerRequestFailedTitle", resourceCulture);
             }
         }
         

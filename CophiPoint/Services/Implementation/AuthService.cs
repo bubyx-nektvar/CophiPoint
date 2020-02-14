@@ -25,7 +25,7 @@ namespace CophiPoint.Services.Implementation
         {
             get
             {
-                return DependencyService.Get<INativAuthService>().IsLogged;
+                return DependencyService.Get<INativeAuthService>().IsLogged;
             }
         }
 
@@ -33,14 +33,14 @@ namespace CophiPoint.Services.Implementation
         {
             try
             {
-                return await DependencyService.Get<INativAuthService>().GetTokens();
+                return await DependencyService.Get<INativeAuthService>().GetTokens();
             }
             catch (UnauthorizedAccessException ex)
             {
                 var result = await Login();
                 if (result.IsSucessful)
                 {
-                    return await DependencyService.Get<INativAuthService>().GetTokens();
+                    return await DependencyService.Get<INativeAuthService>().GetTokens();
                 }
                 else
                 {
@@ -52,13 +52,13 @@ namespace CophiPoint.Services.Implementation
         public async Task<(bool IsSucessful, string Error)> Login()
         {
             var urls = await _connectionService.GetUrls();
-            return await DependencyService.Get<INativAuthService>()
+            return await DependencyService.Get<INativeAuthService>()
                 .Login(urls.GetOIDCFullPathUrls());
         }
 
         public async Task Logout()
         {
-            await DependencyService.Get<INativAuthService>().LogOut();
+            await DependencyService.Get<INativeAuthService>().LogOut();
         }
 
         public async Task<AuthenticationHeaderValue> GetAccessToken() => new AuthenticationHeaderValue("Bearer", (await GetToken()).accessToken);
