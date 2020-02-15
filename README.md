@@ -12,14 +12,3 @@ This application is used only as frontend part of system.
 4. User see his costs and contributes on total costs
 
 ## User guide
-
-
-
-
-## Building application 
-
-### Configurations
-
-## Architecture
-
-
