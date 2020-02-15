@@ -10,7 +10,7 @@
              xmlns:view="clr-namespace:CophiPoint.Views"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              x:Class="CophiPoint.Pages.MainPage"
-             NavigationPage.HasNavigationBar="{Binding Source={x:Reference SlidePanel}, Path=PanelShown, Converter={StaticResource inverter}}"
+             NavigationPage.HasNavigationBar="{Binding Source={x:Reference SlidePanel}, Path=PanelShown, Converter={StaticResource inverterTrue}}"
              NavigationPage.HasBackButton="False"
              >
     <NavigationPage.TitleView>

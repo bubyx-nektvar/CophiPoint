@@ -14,6 +14,7 @@
         </ResourceDictionary>
 
         <converters:InverseBoolConverter x:Key="inverter"/>
+        <converters:InverseBoolSuccessConverter x:Key="inverterTrue"/>
         <converters:NullableBoolConverter x:Key="nullaplly"/>
         <converters:EmptySourceConvertor x:Key="empty"/>
     </Application.Resources>
