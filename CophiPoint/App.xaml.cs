@@ -42,7 +42,11 @@ namespace CophiPoint
 
             MainPage = new NavigationPage(
                 TinyIoCContainer.Current.Resolve<LoginPage>()
-            );
+            )
+            {
+                BarBackgroundColor = (Color)Resources["primary"],
+                BarTextColor = (Color)Resources["primaryComplement"],
+            };
         }
 
         public async Task Reload()

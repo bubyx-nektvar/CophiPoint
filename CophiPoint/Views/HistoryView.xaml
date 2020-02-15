@@ -21,7 +21,8 @@
                 IsVisible="{Binding Path=., Converter={StaticResource empty}}"
                 HorizontalOptions="Center" Margin="5"/>
             <ListView ItemsSource="{Binding}" HasUnevenRows="true" HorizontalOptions="FillAndExpand"
-                          SeparatorVisibility="None" Margin="10,3" SelectionMode="None">
+                          SeparatorVisibility="None" Margin="10,3" SelectionMode="None"
+                      BackgroundColor="Transparent">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

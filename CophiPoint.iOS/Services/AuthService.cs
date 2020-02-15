@@ -23,7 +23,7 @@ namespace CophiPoint.iOS.Services
             get
             {
                 var state = LoadState();
-                return state.IsAuthorized 
+                return (state?.IsAuthorized ?? false)
                     && (
                         (!string.IsNullOrWhiteSpace(state.RefreshToken)) 
                         ||
