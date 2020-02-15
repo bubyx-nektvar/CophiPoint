@@ -87,7 +87,7 @@ namespace CophiPoint.Components
 
         async void Show(object sender, System.EventArgs e)
         {
-            PanelShown = true;
+            PanelShown = null;
             PanelLayout.GestureRecognizers.Remove(ShowGesture);
             await PanelLayout.TranslateTo(0, 0, 500, Easing.SinIn);
             PanelShown = true;
@@ -95,7 +95,7 @@ namespace CophiPoint.Components
 
         async void Hide(object sender, System.EventArgs e)
         {
-            PanelShown = false;
+            PanelShown = null;
             PanelLayout.GestureRecognizers.Add(ShowGesture);
             await PanelLayout.TranslateTo(0, TranslationYMinimized, 500, Easing.SinIn);
             PanelShown = false;
