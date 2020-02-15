@@ -29,35 +29,16 @@
         </converters:ChainConverterGroup>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ListView HorizontalOptions="FillAndExpand" ItemsSource="{Binding .}" ItemSelected="ProductSelected" x:Name="ProductList">
+        <ListView HorizontalOptions="FillAndExpand" ItemsSource="{Binding .}" ItemSelected="ProductSelected" x:Name="ProductList"
+                  HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal">
-                            <RelativeLayout HorizontalOptions="Center">
-                                <ffsvg:SvgCachedImage x:Name="productImage" VerticalOptions="Center" 
+                        <StackLayout Orientation="Horizontal" Spacing="5" Margin="5,0">
+
+                            <ffsvg:SvgCachedImage x:Name="productImage" HorizontalOptions="Center" WidthRequest="40" Margin="3"
                                     Source="{Binding ImageUrl}"
-                                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X, Factor=0, Constant=2}"
-                                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=2}"
-                                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.8}"
-                                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.8}"
-                                    >
-                                </ffsvg:SvgCachedImage>
-                                <ffsvg:SvgCachedImage
-                                    Source="resource://CophiPoint.Resources.StarFill.svg"
-                                    IsVisible="{Binding Favorite}"
-                                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X, Factor=0, Constant=2}"
-                                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=2}" 
-                                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.2}"
                                     />
-                                <ffsvg:SvgCachedImage
-                                    Source="resource://CophiPoint.Resources.Star.svg"
-                                    IsVisible="{Binding Favorite, Converter={StaticResource inverter}}"
-                                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=X, Factor=0, Constant=2}"
-                                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=2}"
-                                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=.2}"
-                                    />
-                            </RelativeLayout>
                             <StackLayout Orientation="Vertical" HorizontalOptions="StartAndExpand">
                                 <Label Text="{Binding Name}" HorizontalOptions="Start"/>
                                 <Label Text="{Binding Sizes, Converter={StaticResource selectSizes}, ConverterParameter='SizeText|, '}" 
