@@ -1,0 +1,41 @@
+title OIDC login
+
+actor User
+participant "Mobile browser" as Mobile
+participant "App server with database ({Server})" as Server
+participant "MojeId OIDC provider ({MojeID})" as MojeID
+
+User->Mobile: **Tap login**
+
+Mobile->Server: **Request login**\n GET /authorization
+box over Server: Prepare authorization flow parameters (start session)
+Mobile<--Server: **Redirect to authorization endpoint**\n Location: {Server}/connect
+
+group auth [MojeId: authorization code flow]
+Mobile->Server: **Start authorization**\n GET /connect
+Mobile<--Server: **Redirect to MojeID**\n Location: {MojeID}/authorization?redirect_uri={Server}/authorization
+
+Mobile->MojeID: **Request login**\n GET /authorization?redirect_uri={Server}/authorization
+User->MojeID: **Enter credentials**
+Mobile<--MojeID:**Redirect to server**\n Location: {Server}/authorization?code={...}
+
+Mobile->Server: **Return login response**\n GET /authorization?code={...}
+Server->MojeID: **Exchange code for access token**\n GET /token?code={...}
+Server<--MojeID: **Returns access token to MojeID**\n {"access_token":..}
+
+Server->MojeID: **Read user data**\n GET /userinfo
+Server<--MojeId: **Returns user data**\n {"sub":unique identifier, "email": user email}
+
+end 
+
+Mobile<--Server: **Redirect to mobile app**\n Location: mff.cophipoint:\/\/connect?code={..}
+Mobile->Server: **Excahnge code for access token**\n GET /token?code={..}
+Mobile<--Server: **Returns access token to Server**\n {"access_token":..,"refresh_token":..}
+
+opt refresh token
+
+Mobile->Server: **Refresh access token**\n GET /token?refresh_token={..}
+Mobile<--Server: **Returns access token to Server**\n {"access_token":..,"refresh_token":..}
+
+
+end
