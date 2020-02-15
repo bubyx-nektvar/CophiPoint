@@ -11,7 +11,10 @@ namespace CophiPoint.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var v = (PanelState)value;
-            return v == PanelState.Hidden || v == PanelState.Hiding || v == PanelState.Showing;
+            if(Device.RuntimePlatform == Device.iOS)
+                return v == PanelState.Hidden || v == PanelState.Hiding || v == PanelState.Showing;
+            else
+                return v == PanelState.Hidden || v == PanelState.Showing;
             //has navigation bar
         }
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

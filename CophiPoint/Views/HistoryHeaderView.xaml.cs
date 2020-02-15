@@ -19,7 +19,7 @@ namespace CophiPoint.Views
     public partial class HistoryHeaderView : ContentView
     {
 
-        public static readonly BindableProperty ShownProperty = BindableProperty.Create(nameof(Shown), typeof(bool), typeof(HistoryHeaderView), false, BindingMode.TwoWay);
+        public static readonly BindableProperty ShownProperty = BindableProperty.Create(nameof(Shown), typeof(bool), typeof(HistoryHeaderView), false, BindingMode.OneWay);
 
         private readonly OrderManager OrderManager;
         private readonly HtmlManager HtmlService;
