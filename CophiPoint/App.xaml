@@ -15,8 +15,9 @@
         </ResourceDictionary>
 
         <converters:InverseBoolConverter x:Key="inverter"/>
-        <converters:InverseBoolSuccessConverter x:Key="inverterTrue"/>
+        <converters:ToolbarHideConverter x:Key="toolbarHide"/>
         <converters:NullableBoolConverter x:Key="nullaplly"/>
         <converters:EmptySourceConvertor x:Key="empty"/>
+        <converters:PanelShownConverter x:Key="panelShown"/>
     </Application.Resources>
 </Application>

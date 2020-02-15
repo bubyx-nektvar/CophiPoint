@@ -12,10 +12,9 @@
         <StackLayout HorizontalOptions="FillAndExpand" Orientation="Vertical">
             <StackLayout.Resources>
                 <converters:DateTimeFormatter x:Key="formatDate"/>
-                <converters:NullableBoolConverter x:Key="nullaplly"/>
             </StackLayout.Resources>
             <Label Text="{i18n:Translate HistoryTitle}" FontSize="Micro" HorizontalOptions="Center"
-                       IsVisible="{Binding  Source={x:Reference HistoryViewRef}, Path=Shown, Converter={StaticResource nullaplly}}"/>
+                       IsVisible="{Binding  Source={x:Reference HistoryViewRef}, Path=Shown}"/>
             <Label 
                 Text="{i18n:Translate NoHistoryTxt}" 
                 IsVisible="{Binding Path=., Converter={StaticResource empty}}"

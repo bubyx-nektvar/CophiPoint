@@ -8,6 +8,12 @@
              mc:Ignorable="d"
              x:Class="CophiPoint.Components.SlideUpPanelLayout"
              x:Name="View">
+    <ContentView.Resources>
+        <converters:ChainConverterGroup x:Key="invertedPanelShown">
+            <converters:PanelShownConverter/>
+            <converters:InverseBoolConverter/>
+        </converters:ChainConverterGroup>
+    </ContentView.Resources>
   <ContentView.Content>
         <AbsoluteLayout VerticalOptions="FillAndExpand" x:Name="Page">
             <ContentView x:Name="MainLayout" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,.75" BackgroundColor="{StaticResource secondary}">
@@ -24,7 +30,7 @@
                     <StackLayout VerticalOptions="Start" HorizontalOptions="FillAndExpand" Margin="0,10,0,0" >
                         <ffsvg:SvgCachedImage x:Name="ExpandButton"
                             WidthRequest="16"
-                            IsVisible="{Binding Source={x:Reference View},Path=PanelShown, Converter={StaticResource inverter}}" 
+                            IsVisible="{Binding Source={x:Reference View},Path=PanelShown, Converter={StaticResource invertedPanelShown}, ConverterParameter='|'}" 
                             Source="resource://CophiPoint.Resources.ExpandLess.svg" HorizontalOptions="Center" >
                             <ffsvg:SvgCachedImage.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="Show"/>
@@ -32,7 +38,7 @@
                         </ffsvg:SvgCachedImage>
                         <ffsvg:SvgCachedImage x:Name="CloseButton"
                             WidthRequest="24"
-                            IsVisible="{Binding Source={x:Reference View},Path=PanelShown, Converter={StaticResource nullaplly}}"  
+                            IsVisible="{Binding Source={x:Reference View},Path=PanelShown, Converter={StaticResource panelShown}}"  
                             Source="resource://CophiPoint.Resources.Close.svg" HorizontalOptions="Start">
                             <ffsvg:SvgCachedImage.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="Hide"/>

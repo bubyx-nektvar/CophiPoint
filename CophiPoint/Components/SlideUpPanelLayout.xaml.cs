@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -51,11 +52,11 @@ namespace CophiPoint.Components
             set => SetValue(BodyContentProperty, value);
         }
 
-        public static readonly BindableProperty PanelShownProperty = BindableProperty.Create(nameof(PanelShown), typeof(bool?), typeof(SlideUpPanelLayout), false, BindingMode.TwoWay);
+        public static readonly BindableProperty PanelShownProperty = BindableProperty.Create(nameof(PanelShown), typeof(PanelState), typeof(SlideUpPanelLayout), PanelState.Hidden, BindingMode.TwoWay);
 
-        public bool? PanelShown
+        public PanelState PanelShown
         {
-            get => (bool?)GetValue(PanelShownProperty);
+            get => (PanelState)GetValue(PanelShownProperty);
             set => SetValue(PanelShownProperty, value);
         }
 
@@ -69,36 +70,55 @@ namespace CophiPoint.Components
         }
 
         private double TranslationYMinimized => Height * 0.75;
+        private int _lock = 0;
+
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
             MainLayout.HeightRequest = TranslationYMinimized;
-            
-            if (PanelShown == null || (!PanelShown.Value))
+
+            switch (PanelShown)
             {
-                PanelLayout.TranslationY = TranslationYMinimized;
-                PanelLayout.GestureRecognizers.Add(ShowGesture);
-            }
-            else
-            {
-                PanelLayout.TranslationY = 0;
+                case PanelState.Hidden:
+                    PanelLayout.TranslationY = TranslationYMinimized;
+                    PanelLayout.GestureRecognizers.Add(ShowGesture);
+                    break;
+                case PanelState.Hiding:
+                    PanelLayout.TranslationY = 0;
+                    break;
+                case PanelState.Showing:
+                    PanelLayout.TranslationY = TranslationYMinimized;
+                    break;
+                case PanelState.Shown:
+                    PanelLayout.TranslationY = 0;
+                    break;
             }
         }
 
         async void Show(object sender, System.EventArgs e)
         {
-            PanelShown = null;
-            PanelLayout.GestureRecognizers.Remove(ShowGesture);
-            await PanelLayout.TranslateTo(0, 0, 500, Easing.SinIn);
-            PanelShown = true;
+            if (Interlocked.CompareExchange(ref _lock, 1, 0) == 0)
+            {
+                try
+                {
+                    PanelShown = PanelState.Showing;
+                    PanelLayout.GestureRecognizers.Remove(ShowGesture);
+                    await PanelLayout.TranslateTo(0, 0, 500, Easing.SinIn);
+                    PanelShown = PanelState.Shown;
+                }
+                finally
+                {
+                    Interlocked.Exchange(ref _lock, 0);
+                }
+            }
         }
 
         async void Hide(object sender, System.EventArgs e)
         {
-            PanelShown = null;
+            PanelShown = PanelState.Hiding;
             PanelLayout.GestureRecognizers.Add(ShowGesture);
             await PanelLayout.TranslateTo(0, TranslationYMinimized, 500, Easing.SinIn);
-            PanelShown = false;
+            PanelShown = PanelState.Hidden;
         }
     }
 }

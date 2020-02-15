@@ -12,7 +12,6 @@
              x:Class="CophiPoint.Views.ProductBigView">
     <ContentView.Resources>
         <converters:InverseBoolConverter x:Key="inverter"/>
-        <converters:NullableBoolConverter x:Key="nullaplly"/>
         <converters:PriceFormatter x:Key="formatPrice"/>
     </ContentView.Resources>
     <ContentView.Content>
