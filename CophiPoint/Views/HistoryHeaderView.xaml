@@ -11,11 +11,10 @@
     <ContentView.Content>
         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
             <StackLayout.Resources>
-                <converters:NullableBoolConverter x:Key="nullaplly"/>
                 <converters:PriceFormatter x:Key="formatPrice"/>
             </StackLayout.Resources>
             <Label Text="{i18n:Translate HistoryAccountTitle}" FontSize="Micro" TextColor="White" HorizontalOptions="Center"
-                            IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown, Converter={StaticResource nullaplly}}"/>
+                            IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown}"/>
             <Grid HorizontalOptions="FillAndExpand" RowSpacing="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -30,7 +29,7 @@
                                 FontSize="Default" TextColor="White"/>
                 <Label Text="{i18n:Translate LogOutBtn}" Grid.Row="1" Grid.Column="0" FontSize="Small"
                                 HorizontalOptions="Start" VerticalOptions="Start" TextColor="WhiteSmoke"
-                                IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown, Converter={StaticResource nullaplly}}">
+                                IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown}">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="LogOut"/>
                     </Label.GestureRecognizers>
@@ -40,7 +39,7 @@
                                 FontSize="Large" TextColor="White"/>
                 <Label Text="{i18n:Translate PayInfoBtn}" Grid.Row="1" Grid.Column="1" FontSize="Small" 
                         HorizontalOptions="End" VerticalOptions="Start" TextColor="WhiteSmoke"
-                        IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown, Converter={StaticResource nullaplly}}">
+                        IsVisible="{Binding Source={x:Reference HistoryHeader}, Path=Shown}">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OpenPaymentInfo"/>
                     </Label.GestureRecognizers>

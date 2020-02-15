@@ -1,4 +1,5 @@
 ﻿using CophiPoint.Api;
+using CophiPoint.Components;
 using CophiPoint.Pages;
 using CophiPoint.Services;
 using CophiPoint.Services.Implementation;
@@ -18,14 +19,14 @@ namespace CophiPoint.Views
     public partial class HistoryHeaderView : ContentView
     {
 
-        public static readonly BindableProperty ShownProperty = BindableProperty.Create(nameof(Shown), typeof(bool?), typeof(HistoryHeaderView), false, BindingMode.TwoWay);
+        public static readonly BindableProperty ShownProperty = BindableProperty.Create(nameof(Shown), typeof(bool), typeof(HistoryHeaderView), false, BindingMode.OneWay);
 
         private readonly OrderManager OrderManager;
         private readonly HtmlManager HtmlService;
 
-        public bool? Shown
+        public bool Shown
         {
-            get => (bool?)GetValue(ShownProperty);
+            get => (bool)GetValue(ShownProperty);
             set => SetValue(ShownProperty, value);
         }
 

@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i18n="clr-namespace:CophiPoint.Converters;assembly=CophiPoint"
              mc:Ignorable="d"
+             Title="CophiPoint"
              x:Class="CophiPoint.Pages.LoginPage">
     <ContentPage.Content>
         <AbsoluteLayout>
@@ -12,8 +13,8 @@
                 <Label FontSize="Large" Text="{i18n:Translate WelcomeHeader}"/>
                 <Label Text="{i18n:Translate WelcomeBasic}"/>
                 <Label Text="{i18n:Translate WelcomeAbout}"></Label>
-                <Button Text="{i18n:Translate MoreAboutBtn}" Clicked="ShowInfo" BackgroundColor="{StaticResource secondary}"/>
-                <Button Text="{i18n:Translate MojeIdBtn}" Clicked="RequestLogin" BackgroundColor="{StaticResource primary}"/>
+                <Button Text="{i18n:Translate MoreAboutBtn}" Clicked="ShowInfo" BackgroundColor="{StaticResource secondary}" TextColor="{StaticResource secondaryComplement}"/>
+                <Button Text="{i18n:Translate MojeIdBtn}" Clicked="RequestLogin" BackgroundColor="{StaticResource primary}" TextColor="{StaticResource primaryComplement}"/>
             </StackLayout>
             
             <ActivityIndicator x:Name="activity" IsVisible="False" IsRunning="False" 

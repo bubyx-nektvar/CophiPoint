@@ -11,10 +11,13 @@
             <Color x:Key="primary">#d03145</Color>
             <Color x:Key="primaryComplement">White</Color>
             <Color x:Key="secondary">#faeaec</Color>
+            <Color x:Key="secondaryComplement">#000000</Color>
         </ResourceDictionary>
 
         <converters:InverseBoolConverter x:Key="inverter"/>
+        <converters:ToolbarHideConverter x:Key="toolbarHide"/>
         <converters:NullableBoolConverter x:Key="nullaplly"/>
         <converters:EmptySourceConvertor x:Key="empty"/>
+        <converters:PanelShownConverter x:Key="panelShown"/>
     </Application.Resources>
 </Application>

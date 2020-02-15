@@ -10,18 +10,20 @@
              xmlns:view="clr-namespace:CophiPoint.Views"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              x:Class="CophiPoint.Pages.MainPage"
-             NavigationPage.HasNavigationBar="{Binding Source={x:Reference SlidePanel}, Path=PanelShown, Converter={StaticResource inverter}}"
+             NavigationPage.HasNavigationBar="{Binding Source={x:Reference SlidePanel}, Path=PanelShown, Converter={StaticResource toolbarHide}}"
              NavigationPage.HasBackButton="False"
              >
     <NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal">
-            <Label Text="CophiPoint" FontSize="Medium" TextColor="White" HorizontalOptions="StartAndExpand"/>
-            <ffsvg:SvgCachedImage Source="resource://CophiPoint.Resources.QuestionCircle.svg" HorizontalOptions="End" Margin="10,0">
+        <RelativeLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+            <Label x:Name="Title" Text="CophiPoint" FontSize="Medium" TextColor="White"/>
+            <ffsvg:SvgCachedImage Source="resource://CophiPoint.Resources.QuestionCircle.svg"  x:Name="HelpBtn"
+                                  RelativeLayout.HeightConstraint="{ConstraintExpression Property=Height, Type=RelativeToView, ElementName=Title}"
+                                  RelativeLayout.XConstraint="{ConstraintExpression Property=Width, Type=RelativeToParent, Factor=.9}">
                 <ffsvg:SvgCachedImage.GestureRecognizers>
                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
                 </ffsvg:SvgCachedImage.GestureRecognizers>
             </ffsvg:SvgCachedImage>
-        </StackLayout>
+        </RelativeLayout>
     </NavigationPage.TitleView>
     
     <controls:SlideUpPanelLayout x:Name="SlidePanel">
@@ -29,10 +31,10 @@
             <view:ProductSelectorView />
         </controls:SlideUpPanelLayout.MainContent>
         <controls:SlideUpPanelLayout.HeaderContent>
-            <view:HistoryHeaderView Shown="{Binding Source={x:Reference SlidePanel}, Path=PanelShown}"/>
+            <view:HistoryHeaderView Shown="{Binding Source={x:Reference SlidePanel}, Path=PanelShown, Converter={StaticResource panelShown}}"/>
         </controls:SlideUpPanelLayout.HeaderContent>
         <controls:SlideUpPanelLayout.BodyContent>
-            <view:HistoryView  Shown="{Binding Source={x:Reference SlidePanel}, Path=PanelShown}"/>
+            <view:HistoryView  Shown="{Binding Source={x:Reference SlidePanel}, Path=PanelShown, Converter={StaticResource panelShown}}"/>
         </controls:SlideUpPanelLayout.BodyContent>
     </controls:SlideUpPanelLayout>
 </ContentPage>

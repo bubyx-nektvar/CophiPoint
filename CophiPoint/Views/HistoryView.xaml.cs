@@ -18,11 +18,11 @@ namespace CophiPoint.Views
     {
 
 
-        public static readonly BindableProperty ShownProperty = BindableProperty.Create(nameof(Shown), typeof(bool?), typeof(HistoryView), false, BindingMode.TwoWay);
+        public static readonly BindableProperty ShownProperty = BindableProperty.Create(nameof(Shown), typeof(bool), typeof(HistoryView), false, BindingMode.OneWay);
 
-        public bool? Shown
+        public bool Shown
         {
-            get => (bool?)GetValue(ShownProperty);
+            get => (bool)GetValue(ShownProperty);
             set => SetValue(ShownProperty, value);
         }
 

@@ -12,7 +12,6 @@
              x:Class="CophiPoint.Views.ProductBigView">
     <ContentView.Resources>
         <converters:InverseBoolConverter x:Key="inverter"/>
-        <converters:NullableBoolConverter x:Key="nullaplly"/>
         <converters:PriceFormatter x:Key="formatPrice"/>
     </ContentView.Resources>
     <ContentView.Content>
@@ -87,12 +86,14 @@
                     WidthRequest="50" RowHeight="51" SeparatorVisibility="None"
                     SelectionMode="None" ItemTapped="SizeSelected"
                     VerticalOptions="End"
+                    BackgroundColor="Transparent"
                 >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Frame CornerRadius="50" BorderColor="{StaticResource primary}" Padding="0" BackgroundColor="Transparent"
-                                    HeightRequest="50" WidthRequest="50" >
+                            <Frame CornerRadius="25" BorderColor="{StaticResource primary}" Padding="0" 
+                                   BackgroundColor="White" HasShadow="False"
+                                   HeightRequest="50" WidthRequest="50">
                                 <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                                         Orientation="Vertical" Spacing="0" Padding="5">
                                     <ffsvg:SvgCachedImage 
@@ -117,9 +118,10 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Frame CornerRadius="50" BackgroundColor="{StaticResource primary}" Padding="0"
+            <Frame CornerRadius="25" BackgroundColor="{StaticResource primary}" Padding="0"
                     IsVisible="{Binding SelectSizeVisible, Converter={StaticResource inverter}}"
                     HeightRequest="50" WidthRequest="50" 
+                    HasShadow="False"
                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-60 }"
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-140}"
                    >

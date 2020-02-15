@@ -96,7 +96,7 @@ namespace CophiPoint.Services.Implementation
             var json = JsonConvert.SerializeObject(contentObject);
             var content = new StringContent(json, Encoding.UTF8, HttpExtension.JsonMediaType);
 
-            var response = await SendAsync(HttpMethod.Post, relativePathSelector, HttpExtension.JsonMediaType, cache: false, content, authorize: true);
+            var response = await SendAsync(HttpMethod.Post, relativePathSelector, HttpExtension.JsonMediaType, cache: false, content: content, authorize: true);
             
             return await response.ParseJsonResponseBody<TResponse>();
         }
