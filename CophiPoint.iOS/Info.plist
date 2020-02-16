@@ -46,7 +46,7 @@
           <dict>
               <key>CFBundleURLSchemes</key>
               <array>
-                  <string>mff.cophipoint</string>
+                  <string>mff.cophipoint</string><!--TODO customize-->
               </array>
               <key>CFBundleTypeRole</key>
               <string>Editor</string>

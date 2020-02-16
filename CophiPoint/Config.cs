@@ -6,6 +6,6 @@ namespace CophiPoint
 {
     public static class Config
     {
-        public static string ApiConfigUrl = "https://cophipoint.bubyx.cz/api.json";
+        public static string ApiConfigUrl = "TODO";//TODO customize
     }
 }
