@@ -2,25 +2,7 @@ name: CI
 
 on: [pull_request]
 
-jobs:
-  Practice:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
-    - name: Show what's in the directory
-      run: |
-        ls
-    - name: Show what all is in the parent directory
-      run: |
-        cd ..
-        ls
-        
+jobs:        
   Android:
     runs-on: macos-latest
     steps:
@@ -29,7 +11,7 @@ jobs:
       run: |
         nuget restore
         cd CophiPoint.Android
-        msbuild Blank.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+        msbuild CophiPoint.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
         
   iOS:
     runs-on: macos-latest
