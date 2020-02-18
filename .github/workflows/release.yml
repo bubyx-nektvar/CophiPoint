@@ -26,6 +26,11 @@ jobs:
         msbuild CophiPoint.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Release
     - name: List Dir
       run: dir CophiPoint.Android/bin/Release
+    - name: Upload Temp
+      uses: actions/upload-artifact@v1
+      with:
+        name: tmp
+        path: .
     - name: Sign APK
       uses: r0adkll/sign-android-release@v1
       with:
