@@ -8,6 +8,9 @@ on:
     branches: 
       - 'master'
 
+env:
+  boots_version: 1.0.2.421
+
 jobs:
   apk:
     name: Generate Android APK
@@ -19,13 +22,10 @@ jobs:
       uses: warrenbuckley/Setup-Nuget@v1
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
-    - name: Android NDK toolchain Setup
-      uses: ravinderjangra/android-ndk-toolchain-setup@0.1
-      with:
-        # Platform arch
-        arch: 'arm'
-        # Path to use for NDK toolchain
-        install-location: 'toolchains'
+    - name: Boots intall tooling
+      run: |
+        dotnet tool install --global boots --version $env:boots_version
+        boots --preview XamarinAndroid
     - name: Build Xamarin Android
       run: |
         nuget restore
