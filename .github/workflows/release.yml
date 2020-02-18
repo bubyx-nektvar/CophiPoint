@@ -11,12 +11,13 @@ on:
 jobs:
   apk:
     name: Generate Android APK
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build Xamarin Android
       run: |
+        dotnet restore
         cd CophiPoint.Android
         msbuild CophiPoint.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Release
     - name: Sign APK
