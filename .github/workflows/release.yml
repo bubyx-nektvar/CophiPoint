@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: 
+      - 'master'
+  pull_request:
+    branches: 
+      - 'master'
+
+jobs:
+  apk:
+    name: Generate Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Xamarin Android
+      run: |
+        cd CophiPoint.Android
+        msbuild CophiPoint.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Release
+    - name: Sign APK
+      uses: r0adkll/sign-android-release@v1
+      with:
+        releaseDirectory: bin/Release
+        signingKeyBase64: ${{ secrets.APK_KEYSTORE_64 }}
+        alias: ${{ secrets.APK_ALIAS }}
+        keyStorePassword: ${{ secrets.APK_KEYSTORE_PASS }}
+        keyPassword: ${{ secrets.APK_ALIAS_PASS }}
+    - name: Upload APK
+      uses: actions/upload-artifact@v1
+      with:
+        name: CophiPoint
+        path: ${{SIGNED_RELEASE_FILE}}
