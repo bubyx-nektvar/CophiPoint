@@ -31,4 +31,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: CophiPoint
-        path: ${{SIGNED_RELEASE_FILE}}
+        path: ${{env:SIGNED_RELEASE_FILE}}
