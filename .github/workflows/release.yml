@@ -15,8 +15,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: List Dir
-      run: dir CophiPoint.Android/bin/Release
     - name: Setup Nuget.exe
       uses: warrenbuckley/Setup-Nuget@v1
     - name: Setup MSBuild.exe
@@ -31,7 +29,7 @@ jobs:
     - name: Sign APK
       uses: r0adkll/sign-android-release@v1
       with:
-        releaseDirectory: /CophiPoint.Android/bin/Release
+        releaseDirectory: CophiPoint.Android/bin/Release
         signingKeyBase64: ${{ secrets.APK_KEYSTORE_64 }}
         alias: ${{ secrets.APK_ALIAS }}
         keyStorePassword: ${{ secrets.APK_KEYSTORE_PASS }}
