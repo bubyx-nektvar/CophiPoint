@@ -18,15 +18,28 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Cache Tooling
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-vs-tooling
+      with:
+        path: 'C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO\2019\ENTERPRISE\COMMON7\'   
+        key: ${{ runner.os }}-build-${{ env.cache-name }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+          
     - name: Boots intall tooling
       run: |
         dotnet tool install --global boots --version $env:boots_version
         boots --preview XamarinAndroid
+      
+    - name: Setup NuGet
+      uses: warrenbuckley/Setup-Nuget@v1
     - name: Build Xamarin Android
       run: |
-        nuget restore
-        cd CophiPoint.Android
-        msbuild CophiPoint.Android.csproj /verbosity:normal /t:Package /p:Configuration=Release
+        msbuild CophiPoint.Android/CophiPoint.Android.csproj /restore /t:Package /p:Configuration=Release
     - name: List Dir
       run: Tree . /F
     - name: Sign APK
