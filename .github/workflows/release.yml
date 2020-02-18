@@ -25,11 +25,11 @@ jobs:
         cd CophiPoint.Android
         msbuild CophiPoint.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Release
     - name: List Dir
-      run: dir  
+      run: dir /CophiPoint.Android/bin/Release
     - name: Sign APK
       uses: r0adkll/sign-android-release@v1
       with:
-        releaseDirectory: CophiPoint.Android\bin\Release
+        releaseDirectory: /CophiPoint.Android/bin/Release
         signingKeyBase64: ${{ secrets.APK_KEYSTORE_64 }}
         alias: ${{ secrets.APK_ALIAS }}
         keyStorePassword: ${{ secrets.APK_KEYSTORE_PASS }}
