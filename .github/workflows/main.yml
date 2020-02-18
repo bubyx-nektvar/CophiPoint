@@ -1,15 +1,16 @@
 name: CI
 
-on: [pull_request]
-
+on: 
+  pull_request:
+    branches:
+      - develop
 jobs:        
   Android:
-    runs-on: macos-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
     - name: Android
       run: |
-        nuget restore
         cd CophiPoint.Android
         msbuild CophiPoint.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
         
