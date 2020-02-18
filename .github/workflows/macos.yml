@@ -9,10 +9,22 @@ on:
       - 'master'
 
 jobs:
-   iOS:
+  Android:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v1
-    - name: iOS
+    - name: Build APK
       run: |
         msbuild CophiPoint.Android/CophiPoint.Android.csproj /verbosity:normal /restore /t:SignAndroidPackage /p:Configuration=Release
+    - name: Upload APK
+      uses: actions/upload-artifact@v1
+      with:
+        name: CophiPoint
+        path: CophiPoint.Android/bin/Release
+  
+#  iOS:
+#    runs-on: macos-latest
+#    steps:
+#    - uses: actions/checkout@v1
+#    - name: Build
+#      run: 
