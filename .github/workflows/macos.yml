@@ -16,11 +16,21 @@ jobs:
     - name: Build APK
       run: |
         msbuild CophiPoint.Android/CophiPoint.Android.csproj /verbosity:normal /restore /t:SignAndroidPackage /p:Configuration=Release
-    - name: Upload APK
+    - name: Upload APK (arm64)
       uses: actions/upload-artifact@v1
       with:
-        name: CophiPoint
-        path: CophiPoint.Android/bin/Release/*-Signed.apk
+        name: CophiPoint-arm64-v8a-Signed.apk
+        path: CophiPoint.Android/bin/Release/cz.bubyx.CophiPoint-arm64-v8a-Signed.apk
+    - name: Upload APK (armeabi)
+      uses: actions/upload-artifact@v1
+      with:
+        name: CophiPoint-armeabi-v7a-Signed.apk
+        path: CophiPoint.Android/bin/Release/cz.bubyx.CophiPoint-armeabi-v7a-Signed.apk
+    - name: Upload APK (general)
+      uses: actions/upload-artifact@v1
+      with:
+        name: CophiPoint-Signed.apk
+        path: CophiPoint.Android/bin/Release/cz.bubyx.CophiPoint-Signed.apk
   
 #  iOS:
 #    runs-on: macos-latest
