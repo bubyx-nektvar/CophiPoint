@@ -35,8 +35,7 @@ jobs:
         keyStorePassword: ${{ secrets.APK_KEYSTORE_PASS }}
         keyPassword: ${{ secrets.APK_ALIAS_PASS }}
     - name: file list
-      run: |
-        tree CophiPoint.Android\bin /F
+      run: ls -R CophiPoint.Android/bin/
     - name: Upload APK (arm64)
       uses: actions/upload-artifact@v1
       with:
