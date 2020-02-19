@@ -8,7 +8,7 @@
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="mff.cophipoint" android:host="connect" /><!--TODO customize-->
+				<data android:scheme="$CUSTOM_SCHEME" android:host="connect" /><!--TODO customize-->
 			</intent-filter>
 		</activity>
 	</application>

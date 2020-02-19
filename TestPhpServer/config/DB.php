@@ -2,8 +2,8 @@
 
 class DB
 {
-    const Host = 'TODO Server';//TODO customize
-    const Db   = 'TODO DB Name';//TODO customize
-    const User = 'TODO User';//TODO customize
-    const Password = 'TODO Password for user';//TODO customize
+    const Host = '$DB_SERVER';//TODO customize
+    const Db   = '$DB_DATABASE';//TODO customize
+    const User = '$DB_USER';//TODO customize
+    const Password = '$DB_PASSWORD';//TODO customize
 }
