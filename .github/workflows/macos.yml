@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Setup variables
-      uses: datamonsters/replace-action
+      uses: datamonsters/replace-action@v2
       with:
         files: CophiPoint/Api/AuthConstants.cs,CophiPoint/Config.cs
         replacements: $CLIENT_ID=${{ secrets.CLIENT_ID }},$CLIENT_SECRET=${{ secrets.CLIENT_SECRET }},$CUSTOM_SCHEME=${{ secrets.CUSTOM_SCHEME }},$CONFIG_URL=${{ secrets.CONFIG_URL }}
