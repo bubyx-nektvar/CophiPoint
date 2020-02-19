@@ -20,7 +20,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: CophiPoint
-        path: CophiPoint.Android/bin/Release
+        path: CophiPoint.Android/bin/Release/*-Signed.apk
   
 #  iOS:
 #    runs-on: macos-latest
