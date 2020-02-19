@@ -6,6 +6,6 @@ namespace CophiPoint
 {
     public static class Config
     {
-        public static string ApiConfigUrl = "TODO";//TODO customize
+        public static string ApiConfigUrl = "$CONFIG_URL";//TODO customize
     }
 }

@@ -9,9 +9,9 @@
 class MojeId
 {
     //bubyx
-    const ClientId = 'TODO'; //TODO customize
-    const ClientSecret = 'TODO'; //TODO customize
-    const ProviderUrl = 'TODO'; //TODO customize
+    const ClientId = '$MOJEID_CLIENT'; //TODO customize
+    const ClientSecret = '$MOJEID_SECRET'; //TODO customize
+    const ProviderUrl = '$MOJEID_URL'; //TODO customize
     
     const Scopes = "email openid";
     const Claims = array(

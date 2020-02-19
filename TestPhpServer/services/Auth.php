@@ -13,7 +13,6 @@ class Auth
 {
     public static function  die_unauthorize(){
         http_response_code(401);
-        //var_dump(http_response_code(401));//TODO not working
         exit('unauthorized');
     }
 
