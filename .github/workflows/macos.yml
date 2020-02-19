@@ -16,8 +16,13 @@ jobs:
     - name: Setup variables
       uses: datamonsters/replace-action@v2
       with:
-        files: 'CophiPoint/Api/AuthConstants.cs,CophiPoint/Config.cs'
-        replacements: '$CLIENT_ID=${{ secrets.CLIENT_ID }},$CLIENT_SECRET=${{ secrets.CLIENT_SECRET }},$CUSTOM_SCHEME=${{ secrets.CUSTOM_SCHEME }},$CONFIG_URL=${{ secrets.CONFIG_URL }}'
+        files: CophiPoint/Config.cs
+        replacements: '$CONFIG_URL=${{ secrets.CONFIG_URL }}'
+    - name: Setup variables
+      uses: datamonsters/replace-action@v2
+      with:
+        files: CophiPoint/Api/AuthConstants.cs
+        replacements: '$CLIENT_ID=${{ secrets.CLIENT_ID }},$CLIENT_SECRET=${{ secrets.CLIENT_SECRET }},$CUSTOM_SCHEME=${{ secrets.CUSTOM_SCHEME }}'
     - name: Build APK
       run: |
         msbuild CophiPoint.Android/CophiPoint.Android.csproj /verbosity:normal /restore /t:SignAndroidPackage /p:Configuration=Release
