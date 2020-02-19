@@ -25,38 +25,16 @@ jobs:
         replacements: '$CLIENT_ID=${{ secrets.CLIENT_ID }},$CLIENT_SECRET=${{ secrets.CLIENT_SECRET }},$CUSTOM_SCHEME=${{ secrets.CUSTOM_SCHEME }}'
     - name: Build APK
       run: |
-        msbuild CophiPoint.Android/CophiPoint.Android.csproj /verbosity:normal /restore /t:Package /p:Configuration=Release
-    - name: Sign APK
-      uses: r0adkll/sign-android-release@v1
-      with:
-        releaseDirectory: CophiPoint.Android/bin/Release
-        signingKeyBase64: ${{ secrets.APK_KEYSTORE_64 }}
-        alias: CophiPoint
-        keyStorePassword: ${{ secrets.APK_KEYSTORE_PASS }}
-        keyPassword: ${{ secrets.APK_ALIAS_PASS }}
+        msbuild CophiPoint.Android/CophiPoint.Android.csproj /verbosity:normal /restore /t:SignAndroidPackage /p:Configuration=Release
     - name: file list
       run: ls -R CophiPoint.Android/bin/
-    - name: Upload APK (arm64)
-      uses: actions/upload-artifact@v1
-      with:
-        name: CophiPoint-arm64-v8a.apk
-        path: CophiPoint.Android/bin/Release/cz.bubyx.CophiPoint-arm64-v8a.apk
-    - name: Upload APK (armeabi)
-      uses: actions/upload-artifact@v1
-      with:
-        name: CophiPoint-armeabi-v7a.apk
-        path: CophiPoint.Android/bin/Release/cz.bubyx.CophiPoint-armeabi-v7a.apk
     - name: Upload APK (general)
       uses: actions/upload-artifact@v1
       with:
-        name: CophiPoint.apk
-        path: CophiPoint.Android/bin/Release/cz.bubyx.CophiPoint.apk
-    - name: Upload APK
-      uses: actions/upload-artifact@v1
-      with:
         name: CophiPoint
-        path: ${{env.SIGNED_RELEASE_FILE}}
-  
+        path: CophiPoint.Android/bin/Release/cz.bubyx.CophiPoint.aab
+    
+        
 #  iOS:
 #    runs-on: macos-latest
 #    steps:
