@@ -139,64 +139,6 @@ namespace CophiPoint.iOS.Services
             }
         }
 
-
-        // Authorization code flow without a the code exchange (need to call codeExchange manually)
-        async Task<(bool, string)> AuthNoCodeExchange(Urls.OIDCUrls urls)
-        {
-            var redirectURI = new NSUrl(AuthConstants.RedirectUri);
-
-
-            try
-            {
-                // discovers endpoints
-                var configuration = new ServiceConfiguration(ToUrl(urls.Authorization), ToUrl(urls.Token));
-
-                MicroLogger.LogDebug($"Got configuration: {configuration}");
-
-                // builds authentication request
-                AuthorizationRequest request = new AuthorizationRequest(
-                    configuration,
-                    AuthConstants.ClientId,
-                    AuthConstants.ClientSecret,
-                    AuthConstants.ScopesArray,
-                    redirectURI,
-                    ResponseType.Code,
-                    null);
-                // performs authentication request
-                var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
-
-                var tcl = new TaskCompletionSource<(bool, string)>();
-                MicroLogger.LogDebug($"Initiating authorization request: {request}");
-                appDelegate.CurrentAuthorizationFlow = AuthorizationService.PresentAuthorizationRequest(request, appDelegate.Window.RootViewController,
-                    (authorizationResponse, error) =>
-                    {
-                        MicroLogger.LogDebug(nameof(AuthorizationService.PresentAuthorizationRequest) + "Done");
-                        if (authorizationResponse != null)
-                        {
-                            var authState = new AuthState(authorizationResponse);
-                            AuthService.SaveState(authState);
-                            MicroLogger.LogDebug($"Got authorization tokens. Access token: {authState.LastTokenResponse.AccessToken}");
-                            tcl.SetResult((true, null));
-                        }
-                        else
-                        {
-                            MicroLogger.LogError($"Authorization error: {error.LocalizedDescription}");
-                            AuthService.ClearState();
-                            tcl.SetResult((false, error.LocalizedDescription));
-                        }
-                    });
-                return await tcl.Task;
-            }
-            catch (Exception ex)
-            {
-
-                MicroLogger.LogError($"Error retrieving discovery document: {ex}");
-                AuthService.ClearState();
-                return (false, ex.Message);
-            }
-        }
-
-
         // NSCoding key for the authState property.
         public static NSString kAppAuthExampleAuthStateKey = (NSString)"authState";
         

@@ -84,22 +84,36 @@ namespace CophiPoint.Droid.Services
 
             taskCompletitionSource = new TaskCompletionSource<AuthState>();
 
+            var resultIntent = AuthActivity.CreatePostAuthorizationIntent(
+                _context,
+                authRequest);
+
             authService.PerformAuthorizationRequest(
                 authRequest,
-                AuthActivity.CreatePostAuthorizationIntent(
-                    _context, 
-                    authRequest),
+                resultIntent,
+                resultIntent,
                 authService.CreateCustomTabsIntentBuilder().Build()
             );
 
-            var state = await taskCompletitionSource.Task;
-            if (state.AuthorizationException != null)
+            try
             {
-                return (false, state.AuthorizationException.ErrorDescription);
+                var state = await taskCompletitionSource.Task;
+                if (state.AuthorizationException != null)
+                {
+                    return (false, state.AuthorizationException.ErrorDescription);
+                }
+                else
+                {
+                    return (true, null);
+                }
+            }catch(AggregateException ex) when (ex.InnerException is AuthorizationException)
+            {
+                var authException = (ex.InnerException as AuthorizationException);
+                return (false, authException.ErrorDescription ?? authException.Error);
             }
-            else
+            catch (AuthorizationException authException)
             {
-                return (true, null);
+                return (false, authException.ErrorDescription ?? authException.Error);
             }
         }
 
@@ -108,7 +122,7 @@ namespace CophiPoint.Droid.Services
             var authState = GetAuthState();
             authState.Update(resp, ex);
 
-            if(resp != null)
+            if (resp != null)
             {
                 MicroLogger.LogDebug("Received AuthorizationResponse.");
                 SetAuthState(authState);
@@ -118,7 +132,14 @@ namespace CophiPoint.Droid.Services
             else
             {
                 MicroLogger.LogError("Auth failed: " + ex);
-                taskCompletitionSource.SetResult(authState);
+                if (authState.AuthorizationException == null)
+                {
+                    taskCompletitionSource.SetException(ex);
+                }
+                else
+                {
+                    taskCompletitionSource.SetResult(authState);
+                }
             }
         }
 
