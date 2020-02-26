@@ -135,6 +135,9 @@
   <data name="HistoryTitle" xml:space="preserve">
     <value>Purchase history</value>
   </data>
+  <data name="IncorrectAplicationSetup" xml:space="preserve">
+    <value>Application is setup incorrectly. Please contact administrator. Error:{0}</value>
+  </data>
   <data name="InfoTitle" xml:space="preserve">
     <value>Informations</value>
   </data>
