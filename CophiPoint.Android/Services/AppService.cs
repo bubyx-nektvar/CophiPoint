@@ -17,7 +17,7 @@ namespace CophiPoint.Droid.Services
     {
         public void ExitApp()
         {
-            var activity = (Activity)Forms.Context;
+            var activity = CrossCurrentActivity.Current.Activity;
             activity.FinishAffinity();
         }
     }

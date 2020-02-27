@@ -85,20 +85,24 @@ class OIDCController
 
         $_SERVER['HTTP_UPGRADE_INSECURE_REQUESTS'] = 0; //to disable https upgrade
 
-
-        if(!$oidc->authenticate()) {
-            $result->error = 'access_denied';
-            $result->error_description = 'OIDC provider denied access';
-        }else {
-            $userInfo = $oidc->requestUserInfo();
-            if (!isset($userInfo->email)) {
-                $result->error = 'invalid_request';
-                $result->error_description = 'Email not provided';
+        try {
+            if (!$oidc->authenticate()) {
+                $result->error = 'access_denied';
+                $result->error_description = 'OIDC provider denied access';
             } else {
-                $this->userDb->updateUser($userInfo->sub, $userInfo->email, isset($userInfo->name) ? $userInfo->name : null);
-                $userId = $this->userDb->getUserBySub($userInfo->sub)['id'];
-                $result->code = $this->generate_code($userId);
+                $userInfo = $oidc->requestUserInfo();
+                if (!isset($userInfo->email)) {
+                    $result->error = 'invalid_request';
+                    $result->error_description = 'Email not provided';
+                } else {
+                    $this->userDb->updateUser($userInfo->sub, $userInfo->email, isset($userInfo->name) ? $userInfo->name : null);
+                    $userId = $this->userDb->getUserBySub($userInfo->sub)['id'];
+                    $result->code = $this->generate_code($userId);
+                }
             }
+        }catch (\Jumbojett\OpenIDConnectClientException $ex){
+            $result->error = 'access_denied';
+            $result->error_description = $ex->getMessage();
         }
         return $result;
     }

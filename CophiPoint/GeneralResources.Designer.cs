@@ -115,6 +115,15 @@ namespace CophiPoint {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application is setup incorrectly. Please contact administrator. Error:{0}.
+        /// </summary>
+        public static string IncorrectAplicationSetup {
+            get {
+                return ResourceManager.GetString("IncorrectAplicationSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Informations.
         /// </summary>
         public static string InfoTitle {
