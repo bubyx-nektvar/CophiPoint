@@ -14,16 +14,21 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Setup variables
+    - name: Setup URL
       uses: datamonsters/replace-action@v2
       with:
         files: CophiPoint/Config.cs
         replacements: '$CONFIG_URL=${{ secrets.CONFIG_URL }}'
-    - name: Setup variables
+    - name: Setup OIDC
       uses: datamonsters/replace-action@v2
       with:
         files: CophiPoint/Api/AuthConstants.cs
         replacements: '$CLIENT_ID=${{ secrets.CLIENT_ID }},$CLIENT_SECRET=${{ secrets.CLIENT_SECRET }},$CUSTOM_SCHEME=${{ secrets.CUSTOM_SCHEME }}'
+    - name: Setup Manifest
+      uses: datamonsters/replace-action@v2
+      with:
+        files: CophiPoint.Android/Properties/AndroidManifest.xml
+        replacements: '$CUSTOM_SCHEME=${{ secrets.CUSTOM_SCHEME }}'
     - name: Build APK
       run: |
         msbuild CophiPoint.Android/CophiPoint.Android.csproj /verbosity:normal /restore /t:SignAndroidPackage /p:Configuration=Release
