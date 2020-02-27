@@ -1,5 +1,6 @@
 ﻿using CophiPoint.Api;
 using CophiPoint.Extensions;
+using CophiPoint.Helpers;
 using CophiPoint.Helpers.HttpHandlers;
 using CophiPoint.Services;
 using Newtonsoft.Json;
@@ -29,13 +30,20 @@ namespace CophiPoint.Services.Implementation
 
             var client = CreateHttpClient(x=>x);
 
-            _result = await HttpExtension.AskRetryOnHttpStatusFail(
-                async () =>
-                {
-                    var response = await client.GetAsync(Config.ApiConfigUrl);
-                    return await response.ParseJsonResponseBody<Urls>();
-                });
+            try
+            {
+                _result = await HttpExtension.AskRetryOnHttpStatusFail(
+                    async () =>
+                    {
+                        var response = await client.GetAsync(Config.ApiConfigUrl);
+                        return await response.ParseJsonResponseBody<Urls>();
+                    });
 
+            }catch(InvalidOperationException ex)
+            {
+                throw new FatalApplicationFailException("Wrong ", ErrorCodes.InvalidUrl);
+                return null;
+            }
             return _result;
         }
 
@@ -117,6 +125,15 @@ namespace CophiPoint.Services.Implementation
         {
             var response = await SendAsync(HttpMethod.Get, relativePathSelector, HttpExtension.HtmlMediaType, cache: true);
             return await response.ParseHtmlResponseBody();
+        }
+
+        private async Task HadnleIncorrectUrlApplicationFail(Exception ex, ErrorCodes code)
+        {
+            MicroLogger.LogError(ex.Message);
+
+            await App.Current.MainPage.DisplayAlert(GeneralResources.ServerRequestFailedTitle, string.Format(GeneralResources.IncorrectAplicationSetup, code), GeneralResources.AlertExit);
+            DependencyService.Get<INativeAppService>().ExitApp();
+
         }
     }
 }

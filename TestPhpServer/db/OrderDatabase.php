@@ -48,7 +48,6 @@ class OrderDatabase
         ";
 
         try {
-            //$this->DB = new PDO();//TODO remove
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
                 "uid" => $userId,
@@ -78,7 +77,6 @@ class OrderDatabase
         ";
 
         try {
-            //$this->DB = new PDO();//TODO remove
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
                 "uid" => $userId
@@ -103,7 +101,6 @@ class OrderDatabase
         ";
 
         try {
-            //$this->DB = new PDO();//TODO remove
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
                 "uid" => $userId
@@ -127,7 +124,6 @@ class OrderDatabase
         ";
 
         try {
-            //$this->DB = new PDO();//TODO remove
             $statement = $this->db->prepare($statement);
             $statement->execute(array(
                 'uid' => $userId,
